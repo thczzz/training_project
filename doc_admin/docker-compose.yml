@@ -1,0 +1,39 @@
+version: "3.7"
+
+services:
+  db:
+    env_file:
+      - '.env'
+    image: mysql:latest
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PW}
+      - MYSQL_USER=${DATABASE_USERNAME}
+      - MYSQL_DATABASE=${DATABASE_NAME}
+      - MYSQL_PASSWORD=${DATABASE_PASSWORD}
+    volumes:
+      - dbdata:/var/lib/mysql
+    # logging:
+    #       driver: none
+    ports:
+      - "3307:3306"
+  web:
+    env_file:
+      - '.env'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    environment:
+      RAILS_ENV: development
+      BUNDLE_PATH: /bundle
+    volumes:
+      - .:/doc_admin_app
+      - bundle:/bundle
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+volumes:
+  dbdata:
+  bundle:
