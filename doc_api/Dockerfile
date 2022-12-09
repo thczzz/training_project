@@ -5,8 +5,8 @@ RUN apt-get clean all && apt-get update -qq && apt-get install -y build-essentia
     curl gnupg2 apt-utils default-libmysqlclient-dev git libcurl3-dev cmake \
     libssl-dev pkg-config openssl imagemagick file nodejs yarn
 
-RUN mkdir /web_admin
-WORKDIR /web_admin
+RUN mkdir /web_api
+WORKDIR /web_api
 
 # Adding gems
 COPY Gemfile Gemfile.lock ./
