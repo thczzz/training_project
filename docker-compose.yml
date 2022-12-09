@@ -14,26 +14,37 @@ services:
     volumes:
       - dbdata:/var/lib/mysql
     # logging:
-    #       driver: none
+    #    driver: none
     ports:
       - "3307:3306"
-  web:
+  web_admin:
     env_file:
       - '.env'
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: ./doc_admin
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 4000 -b '0.0.0.0'"
+    environment:
+      RAILS_ENV: development
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./doc_admin:/web_admin
+      - gem_cache:/usr/local/bundle/gems
+    depends_on:
+      - db
+  web_api:
+    env_file:
+      - '.env'
+    build: ./doc_api
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     environment:
       RAILS_ENV: development
-      BUNDLE_PATH: /bundle
-    volumes:
-      - .:/doc_admin_app
-      - bundle:/bundle
     ports:
       - "3000:3000"
+    volumes:
+      - ./doc_api:/web_api
     depends_on:
       - db
+  
 volumes:
   dbdata:
-  bundle:
+  gem_cache:
