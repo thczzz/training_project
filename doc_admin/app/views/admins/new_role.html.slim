@@ -1,0 +1,20 @@
+div[class="container"]
+  div[class="row"]
+   div[class="Absolute-Center is-Responsive"]
+     h2[class="text-center"]
+       | Create new Role
+
+     = form_with(model: @role, url: new_role_admin_path, method: :post) do |form|
+        - if @role.errors.any?
+          ul
+            - @role.errors.each do |error|
+              li
+                == error.full_message
+        div[class="form-floating mb-3"]
+          = form.text_field :name, class: "form-control", placeholder: "example: doctor", :required => true
+          = form.label :name
+
+        div[class="mb-3"]
+          = form.text_area :description, class: "form-control", placeholder: "Enter a meaningful description", rows: "5", :required => true
+
+        = form.submit "Create Role", class: "form-control btn btn-primary"

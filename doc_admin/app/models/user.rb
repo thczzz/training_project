@@ -1,15 +1,14 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable, :trackable,
-         :recoverable, :rememberable, :validatable, :confirmable
-  
+  devise :database_authenticatable, :rememberable, :registerable, :trackable
+
   has_many :examinations
   belongs_to :role, foreign_key: :role_id
 
   validates :first_name, :last_name, :address, :date_of_birth, :role_id,
             :username, :email, presence: true
-#   validates_associated :role
+  validates :role_id, numericality: { only_integer: true }
+  validates :username, :email, uniqueness: true
+  # validates_associated :role
   validate :date_of_birth_cannot_be_in_the_future
 
   def date_of_birth_cannot_be_in_the_future
