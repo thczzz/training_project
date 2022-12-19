@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :rememberable, :registerable, :trackable
+  paginates_per 6
 
   has_many :examinations
   belongs_to :role, foreign_key: :role_id
@@ -8,8 +9,7 @@ class User < ApplicationRecord
             :username, :email, presence: true
   validates :role_id, numericality: { only_integer: true }
   validates :username, :email, uniqueness: true
-  # validates_associated :role
-  validate :date_of_birth_cannot_be_in_the_future
+  validate  :date_of_birth_cannot_be_in_the_future
 
   def date_of_birth_cannot_be_in_the_future
     if date_of_birth.present? && date_of_birth > Date.today

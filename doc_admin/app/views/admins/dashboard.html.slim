@@ -4,16 +4,17 @@ div[class="container" style="margin-top: 45px; margin-bottom: 20px;"]
       = f.submit "Filter", class: "btn btn-outline-success"
 
 div[class="container"]
+  div[class="table-responsive"]
     table[class="table"]
       thead
-          tr
-            th[scope="col"] ID
-            th[scope="col"] Username
-            th[scope="col"] First Name
-            th[scope="col"] Last Name
-            th[scope="col"] Acc. Role
-            th[scope="col"] Email
-            th[scope="col"] Actions
+        tr
+          th[scope="col"] ID
+          th[scope="col"] Username
+          th[scope="col"] First Name
+          th[scope="col"] Last Name
+          th[scope="col"] Acc. Role
+          th[scope="col"] Email
+          th[scope="col"] Actions
       tbody[class="table-group-divider"]
         - @users.each do |u|
           tr
@@ -28,3 +29,8 @@ div[class="container"]
               = link_to "Edit", view_user_admin_path(u.id), class: "btn btn-warning", type: "button", style: "margin-left: 3px; margin-right: 3px;"
               = link_to "Delete", delete_user_registration_path(u.id), class: "btn btn-danger", type: "button", \
                 data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}
+
+  div[class="Absolute-Center is-Responsive" style="position: relative !important;"]
+    == paginate @users, theme: 'bootstrap-5',
+                        pagination_class: "pagination-sm flex-wrap justify-content-center",
+                        nav_class: "d-inline-block"

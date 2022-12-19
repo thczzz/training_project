@@ -17,7 +17,6 @@ class AdminsController < ApplicationController
   end
 
   def dashboard
-    # todo: paginate results
     @users = User.excluding(current_user).includes(:role)
     if params[:role_id].present?
       @users = @users.where(role_id: params[:role_id])
@@ -25,6 +24,7 @@ class AdminsController < ApplicationController
     if params[:username].present?
       @users = @users.where(username: params[:username])
     end
+    @users = @users.page params[:page]
   end
 
   def view_user
