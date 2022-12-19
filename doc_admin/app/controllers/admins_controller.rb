@@ -17,7 +17,7 @@ class AdminsController < ApplicationController
   end
 
   def dashboard
-    @users = User.excluding(current_user).includes(:role)
+    @users = User.includes(:role)
     if params[:role_id].present?
       @users = @users.where(role_id: params[:role_id])
     end
