@@ -8,6 +8,8 @@ gem "slim-rails"
 gem "html2slim"
 gem "slim"
 gem 'bootstrap_sb_admin_base_v1'
+gem 'kaminari'
+gem 'bootstrap5-kaminari-views'
 
 # Use Sass to process CSS
 gem "sassc-rails"
