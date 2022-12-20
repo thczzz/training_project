@@ -17,7 +17,7 @@ class AdminsController < ApplicationController
   end
 
   def dashboard
-    @users = User.excluding(current_user).includes(:role)
+    @users = User.includes(:role)
     if params[:role_id].present?
       @users = @users.where(role_id: params[:role_id])
     end
@@ -28,7 +28,12 @@ class AdminsController < ApplicationController
   end
 
   def view_user
-    @resource = User.find(params[:id])
+    begin
+      @resource = User.find(params[:id])
+    rescue ActiveRecord::RecordNotFound => ex
+      flash[:error] = "User with id #{params[:id]} does not exist."
+      redirect_back(fallback_location: root_path)
+    end
   end
 
   private
