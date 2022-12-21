@@ -45,8 +45,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     def respond_with(resource, _opts = {})
       response_success = { status: {code: 200} }
-      if @resource_updated == true && resource.persisted?
-        if !resource.last_sign_in_at?
+      if resource.persisted?
+        if !@resource_updated == true
           ## Create success
           message = sign_up_success(resource)
         else
