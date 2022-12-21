@@ -4,6 +4,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
 
+  # Override
   # PUT/PATCH /users
   def update
     self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
@@ -21,6 +22,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  # Override
   # DELETE /users
   def destroy
     resource.destroy
@@ -30,7 +32,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   protected
-
+    
     def configure_sign_up_params
       devise_parameter_sanitizer.permit(:sign_up,
         keys: [:first_name, :last_name, :address, :date_of_birth, :role_id, :username])
@@ -42,7 +44,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
 
   private
-
+    
+    # Override
     def respond_with(resource, _opts = {})
       response_success = { status: {code: 200} }
       if resource.persisted?
@@ -87,6 +90,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       message = find_message(kind, options)
     end
 
+    # Override
     def set_flash_message_for_update(resource, prev_unconfirmed_email)
       messages = []
       messages.push(set_flash_message(:notice, :update_needs_confirmation)) if update_needs_confirmation?(resource, prev_unconfirmed_email)
@@ -105,6 +109,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       jwt_payload = JWT.decode(encoded_payload, Devise.jwt.secret).first
     end
 
+    # Override
     def sign_in_after_change_password?
       account_update_params[:password].blank? ? true : false
     end
