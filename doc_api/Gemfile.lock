@@ -67,9 +67,16 @@ GEM
       minitest (>= 5.1)
       tzinfo (~> 2.0)
     bcrypt (3.1.18)
+    better_errors (2.9.1)
+      coderay (>= 1.0.0)
+      erubi (>= 1.0.0)
+      rack (>= 0.9.0)
+    bindex (0.8.1)
     bootsnap (1.15.0)
       msgpack (~> 1.2)
     builder (3.2.4)
+    byebug (11.1.3)
+    coderay (1.1.3)
     concurrent-ruby (1.1.10)
     crass (1.0.6)
     debug (1.7.0)
@@ -102,6 +109,8 @@ GEM
     io-console (0.5.11)
     irb (1.5.1)
       reline (>= 0.3.0)
+    jsonapi-serializer (2.2.0)
+      activesupport (>= 4.2)
     jwt (2.5.0)
     loofah (2.19.0)
       crass (~> 1.0.2)
@@ -129,6 +138,15 @@ GEM
     nokogiri (1.13.10-x86_64-linux)
       racc (~> 1.4)
     orm_adapter (0.5.0)
+    pry (0.13.1)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
+    pry-byebug (3.10.1)
+      byebug (~> 11.0)
+      pry (>= 0.13, < 0.15)
+    pry-remote (0.1.8)
+      pry (~> 0.9)
+      slop (~> 3.0)
     puma (5.6.5)
       nio4r (~> 2.0)
     racc (1.6.1)
@@ -169,6 +187,7 @@ GEM
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
+    slop (3.6.0)
     thor (1.2.1)
     timeout (0.3.1)
     tzinfo (2.0.5)
@@ -180,6 +199,11 @@ GEM
       dry-configurable (~> 0.13)
       jwt (~> 2.1)
       warden (~> 1.2)
+    web-console (4.2.0)
+      actionview (>= 6.0.0)
+      activemodel (>= 6.0.0)
+      bindex (>= 0.4.0)
+      railties (>= 6.0.0)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -189,15 +213,23 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  better_errors
   bootsnap
+  byebug (~> 11.1.3)
   debug
   devise
   devise-jwt
+  jsonapi-serializer
   mysql2 (~> 0.5)
+  pry (~> 0.13.1)
+  pry-byebug (~> 3.9)
+  pry-remote (~> 0.1.8)
   puma (~> 5.0)
   rack-cors
   rails (~> 7.0.4)
+  responders
   tzinfo-data
+  web-console
 
 RUBY VERSION
    ruby 3.1.3p185

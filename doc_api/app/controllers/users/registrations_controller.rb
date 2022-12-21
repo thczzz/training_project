@@ -1,102 +1,111 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
-  # before_action :configure_sign_up_params, only: [:create]
-  # before_action :configure_account_update_params, only: [:update]
-  respond_to :json
+  before_action :configure_sign_up_params, only: [:create]
+  before_action :configure_account_update_params, only: [:update]
 
-  # GET /resource/sign_up
-  # def new
-  #   super
-  # end
+  # PUT/PATCH /users
+  def update
+    self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
+    prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
 
-  # POST /resource/sign_up
-  def create
-    new_user = User.new(set_create_or_update_params(params))
-    if new_user.save
-      register_success
+    @resource_updated = update_resource(resource, account_update_params)
+
+    yield resource if block_given?
+    if @resource_updated
+      respond_with resource, {"prev_unconfirmed_email": prev_unconfirmed_email}
     else
-      register_failed(new_user.errors)
+      clean_up_passwords resource
+      set_minimum_password_length
+      respond_with resource
     end
   end
 
-  # GET /resource/edit
-  # def edit
-  #   super
-  # end
-
-  # PUT/PATCH /resource
-  def update
-    jwt_payload = JWT.decode(request.headers['Authorization'].split(' ')[1], Devise.jwt.secret).first
-    puts(jwt_payload['user_id'])
+  # DELETE /users
+  def destroy
+    resource.destroy
+    Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
+    yield resource if block_given?
+    respond_with(resource, {destroyed: true})
   end
-
-  # DELETE /resource
-  # def destroy
-  #   super
-  # end
-
-  # GET /resource/cancel
-  # Forces the session data which is usually expired after sign
-  # in to be expired now. This is useful if the user wants to
-  # cancel oauth signing in/up in the middle of the process,
-  # removing all OAuth session data.
-  # def cancel
-  #   super
-  # end
 
   protected
 
-    # If you have extra params to permit, append them to the sanitizer.
     def configure_sign_up_params
       devise_parameter_sanitizer.permit(:sign_up,
         keys: [:first_name, :last_name, :address, :date_of_birth, :role_id, :username])
     end
 
-    # If you have extra params to permit, append them to the sanitizer.
     def configure_account_update_params
       devise_parameter_sanitizer.permit(:account_update,
         keys: [:first_name, :last_name, :address, :date_of_birth, :role_id, :username])
     end
 
-  # The path used after sign up.
-  # def after_sign_up_path_for(resource)
-  #   super(resource)
-  # end
-
-  # The path used after sign up for inactive accounts.
-  # def after_inactive_sign_up_path_for(resource)
-  #   super(resource)
-  # end
-
   private
 
     def respond_with(resource, _opts = {})
-      register_success && return if resource.persisted?
-
-      register_failed
+      response_success = { status: {code: 200} }
+      if @resource_updated == true && resource.persisted?
+        if !resource.last_sign_in_at?
+          ## Create success
+          message = sign_up_success(resource)
+        else
+          ## Update success
+          message = update_success(resource, _opts[:prev_unconfirmed_email])
+        end
+        response_success[:data] = UserSerializer.new(resource).serializable_hash[:data][:attributes]
+      elsif _opts[:destroyed] == true
+        ## Destroy success
+        message = destroy_success
+      else
+        ## Failure
+        super && return
+      end
+      response_success[:status][:message] = message
+      render json: response_success
     end
 
-    def register_success
-      render json: { message: "Signed up successfully." }, status: :ok
+    def sign_up_success(resource)
+      if resource.active_for_authentication?
+        message = set_flash_message(:notice, :signed_up)
+      else
+        message = set_flash_message(:notice, :"signed_up_but_#{resource.inactive_message}")
+      end
     end
 
-    def register_failed(errors)
-      render json: { message: errors }, status: 406
+    def update_success(resource, prev_unconfirmed_email)
+      User.revoke_jwt(encoded_payload, resource) if sign_in_after_change_password?
+      resource.reload
+      message = set_flash_message_for_update(resource, prev_unconfirmed_email).join("||")
     end
 
-    def set_create_or_update_params(params)
-      {
-        first_name:            params[:user][:first_name],
-        last_name:             params[:user][:last_name],
-        address:               params[:user][:address],
-        date_of_birth:         params[:user][:date_of_birth],
-        role_id:               params[:user][:role_id].to_i,
-        username:              params[:user][:username],
-        email:                 params[:user][:email],
-        password:              params[:user][:password],
-        password_confirmation: params[:user][:password_confirmation]
-      }
+    def destroy_success
+      message = set_flash_message(:notice, :destroyed)
     end
 
+    def set_flash_message(key, kind, options = {update: true})
+      message = find_message(kind, options)
+    end
+
+    def set_flash_message_for_update(resource, prev_unconfirmed_email)
+      messages = []
+      messages.push(set_flash_message(:notice, :update_needs_confirmation)) if update_needs_confirmation?(resource, prev_unconfirmed_email)
+      if sign_in_after_change_password?
+        messages.push(set_flash_message(:notice, :updated)) 
+      else
+        messages.push(set_flash_message(:notice, :updated_but_not_signed_in))
+      end
+    end
+
+    def encoded_payload
+      request.headers['Authorization'].split(' ')[1]
+    end
+
+    def decoded_payload
+      jwt_payload = JWT.decode(encoded_payload, Devise.jwt.secret).first
+    end
+
+    def sign_in_after_change_password?
+      account_update_params[:password].blank? ? true : false
+    end
 end

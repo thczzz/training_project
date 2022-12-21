@@ -3,7 +3,7 @@ Rails.application.routes.draw do
              :controllers => {
               :registrations => "users/registrations",
               :sessions      => "users/sessions"
-            }
+            }, defaults: { format: :json }
 
   get '/patient-dashboard', to: 'patients#show'
 

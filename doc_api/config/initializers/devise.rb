@@ -8,6 +8,20 @@
 #
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
+
+class DocApiAuthFailureApp < Devise::FailureApp
+
+  def respond
+    json_api_error_response
+  end
+
+  def json_api_error_response
+    self.status        = 401
+    self.content_type  = 'application/json'
+    self.response_body = { errors: [{ message: i18n_message }] }.to_json
+  end
+end
+
 Devise.setup do |config|
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
@@ -25,6 +39,10 @@ Devise.setup do |config|
       ['DELETE', %r{users/sign_out$}]
     ]
     jwt.expiration_time = 15.day.to_i
+  end
+
+  config.warden do |manager|
+    manager.failure_app = DocApiAuthFailureApp
   end
 
   # ==> Controller configuration
@@ -275,6 +293,7 @@ Devise.setup do |config|
   #
   # The "*/*" below is required to match Internet Explorer requests.
   # config.navigational_formats = ['*/*', :html]
+  config.navigational_formats = []
 
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :delete
