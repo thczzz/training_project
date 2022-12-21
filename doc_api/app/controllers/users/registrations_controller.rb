@@ -4,7 +4,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
 
-  # Override
   # PUT/PATCH /users
   def update
     self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
@@ -14,7 +13,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     yield resource if block_given?
     if @resource_updated
-      respond_with resource, {"prev_unconfirmed_email": prev_unconfirmed_email}
+      respond_with resource, {:prev_unconfirmed_email => prev_unconfirmed_email}
     else
       clean_up_passwords resource
       set_minimum_password_length
@@ -22,7 +21,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
-  # Override
   # DELETE /users
   def destroy
     resource.destroy
@@ -50,18 +48,17 @@ class Users::RegistrationsController < Devise::RegistrationsController
       response_success = { status: {code: 200} }
       if resource.persisted?
         if !@resource_updated == true
-          ## Create success
           message = sign_up_success(resource)
         else
-          ## Update success
-          message = update_success(resource, _opts[:prev_unconfirmed_email])
+          revoke_user_token(resource) if sign_in_after_change_password?
+          resource.reload
+          message = update_success(resource, _opts)
         end
         response_success[:data] = UserSerializer.new(resource).serializable_hash[:data][:attributes]
       elsif _opts[:destroyed] == true
-        ## Destroy success
         message = destroy_success
       else
-        ## Failure
+        ## On Failure
         super && return
       end
       response_success[:status][:message] = message
@@ -75,17 +72,20 @@ class Users::RegistrationsController < Devise::RegistrationsController
         message = set_flash_message(:notice, :"signed_up_but_#{resource.inactive_message}")
       end
     end
+  
+    def revoke_user_token(resource)
+      User.revoke_jwt(encoded_payload, resource)
+    end
 
-    def update_success(resource, prev_unconfirmed_email)
-      User.revoke_jwt(encoded_payload, resource) if sign_in_after_change_password?
-      resource.reload
-      message = set_flash_message_for_update(resource, prev_unconfirmed_email).join("||")
+    def update_success(resource, _opts)
+      message = set_flash_message_for_update(resource, _opts[:prev_unconfirmed_email]).join("||")
     end
 
     def destroy_success
       message = set_flash_message(:notice, :destroyed)
     end
 
+    # Override
     def set_flash_message(key, kind, options = {update: true})
       message = find_message(kind, options)
     end
@@ -105,12 +105,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
       request.headers['Authorization'].split(' ')[1]
     end
 
-    def decoded_payload
-      jwt_payload = JWT.decode(encoded_payload, Devise.jwt.secret).first
-    end
-
     # Override
     def sign_in_after_change_password?
-      account_update_params[:password].blank? ? true : false
+      account_update_params[:password].blank?
     end
 end
