@@ -30,17 +30,6 @@ Devise.setup do |config|
   # by default. You can change it below and use your own secret key.
   # config.secret_key = 'b1d7da210f8bb16eee3236c354d1fb85712b5043d233624f579d75c336a7473da18271f1f68f6821cb1cbe8f50eda9f482bf54e58467b58f574024aa9ed8c157'
 
-  config.jwt do |jwt|
-    jwt.secret = ENV['DEVISE_JWT_SECRET_KEY']
-    jwt.dispatch_requests = [
-      ['POST', %r{users/sign_in$}]
-    ]
-    jwt.revocation_requests = [
-      ['DELETE', %r{users/sign_out$}]
-    ]
-    jwt.expiration_time = 1.day.to_i
-  end
-
   config.warden do |manager|
     manager.failure_app = DocApiAuthFailureApp
   end

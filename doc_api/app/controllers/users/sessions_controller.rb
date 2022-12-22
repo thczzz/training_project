@@ -2,7 +2,6 @@
 
 class Users::SessionsController < Devise::SessionsController
   # before_action :configure_sign_in_params, only: [:create]
-  respond_to :json
 
   # GET /resource/sign_in
   # def new
@@ -25,26 +24,4 @@ class Users::SessionsController < Devise::SessionsController
   # def configure_sign_in_params
   #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
   # end
-
-  private
-
-    def respond_with(resource, _opts = {})
-      render json: {
-        status: {code: 200, message: 'Logged in sucessfully.'},
-        data: UserSerializer.new(resource).serializable_hash[:data][:attributes]
-      }, status: :ok
-    end
-
-    def respond_to_on_destroy
-      current_user ? log_out_success : log_out_failure
-    end
-
-    def log_out_success
-      render json: { status: {code: 200, message: 'Logged out sucessfully.'} }, status: :ok
-    end
-
-    def log_out_failure
-      render json: { status: {code: 401, message: "Couldn't find an active session."} }, status: 401
-    end
-    
 end
