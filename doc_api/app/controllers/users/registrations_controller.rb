@@ -13,7 +13,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     yield resource if block_given?
     if @resource_updated
-      respond_with resource, {:prev_unconfirmed_email => prev_unconfirmed_email}
+      respond_with resource, {:prev_unconfirmed_email => prev_unconfirmed_email, :update_action => true}
     else
       clean_up_passwords resource
       set_minimum_password_length
@@ -51,7 +51,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
           message = sign_up_success(resource)
         else
           super && return if !@resource_updated
-          revoke_user_token(resource) if sign_in_after_change_password?
+          revoke_user_token(resource) if !sign_in_after_change_password?
           resource.reload
           message = update_success(resource, _opts)
         end
