@@ -2,7 +2,9 @@ Rails.application.routes.draw do
   devise_for :users,
              :controllers => {
               :registrations => "users/registrations",
-              :sessions      => "users/sessions"
+              :sessions      => "users/sessions",
+              :confirmations => "users/confirmations",
+              :passwords     => "users/passwords"
             }, defaults: { format: :json }
 
   get '/patient-dashboard', to: 'patients#show'
@@ -11,7 +13,4 @@ Rails.application.routes.draw do
     post 'users/sign_up' => 'users/registrations#create'
   end
 
-  # Defines the root path route ("/")
-  # root "articles#index"
-  # devise_for :users
 end

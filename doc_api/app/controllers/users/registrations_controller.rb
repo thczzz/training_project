@@ -17,7 +17,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     else
       clean_up_passwords resource
       set_minimum_password_length
-      respond_with resource
+      respond_with resource, {:update_action => true}
     end
   end
 
@@ -47,9 +47,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
     def respond_with(resource, _opts = {})
       response_success = { status: {code: 200} }
       if resource.persisted?
-        if !@resource_updated == true
+        if !_opts[:update_action]
           message = sign_up_success(resource)
         else
+          super && return if !@resource_updated
           revoke_user_token(resource) if sign_in_after_change_password?
           resource.reload
           message = update_success(resource, _opts)
@@ -101,6 +102,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       end
     end
 
+    ## If Token is missing, will raise Exception. Check if user can make a req before Update in the React app!
     def encoded_payload
       request.headers['Authorization'].split(' ')[1]
     end

@@ -21,8 +21,4 @@ class User < ApplicationRecord
     end
   end
 
-  # def jwt_payload
-  #   { 'user_id' => :id }
-  # end
-
 end

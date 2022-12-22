@@ -1,5 +1,4 @@
 class PatientsController < ApplicationController
-  include RackSessionFix 
   before_action :authenticate_user!
 
   def show
