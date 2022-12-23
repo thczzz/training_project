@@ -1,17 +1,8 @@
 Rails.application.routes.draw do
-  use_doorkeeper
-  devise_for :users,
-             :controllers => {
-              :registrations => "users/registrations",
-              :sessions      => "users/sessions",
-              :confirmations => "users/confirmations",
-              :passwords     => "users/passwords"
-            }, defaults: { format: :json }
-
-  get '/patient-dashboard', to: 'patients#show'
+  draw :api
 
   devise_scope :user do
-    post 'users/sign_up' => 'users/registrations#create'
+    post 'api/v1/users/sign_up' => 'api/v1/users/registrations#create'
   end
 
 end

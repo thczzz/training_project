@@ -1,17 +1,49 @@
 # frozen_string_literal: true
 
+module CookieTokenResponse
+  def body
+    super.except('access_token', 'refresh_token', 'expires_in', 'created_at', 'token_type')
+  end
+
+  def headers
+    cookie_args = [
+      "refresh_token=#{@token.refresh_token}",
+      "access_token=#{@token.token}",
+      "expires_in=#{@token.expires_in}",
+      "created_at=#{@token.created_at.to_time.to_i}",
+      'Path=/',
+      'HttpOnly',
+    ]
+    if Rails.env.production?
+      cookie_args.push('Secure')
+    end
+    
+    cookie = cookie_args.join('; ')
+    super.merge({'Set-Cookie' => cookie})
+  end
+
+end
+
+Doorkeeper::OAuth::TokenResponse.send :prepend, CookieTokenResponse
+
 Doorkeeper.configure do
   # Change the ORM that doorkeeper will use (requires ORM extensions installed).
   # Check the list of supported ORMs here: https://github.com/doorkeeper-gem/doorkeeper#orms
   orm :active_record
 
   # This block will be called to check whether the resource owner is authenticated or not.
-  resource_owner_authenticator do
-    raise "Please configure doorkeeper resource_owner_authenticator block located in #{__FILE__}"
-    # Put your resource owner authentication logic here.
-    # Example implementation:
-    #   User.find_by(id: session[:user_id]) || redirect_to(new_user_session_url)
+  # resource_owner_authenticator do
+  #   raise "Please configure doorkeeper resource_owner_authenticator block located in #{__FILE__}"
+  #   # Put your resource owner authentication logic here.
+  #   # Example implementation:
+  #   #   User.find_by(id: session[:user_id]) || redirect_to(new_user_session_url)
+  # end
+
+  resource_owner_from_credentials do
+    User.authenticate(params[:email], params[:password])
   end
+  # enable password grant
+  grant_flows %w[password]
 
   # If you didn't skip applications controller from Doorkeeper routes in your application routes.rb
   # file then you need to declare this block in order to restrict access to the web interface for
@@ -216,7 +248,7 @@ Doorkeeper.configure do
   # `grant_type` - the grant type of the request (see Doorkeeper::OAuth)
   # `scopes` - the requested scopes (see Doorkeeper::OAuth::Scopes)
   #
-  # use_refresh_token
+  use_refresh_token
 
   # Provide support for an owner to be assigned to each registered application (disabled by default)
   # Optional parameter confirmation: true (default: false) if you want to enforce ownership of
@@ -263,6 +295,11 @@ Doorkeeper.configure do
   # for more information on customization
   #
   # access_token_methods :from_bearer_authorization, :from_access_token_param, :from_bearer_param
+  access_token_methods lambda { |request|
+    # return nil if request.headers['HTTP_ORIGIN'] != 'http://localhost:3000'
+    # return nil if request.headers['HTTP_REFERER'] != 'http://localhost:3000/'
+    request.cookies['access_token']
+  }
 
   # Forces the usage of the HTTPS protocol in non-native redirect uris (enabled
   # by default in non-development environments). OAuth2 delegates security in
@@ -292,7 +329,7 @@ Doorkeeper.configure do
   #
   # You can completely disable this feature with:
   #
-  # allow_blank_redirect_uri false
+  allow_blank_redirect_uri true
   #
   # Or you can define your custom check:
   #
@@ -431,6 +468,9 @@ Doorkeeper.configure do
   # skip_authorization do |resource_owner, client|
   #   client.superapp? or resource_owner.admin?
   # end
+  skip_authorization do
+    true
+  end
 
   # Configure custom constraints for the Token Introspection request.
   # By default this configuration option allows to introspect a token by another
