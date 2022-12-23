@@ -17,7 +17,7 @@ Role.first_or_create(
 )
 
 User.first_or_create(
-    email: "echonykrom@protonmail.com",
+    email: "test@mail.com",
     password: "123456",
     password_confirmation: "123456",
     role_id: 1,
