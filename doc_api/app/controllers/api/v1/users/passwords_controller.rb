@@ -34,7 +34,7 @@ class Api::V1::Users::PasswordsController < Devise::PasswordsController
 
     if resource.errors.empty?
       resource.unlock_access! if unlockable?(resource)
-      revoke_user_token(resource)
+      resource.revoke_user_token
       resource.reload
       message = set_flash_message(:notice, :updated_not_active)
       respond_with(resource, {:message => message})
@@ -51,10 +51,6 @@ class Api::V1::Users::PasswordsController < Devise::PasswordsController
       response_success = { status: {code: 200} }
       response_success[:status][:message] = _opts[:message]
       render json: response_success
-    end
-
-    def revoke_user_token(resource)
-      User.revoke_jwt({}, resource)
     end
 
 end

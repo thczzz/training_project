@@ -13,4 +13,5 @@ class Api::V1::Users::TokensController < Doorkeeper::TokensController
   def unconfirmed_account_error
     { message: I18n.t('devise.failure.unconfirmed') }
   end
+
 end

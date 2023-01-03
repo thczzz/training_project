@@ -5,8 +5,12 @@ namespace :api do
     scope :users, module: :users do
       post '/', to: "registrations#create", as: :user_registration
     end
-    resource :doctors
-    resource :patients
+
+    scope :doctors do
+      post '/create_examination', to: "doctors#create_examination", as: :create_examination
+      post '/create_perscription', to: "doctors#create_perscription", as: :create_perscription
+    end
+    # resource :patients
   end
 end
 

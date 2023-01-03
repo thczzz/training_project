@@ -3,7 +3,7 @@
 class Api::V1::Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
-  before_action :doorkeeper_authorize!, only: [:update]
+  before_action :doorkeeper_authorize!, only: [:update, :destroy]
 
   # POST /resource
   def create
@@ -84,6 +84,12 @@ class Api::V1::Users::RegistrationsController < Devise::RegistrationsController
       end
       response_success[:status][:message] = message
       render json: response_success
+    end
+
+    # Had to override this because of Err: (: unauthorized, You need to sign in or sign up to continue..)
+    def authenticate_scope!
+      # send(:"authenticate_#{resource_name}!", force: true)
+      self.resource = send(:"current_#{resource_name}")
     end
 
     def sign_up_success(resource)

@@ -2,15 +2,19 @@
 
 module CookieTokenResponse
   def body
-    super.except('access_token', 'refresh_token', 'expires_in', 'created_at', 'token_type')
+    {"message": "Loged in successfully."}.to_json
   end
 
   def headers
+    data = {
+      "access_token": @token.token,
+      "refresh_token": @token.refresh_token,
+      "expires_in": @token.expires_in,
+      "created_at": @token.created_at.to_time.to_i,
+    }.to_json
+
     cookie_args = [
-      "refresh_token=#{@token.refresh_token}",
-      "access_token=#{@token.token}",
-      "expires_in=#{@token.expires_in}",
-      "created_at=#{@token.created_at.to_time.to_i}",
+      "tokens=#{data}",
       'Path=/',
       'HttpOnly',
     ]
@@ -298,7 +302,7 @@ Doorkeeper.configure do
   access_token_methods lambda { |request|
     # return nil if request.headers['HTTP_ORIGIN'] != 'http://localhost:3000'
     # return nil if request.headers['HTTP_REFERER'] != 'http://localhost:3000/'
-    request.cookies['access_token']
+    JSON.parse(request.cookies["tokens"])["access_token"] if request.cookies["tokens"]
   }
 
   # Forces the usage of the HTTPS protocol in non-native redirect uris (enabled

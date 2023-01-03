@@ -20,8 +20,7 @@ class User < ApplicationRecord
   end
 
   def revoke_user_token
-    application_id = Doorkeeper::Application.find_by(name: "React").uid
-    Doorkeeper::AccessToken.revoke_all_for(application_id, self)
+    Doorkeeper::AccessToken.by_resource_owner(self).where(revoked_at: nil).update_all(revoked_at: Time.now.utc)
   end
 
   def date_of_birth_cannot_be_in_the_future

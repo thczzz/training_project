@@ -2,6 +2,7 @@
 
 class Api::V1::Users::ConfirmationsController < Devise::ConfirmationsController
   include UsersPrivateMethods
+  skip_before_action :doorkeeper_authorize!
   # GET /resource/confirmation/new
   # def new
   #   super
@@ -40,10 +41,6 @@ class Api::V1::Users::ConfirmationsController < Devise::ConfirmationsController
       super && return if !_opts[:message]
       response_success = { status: {code: 200} }
 
-      if request.method == "POST"
-        response_success[:data] = UserSerializer.new(resource).serializable_hash[:data][:attributes]
-      end
-      
       response_success[:status][:message] = _opts[:message]
       render json: response_success
     end
