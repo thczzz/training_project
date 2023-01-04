@@ -2,9 +2,6 @@
 
 namespace :api do
   namespace :v1 do
-    scope :users, module: :users do
-      post '/', to: "registrations#create", as: :user_registration
-    end
 
     scope :doctors do
       post '/create_examination',  to: "doctors#create_examination",       as: :create_examination
@@ -19,6 +16,7 @@ namespace :api do
       get '/perscriptions/:id',    to: "patients#perscription_details",    as: :view_perscription_details
       get '/examinations/:id',     to: "patients#examination_details",     as: :view_examination_details
     end
+
   end
 end
 
@@ -28,6 +26,7 @@ scope :api do
       skip_controllers :authorizations, :applications, :authorized_applications
       controllers tokens: 'api/v1/users/tokens'
     end
+    
     devise_for :users,
             :controllers => {
               :registrations => "api/v1/users/registrations",
