@@ -20,7 +20,7 @@ default: &default
 
 development:
   <<: *default
-  database: doc_admin_development
+  database: doc_api_development
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".

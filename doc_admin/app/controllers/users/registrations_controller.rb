@@ -14,13 +14,19 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /admin/create_user
   def create
-    @new_user = User.new(set_create_or_update_params(params))
-    if @new_user.save 
-      flash[:success] = "Successfully created new User."
+    build_resource(sign_up_params)
+
+    resource.skip_confirmation!
+    resource.save
+    yield resource if block_given?
+    if resource.persisted?
+      set_flash_message! :notice, :signed_up
+      respond_with resource, location: after_sign_up_path_for(resource)
     else
-      flash[:error]   = "There was an error when trying to create an User"
+      clean_up_passwords resource
+      set_minimum_password_length
+      respond_with resource, status: :unprocessable_entity
     end
-    redirect_back(fallback_location: root_path)
   end
 
   # GET /admin/edit_user/:id
@@ -28,14 +34,24 @@ class Users::RegistrationsController < Devise::RegistrationsController
     super
   end
 
-  # PUT /admin/edit_user/:id
   def update
-    if @user.update(set_create_or_update_params(params))
+    self.resource = @user
+    resource.skip_reconfirmation!
+    if resource.update(set_create_or_update_params(params))
       flash[:success] = "Successfully Edited User."
+      redirect_back(fallback_location: root_path)
     else
-      flash[:error] = "There was an error when trying to edit an User"
+      respond_with(resource) do |format|
+        format.turbo_stream {
+          render turbo_stream:
+            turbo_stream.replace(
+              "error_explanation",
+              partial: "devise/shared/error_messages",
+              locals: { resource: resource }
+            )
+        }
+      end
     end
-    redirect_back(fallback_location: root_path)
   end
 
   # DELETE /admin/delete_user/:id
@@ -49,6 +65,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   protected
+
+    def after_sign_up_path_for(resource)
+      new_user_registration_path
+    end
+
+    def after_update_path_for(resource)
+      view_user_admin_path(resource.id)
+    end
 
     # If you have extra params to permit, append them to the sanitizer.
     def configure_sign_up_params
@@ -84,6 +108,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
         password:              params[:user][:password],
         password_confirmation: params[:user][:password_confirmation]
       }
-    end
+    end    
 
 end

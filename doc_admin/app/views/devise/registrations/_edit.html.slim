@@ -1,5 +1,6 @@
 = form_for(resource, as: resource, url: edit_user_registration_path(resource.id), html: { method: :put, :id => "editUserForm" }) do |f|
-    = render "devise/shared/error_messages", resource: resource
+    div[id="errorMessages"]
+      = render "devise/shared/error_messages", resource: resource
     .mb-3
       = f.label :email, class: "form-label"
       = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", :required => true, :disabled => true

@@ -3,12 +3,13 @@ div[class="container"]
    div[class="Absolute-Center is-Responsive"]
      h2[class="text-center"]
        | Log in
-     = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+     = form_for(resource, as: resource_name, data: { turbo:false }, url: session_path(resource_name)) do |f|
+       = render "devise/shared/error_messages", resource: resource
        div[class="form-floating mb-3"]
-         = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "example@email.com"
+         = f.email_field :email, autofocus: true,  autocomplete: "email", class: "form-control", placeholder: "example@email.com", :required => true
          = f.label :email
        div[class="form-floating"]    
-         = f.password_field :password, autocomplete: "current-password", class: "form-control", placeholder: "*********"
+         = f.password_field :password, autocomplete: "current-password", class: "form-control", placeholder: "*********", :required => true
          = f.label :password
        - if devise_mapping.rememberable?
          div[class="form-check"]
