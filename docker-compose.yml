@@ -44,6 +44,12 @@ services:
       - ./doc_api:/web_api
     depends_on:
       - db
+  web_react:
+    build: ./doc_react
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./doc_react:/web_react
   
 volumes:
   dbdata:
