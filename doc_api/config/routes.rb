@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  draw :api
 
-  # Defines the root path route ("/")
-  # root "articles#index"
-  # devise_for :users
+  devise_scope :user do
+    post 'api/v1/users/sign_up' => 'api/v1/users/registrations#create'
+  end
+
 end

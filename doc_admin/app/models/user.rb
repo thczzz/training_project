@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  devise :database_authenticatable, :rememberable, :registerable, :trackable
+  devise :database_authenticatable, :rememberable, :registerable, :trackable, :confirmable
   paginates_per 6
 
   has_many :examinations

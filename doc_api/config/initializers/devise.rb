@@ -8,13 +8,31 @@
 #
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
+
+class DocApiAuthFailureApp < Devise::FailureApp
+
+  def respond
+    json_api_error_response
+  end
+
+  def json_api_error_response
+    self.status        = 401
+    self.content_type  = 'application/json'
+    self.response_body = { errors: [{ message: i18n_message }] }.to_json
+  end
+end
+
 Devise.setup do |config|
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = '0f7e0603afc7af12b45ba4fff0a97fcd1d8ce17fc4854476ef902dc8c901cc4cf7b4c0d81b78fae1c049c4f9e52886eec56f3dd295b08ada4ec98c78a395ec53'
+  # config.secret_key = 'b1d7da210f8bb16eee3236c354d1fb85712b5043d233624f579d75c336a7473da18271f1f68f6821cb1cbe8f50eda9f482bf54e58467b58f574024aa9ed8c157'
+
+  config.warden do |manager|
+    manager.failure_app = DocApiAuthFailureApp
+  end
 
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
@@ -126,7 +144,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 12
 
   # Set up a pepper to generate the hashed password.
-  # config.pepper = '7cdf1e8bdf400a3f169cda765db8ce47669401fb8faa398d6710f3eb1fc0bc9cc680565d30eb7d959d1784886c2a932d95fd4869c5e3e282d96113253a0867e1'
+  # config.pepper = 'e065151e106680d3fec18f5598a4cd05eb888386582d88694849cfffc1549dca2d02671e68bd7f8638537755a8434fa30d8a535c512e8860a727b55c2d500ef4'
 
   # Send a notification to the original email when the user's email is changed.
   # config.send_email_changed_notification = false
@@ -228,7 +246,7 @@ Devise.setup do |config|
 
   # When set to false, does not sign a user in automatically after their password is
   # reset. Defaults to true, so a user is signed in automatically after a reset.
-  # config.sign_in_after_reset_password = true
+  config.sign_in_after_reset_password = false
 
   # ==> Configuration for :encryptable
   # Allow you to use another hashing or encryption algorithm besides bcrypt (default).
@@ -264,7 +282,7 @@ Devise.setup do |config|
   #
   # The "*/*" below is required to match Internet Explorer requests.
   # config.navigational_formats = ['*/*', :html]
-  config.navigational_formats = ['*/*', :html, :turbo_stream]
+  config.navigational_formats = []
 
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :delete

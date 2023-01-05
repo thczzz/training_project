@@ -1,3 +1,5 @@
 class Perscription < ApplicationRecord
-  belongs_to :examination
+  has_many :perscription_drugs
+#   has_many :drugs, through: :perscription_drugs
+  belongs_to  :examination, foreign_key: :examination_id
 end

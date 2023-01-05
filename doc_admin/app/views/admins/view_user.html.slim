@@ -22,7 +22,7 @@ div[class="container" style="margin-top: 45px;"]
                     h6[class="mb-0"] Last login
                     span[class="text-secondary"]
                       - if @resource.last_sign_in_at?
-                        #{@resource.last_sign_in_at}
+                        | #{@resource.last_sign_in_at}
                       - else 
                         | Never
                 
@@ -30,7 +30,7 @@ div[class="container" style="margin-top: 45px;"]
                     h6[class="mb-0"] Last login IP
                     span[class="text-secondary"]
                       - if @resource.last_sign_in_ip?
-                        #{@resource.last_sign_in_ip}
+                        | #{@resource.last_sign_in_ip}
                       - else 
                         | N/A
                     
@@ -38,7 +38,7 @@ div[class="container" style="margin-top: 45px;"]
                     h6[class="mb-0"] Curr. login IP
                     span[class="text-secondary"]
                       - if @resource.current_sign_in_ip?
-                        #{@resource.current_sign_in_ip}
+                        | #{@resource.current_sign_in_ip}
                       - else 
                         | N/A
                     
@@ -71,3 +71,7 @@ div[class="container" style="margin-top: 45px;"]
 
 == content_for :custom_js do
   = javascript_include_tag "viewEditUser", "data-turbo-track": "false"
+  javascript:
+    document.addEventListener("turbo:before-stream-render", function() {
+      window.scrollTo(0,0)
+    });

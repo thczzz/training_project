@@ -25,3 +25,32 @@
   max-width: 500px;
   padding: 40px;
 }
+
+#error_explanation {
+  background: #f23551;
+  color: #fff;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+#error_explanation h2 {
+  padding: 20px;
+  margin: 0;
+  font-size: 20px;
+}
+#error_explanation ul {
+  background: #fff;
+  color: #e5324a;
+  border: 1px solid #f23551;
+  margin: 0;
+  list-style: none;
+  padding: 14px 0;
+}
+#error_explanation ul li {
+  padding: 4px 20px;
+}
+#error_explanation ul li:before {
+  content: '×';
+  font-weight: bold;
+  font-size: 20px;
+  margin-right: 10px;
+}

@@ -3,7 +3,7 @@ Rails.application.routes.draw do
              :controllers => {
                :registrations => "users/registrations",
                :sessions      => "users/sessions"
-             }, 
+             }, defaults: { format: :html },
              :skip => [:sessions, :registrations, :passwords]
 
   resource :admin, :except => [:show, :new, :create, :edit, :update, :destroy] do
