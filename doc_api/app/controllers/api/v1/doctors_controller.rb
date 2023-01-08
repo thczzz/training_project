@@ -1,5 +1,6 @@
 class Api::V1::DoctorsController < ApplicationController
-  before_action :check_if_user_is_doctor
+  # before_action :check_if_user_is_doctor
+  skip_before_action :doorkeeper_authorize! # For testing purposes!
 
   def create_examination
     resource = Examination.new(examination_params)
@@ -51,7 +52,16 @@ class Api::V1::DoctorsController < ApplicationController
     end   
   end
 
+  def search_user
+    resources = User.where("username like ?", "%#{search_params[:username]}%").pluck(:id, :username)
+    render json: { status: {code: 201, message: "Created"}, data: resources }
+  end
+
   private
+
+    def search_params
+      params.permit(:username, :doctor)
+    end
 
     def examination_params
       params.require(:examination).permit(:user_id, :weight_kg, :height_cm, :anamnesis)

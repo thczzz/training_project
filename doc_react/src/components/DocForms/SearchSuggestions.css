@@ -1,0 +1,20 @@
+ul.suggestions {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li.suggestion {
+  display: block;
+  background: #a9a9a969;
+  padding: 6px;
+  border-bottom: 1px solid #a19a9a36;
+}
+
+li.suggestion:hover {
+  cursor: pointer;
+}
+
+input.searchFieldInput {
+    margin-bottom: 0 !important;
+}
