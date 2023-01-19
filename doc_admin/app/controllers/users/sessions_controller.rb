@@ -2,7 +2,7 @@
 
 class Users::SessionsController < Devise::SessionsController
   # before_action :configure_sign_in_params, only: [:create]
-  skip_before_action :verify_is_admin, :only => [:new, :create]
+  skip_before_action :authenticate_user!, :only => [:new, :create]
 
   # GET /admin/login
   def new
@@ -11,7 +11,17 @@ class Users::SessionsController < Devise::SessionsController
 
   # POST /admin/login
   def create
-    super
+    self.resource = warden.authenticate!(auth_options)
+    if resource.role_id == 1
+      sign_in(resource_name, resource)
+      set_flash_message!(:notice, :signed_in)
+    else
+      sign_out
+      flash[:error] = "Insufficient rights!"
+      redirect_to(new_user_session_path) && return
+    end
+    yield resource if block_given?
+    respond_with resource, location: after_sign_in_path_for(resource)
   end
 
   # DELETE /admin/logout

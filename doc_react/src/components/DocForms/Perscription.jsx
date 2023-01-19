@@ -1,50 +1,19 @@
 import React from 'react'
+import { SearchExamination } from './SearchExamination'
+import { PerscriptionFields } from './PerscriptionFields'
 
 const Perscription = () => {
   return (
     <form id="survey-form" method="post" action="">
-        <div class="group">
-            <label id="name-label" for="name">
-                Name
-            </label> 
-            <input type="text" id="name" placeholder="Enter your name" name="name" required />
+        <div className="group">
+            <SearchExamination inputFieldLabel="Examination" />
         </div>
-        <div class="group">
-            <label id="email-label" for="email">
-                Email
-            </label> 
-            <input type="email" id="email" placeholder="Enter your email" name="email" required />
+        <div className="group">
+            <PerscriptionFields />
         </div>
-        <div class="group">
-            <label id="number-label" for="number">
-                Age
-            </label> 
-            <input type="number" id="number" placeholder="Enter your age" name="age" min="18" max="100" />
+        <div className="group">
+            <input type="submit" id="submit" />
         </div>
-        <div class="group inline">
-            <p>Gender</p>
-            <label for="male"> <input type="radio" id="male" name="gender" value="male" /> Male </label> <label for="female"> <input type="radio" id="female" name="gender" value="female" /> Female </label>
-            <label for="other"> <input type="radio" id="other" name="gender" value="other" /> Other </label>
-        </div>
-        <div class="group">
-            <label for="country">Country</label>
-            <select id="dropdown" name="country">
-                <option value="" disabled selected>Select your country</option>
-                <option value="india">India</option>
-                <option value="usa">United States of America</option>
-                <option value="uk">United Kingdom</option>
-                <option value="other">Other</option>
-            </select>
-        </div>
-        <div class="group inline">
-            <p>What did you like about this form?</p>
-            <label for="design"> <input id="design" name="design" value="design" type="checkbox" /> Design </label> <label for="color"> <input id="color" name="color" value="color" type="checkbox" /> Color </label>
-            <label for="else"> <input id="else" name="else" value="else" type="checkbox" /> Something else </label>
-        </div>
-        <div class="group">
-            <label for="comment">Any comments or suggestions? <textarea rows="5" cols="30" name="comment" placeholder="Type something here..."></textarea></label>
-        </div>
-        <div class="group"><input type="submit" id="submit" /></div>
     </form>
   )
 }

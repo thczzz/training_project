@@ -4,10 +4,12 @@ class Api::V1::Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
   before_action :doorkeeper_authorize!, only: [:update, :destroy]
+  # skip_before_action :doorkeeper_authorize!
 
   # POST /resource
   def create
     build_resource(sign_up_params)
+    resource.role_id = 3
 
     resource.save
     yield resource if block_given?
@@ -52,12 +54,13 @@ class Api::V1::Users::RegistrationsController < Devise::RegistrationsController
     
     def configure_sign_up_params
       devise_parameter_sanitizer.permit(:sign_up,
-        keys: [:first_name, :last_name, :address, :date_of_birth, :role_id, :username])
+        # TODO: remove role_id, default = 3 (patient, on create)
+        keys: [:first_name, :last_name, :address, :date_of_birth, :username])
     end
 
     def configure_account_update_params
       devise_parameter_sanitizer.permit(:account_update,
-        keys: [:first_name, :last_name, :address, :date_of_birth, :role_id, :username])
+        keys: [:first_name, :last_name, :address, :date_of_birth, :username])
     end
 
   private
@@ -74,7 +77,6 @@ class Api::V1::Users::RegistrationsController < Devise::RegistrationsController
           resource.reload
           message = update_success(resource, _opts)
         end
-        response_success[:data] = UserSerializer.new(resource).serializable_hash[:data][:attributes]
       elsif _opts[:destroyed] == true
         resource.revoke_user_token
         message = destroy_success

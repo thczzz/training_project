@@ -53,14 +53,32 @@ class Api::V1::DoctorsController < ApplicationController
   end
 
   def search_user
-    resources = User.where("username like ?", "%#{search_params[:username]}%").pluck(:id, :username)
-    render json: { status: {code: 201, message: "Created"}, data: resources }
+    resources = User.where("lower(username) like ?", "%#{search_user_params[:username].downcase}%").pluck(:id, :username)
+    render json: { status: {code: 302, message: "Found"}, data: resources }
+  end
+
+  def get_user_examinations
+    resources = Examination.where(user_id: get_user_examinations_params[:user_id].to_i).order(created_at: :desc).pluck(:id, :created_at)
+    render json: { status: {code: 302, message: "Found"}, data: resources }
+  end
+
+  def search_drug
+    resources = Drug.where("lower(name) like ?", "%#{search_drug_params[:name].downcase}%").pluck(:id, :name)
+    render json: { status: {code: 302, message: "Found"}, data: resources }
   end
 
   private
 
-    def search_params
+    def search_user_params
       params.permit(:username, :doctor)
+    end
+
+    def search_drug_params
+      params.permit(:name, :doctor)
+    end
+
+    def get_user_examinations_params
+      params.permit(:user_id, :doctor)
     end
 
     def examination_params

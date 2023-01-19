@@ -17,16 +17,12 @@ const Tabs = () => {
             tabTitle: 'New Examination',
             icon: UilBookMedical,
             form: Examination,
-            title: 'Title 1',
-            content: 'Las tabs se generan automáticamente a partir de un array de objetos, el cual tiene las propiedades: id, tabTitle, title y content.'
         },
         {
             id: 2,
             tabTitle: 'New Perscription',
             icon: UilPrescriptionBottle,
             form: Perscription,
-            title: 'Title 2',
-            content: 'Contenido de tab 2.'
         },
 
     ];
@@ -51,7 +47,7 @@ const Tabs = () => {
             </div>
             <div className='content'>
                 {tabs.map((tab, i) =>
-                    <div className="form" key={i}>
+                    <div className="form" key={tab.tabTitle}>
                         {currentTab === `${tab.id}` && 
                            <tab.form/>
                         }

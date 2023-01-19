@@ -9,6 +9,7 @@ gem "rack-cors"
 gem "responders"
 gem 'jsonapi-serializer'
 gem 'doorkeeper-jwt'
+gem 'kaminari'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.4"

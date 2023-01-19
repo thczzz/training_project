@@ -2,6 +2,10 @@ ul.suggestions {
   list-style: none;
   padding: 0;
   margin: 0;
+  max-height:150px; 
+  overflow:hidden; 
+  overflow-y:auto;
+
 }
 
 li.suggestion {
@@ -18,3 +22,4 @@ li.suggestion:hover {
 input.searchFieldInput {
     margin-bottom: 0 !important;
 }
+

@@ -25,11 +25,11 @@ export const SidebarDataDoc = [
 export const SidebarDataPatient = [
     {
         icon: UilEstate,
-        heading: "Dashboard"
+        heading: "Examinations"
     },
     {
         icon: UilSearchPlus,
-        heading: "Search Persc."
+        heading: "Search Exam."
     },
     {
         icon: UilSetting,

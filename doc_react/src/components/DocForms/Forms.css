@@ -1,0 +1,34 @@
+.error-message {
+    color: #cc0033;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 15px;
+    margin: 5px 0 0;
+  }
+  
+.group .error-message {
+  display: none;
+}
+
+
+/* Error Styling */
+
+.error label {
+  color: #cc0033;
+}
+
+.error input {
+  background-color: #fce4e4;
+  border: 1px solid #cc0033;
+  outline: none;
+}
+
+.error textarea {
+  background-color: #fce4e4;
+  border: 1px solid #cc0033;
+  outline: none;
+}
+
+.error .error-message {
+  display: inline-block;
+}

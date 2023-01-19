@@ -2,6 +2,7 @@
 
 class Api::V1::Users::PasswordsController < Devise::PasswordsController
   include UsersPrivateMethods
+  skip_before_action :doorkeeper_authorize!
 
   # GET /resource/password/new
   # def new

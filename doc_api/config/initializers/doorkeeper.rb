@@ -2,7 +2,7 @@
 
 module CookieTokenResponse
   def body
-    {"message": "Loged in successfully."}.to_json
+    {"message": "Logged in successfully."}.to_json
   end
 
   def headers

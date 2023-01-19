@@ -18,7 +18,7 @@
     #ffcfd1 51.55%,
     #f3c6f1 90.85%
   );
-  height: 135vh;
+  height: 150vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -35,7 +35,7 @@
   grid-template-columns: 12rem auto 3rem;
 }
 
-form { 
+.App form { 
   width: 80%; 
   background-color: #ffcfd140;
   margin-top: 20px; 
@@ -93,3 +93,37 @@ textarea {
 #submit { 
   background-color: #FFE9B1; 
 }
+
+@media screen and (max-width: 1200px) {
+  .AppGlass {
+    grid-template-columns: 10% 75% auto;
+    overflow-y: scroll;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .AppGlass {
+    grid-template-columns: 1fr;
+  }
+
+  .AppGlass::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* @media screen and (max-width: 1200px) {
+  .form {
+    width: 170%;
+    margin-top: 2rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .form {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 18rem;
+  }
+} */

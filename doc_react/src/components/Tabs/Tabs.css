@@ -25,3 +25,16 @@
     background: linear-gradient(245.39deg, #FC65ED -35.14%, #0500FF 143.06%);
     color: white;
 }
+
+@media screen and (max-width: 1200px) {
+    .tabs {
+        flex-direction: column;
+    }
+    
+}
+
+@media screen and (max-width: 768px) {
+    .tabs {
+        width: 90%;
+    }
+}
