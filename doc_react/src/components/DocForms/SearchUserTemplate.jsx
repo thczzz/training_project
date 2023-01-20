@@ -22,13 +22,13 @@ export function SearchUserTemplate(props) {
                <ul className="suggestions">
                    {props.searchResults.map(itemArr => {
                        return <li 
-                       className='suggestion' 
-                       id={itemArr[0]} 
-                       key={itemArr[0]} 
-                       onClick={(ev) => {props.handleClick(ev)}}
-                       >
-                           {itemArr[1]}
-                       </li>
+                                className='suggestion' 
+                                id={itemArr[0]} 
+                                key={itemArr[0]} 
+                                onClick={(ev) => {props.handleClick(ev)}}
+                            >
+                                {itemArr[1]}
+                            </li>
                    }
                    )}
                </ul>
