@@ -4,7 +4,7 @@ export const perscriptionDrugContainer = (obj, idx) => {
     const perscription_drug = obj["attributes"]
     const unique_id = uniqueID();
 
-    return <div class="aspect-tab ">
+    return <div key={"itemd-" + unique_id} class="aspect-tab ">
                 <input id={"itemd-" + unique_id} type="checkbox" class="aspect-input" name="aspect"/>
                 <label for={"itemd-" + unique_id} class="aspect-label"></label>
                 <div class="aspect-content drugtab">

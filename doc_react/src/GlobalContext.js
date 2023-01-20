@@ -43,7 +43,6 @@ export default class GlobalProvider extends React.Component {
   };
 
   setAuthAlertMessage = (message, status) => {
-    // Only change the state if it's already false
     this.setState({
         ...this.state,
         showAuthAlert: true,

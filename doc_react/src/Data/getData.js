@@ -1,5 +1,5 @@
 export async function apiRequest(url, requestOptions) {
-  return fetch(url, {...requestOptions, credentials: 'include'})
+  return await fetch(url, {...requestOptions, credentials: 'include'})
 }
 
 export function uniqueID() {

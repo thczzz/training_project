@@ -176,7 +176,7 @@ const EditProfileForm = () => {
                         </div>
                         <div id="password_confirmation" class="group">
                             <label id="name-label" for="password_confirmation">
-                                Repeat New Password (not required)
+                                Repeat New Password
                             </label> 
                             <input type="password" value={state.password_confirmation} onChange={handleChange} name="password_confirmation" />
                             <div class="error-message"></div>

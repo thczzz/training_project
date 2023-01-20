@@ -4,7 +4,7 @@ export const PatientPerscription = (obj) => {
     const perscription = obj["attributes"];
     const perscription_drugs = perscription["perscription_drugs"]["data"]
 
-    return <div className="aspect-tab">
+    return <div key={"itemp-" + obj["id"]} className="aspect-tab">
         <input id={"itemp-" + obj["id"]} type="checkbox" class="aspect-input" name="aspect"/>
         <label for={"itemp-" + obj["id"]} class="aspect-label"></label>
         <div class="aspect-content perscription_tab">
