@@ -1,6 +1,6 @@
 class Api::V1::PatientsController < ApplicationController
   # before_action :authenticate_user!
-  skip_before_action :doorkeeper_authorize!
+  # skip_before_action :doorkeeper_authorize!
 
   def perscriptions
     resources = Perscription.where(examination_id: current_user_examinations_arr)
@@ -13,8 +13,8 @@ class Api::V1::PatientsController < ApplicationController
   end
 
   def examinations
-    # resources = current_user.examinations
-    resources = User.first.examinations.page(params[:page]).without_count.per(1)
+    resources = current_user.examinations.page(params[:page]).without_count.per(1)
+    # resources = User.first.examinations.page(params[:page]).without_count.per(1)
     _next_page ||= resources.next_page || ''
     render json: { status: {code: 200, message: "OK"}, next_page: _next_page, data: ExaminationSerializer.new(resources, { is_collection: true, params: { id: '' }}).serializable_hash} 
   end

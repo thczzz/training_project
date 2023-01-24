@@ -25,7 +25,8 @@
 .Auth section {
   margin: 0 auto;
   width: 500px;
-  height: 480px;
+  max-height: 613px;
+  min-height: 400px;
   /* transform: translateY(40%); */
   display: flex;
   flex-direction: column;
@@ -91,6 +92,16 @@
   text-align: right;
   margin-top: 5px;
   font-weight: 300;
+}
+
+.Auth .login-form>a>p {
+  width: 90%;
+  font-size: 1.1rem;
+  text-align: right;
+  margin-top: 5px;
+  font-weight: 300;
+  color: black;
+  text-decoration: underline;
 }
 
 .Auth .login-btn {

@@ -21,6 +21,7 @@ namespace :api do
     end
 
     get '/user_info',              to: "shared#get_current_user",          as: :get_user_info
+    get '/user_type',              to: "shared#get_user_type",             as: :get_user_type
 
   end
 end

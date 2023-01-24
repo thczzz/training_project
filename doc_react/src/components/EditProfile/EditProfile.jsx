@@ -1,7 +1,8 @@
 import React from "react";
 import { apiRequest } from "../../Data/getData";
 import { GlobalContext } from "../../GlobalContext";
-
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/authHook";
 
 const EditProfileForm = () => {
     const [state, setState] = React.useState({
@@ -15,27 +16,36 @@ const EditProfileForm = () => {
         password: '',
         password_confirmation: ''
     })
+    const navigate = useNavigate();
+    const setUserType = useAuth()["manuallySetUserType"];
 
     React.useEffect(() => {
-        const requestOptions = {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json', "Accept": "application/json" },
-        };
+        getAndSetUserInfoEditProfile(state, setState);
+    }, [])
 
+    function getAndSetUserInfoEditProfile () {
+        const requestOptions = {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json', "Accept": "application/json" },
+        };
+      
         var resp;
-        apiRequest(`http://localhost:3000/api/v1/user_info`, requestOptions)
+        fetch(`http://localhost:3000/api/v1/user_info`, {...requestOptions, credentials: 'include'})
           .then(
             (response) => {
                 resp = response;
+                if (response.status === 401) {
+                    setUserType(0);
+                    navigate("/login");
+                }
                 return response.json();
             })
             .then(
-             (result) => {
-               if (resp.status === 200) {
-                 console.log(result)
-                 const data = result["data"]["data"]["attributes"];
-                 
-                 setState({
+            (result) => {
+              if (resp.status === 200) {
+                const data = result["data"]["data"]["attributes"];
+                
+                setState({
                     ...state,
                     first_name:    data["first_name"],
                     last_name:     data["last_name"],
@@ -43,17 +53,18 @@ const EditProfileForm = () => {
                     date_of_birth: data["date_of_birth"],
                     username:      data["username"],
                     email:         data["email"],
-                 });
-
-               } else {
-                // Handle Err
-               }
-             },
-             (error) => {
-               console.log("Err");
-             }
+                    current_password: '',
+                    password: '',
+                    password_confirmation: ''
+                });
+      
+              }
+            },
+            (error) => {
+              
+            }
         ); 
-    }, [])
+      }
 
     const handleSubmit = (ev, props) => {
         ev.preventDefault();
@@ -96,16 +107,31 @@ const EditProfileForm = () => {
                     }
                  }
                  props.setMessage("Error! Failed to Edit Profile", "error");
-               } else {
-                 props.setMessage("Success! Your profile was updated!", "success");
-               }
 
-               setState({
+                 setState({
                     ...state,
-                    current_password: '',
                     password: '',
                     password_confirmation: ''
-                });
+                 });
+                 
+               } else {
+
+                    getAndSetUserInfoEditProfile();
+
+                    if (result["status"]["message"] !== null) {
+                        let messages = '';
+                        result["status"]["message"].forEach(message => {
+                            messages += message + `\n`
+                        })
+                        if (result["actions"]["pw_updated"] === true) {
+                            props.setAuthAlertMessage(messages, "success");
+                        } else {
+                            props.setMessage(messages, "success");
+                        }
+                    }
+
+               }
+
              },
              (error) => {
                console.log("Err");

@@ -4,8 +4,6 @@ import { Outlet } from 'react-router-dom'
 
 function Doctor () {
 
-    console.log('render Doc')
-
     return (    
         <div className="App">
             <div className="AppGlass">

@@ -75,7 +75,8 @@ class Api::V1::Users::RegistrationsController < Devise::RegistrationsController
           super && return if !@resource_updated
           resource.revoke_user_token if !sign_in_after_change_password?
           resource.reload
-          message = update_success(resource, _opts)
+          message, actions = update_success(resource, _opts)
+          response_success["actions"] = actions
         end
       elsif _opts[:destroyed] == true
         resource.revoke_user_token
@@ -103,7 +104,8 @@ class Api::V1::Users::RegistrationsController < Devise::RegistrationsController
     end
 
     def update_success(resource, _opts)
-      message = set_flash_message_for_update(resource, _opts[:prev_unconfirmed_email]).join("||")
+      message, actions = set_flash_message_for_update(resource, _opts[:prev_unconfirmed_email])
+      return [message, actions]
     end
 
     def destroy_success
@@ -118,12 +120,19 @@ class Api::V1::Users::RegistrationsController < Devise::RegistrationsController
     # Override
     def set_flash_message_for_update(resource, prev_unconfirmed_email)
       messages = []
+      actions = {
+        "pw_updated": false
+      }
+
       messages.push(set_flash_message(:notice, :update_needs_confirmation)) if update_needs_confirmation?(resource, prev_unconfirmed_email)
       if sign_in_after_change_password?
-        messages.push(set_flash_message(:notice, :updated)) 
+        messages.push(set_flash_message(:notice, :updated)) if messages.empty?
       else
         messages.push(set_flash_message(:notice, :updated_but_not_signed_in))
+        actions["pw_updated"] = true
       end
+
+      return [messages, actions]
     end
 
     # Override

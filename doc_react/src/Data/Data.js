@@ -14,25 +14,30 @@ import {
 export const SidebarDataDoc = [
     {
         icon: UilEstate,
-        heading: "Dashboard"
+        heading: "Dashboard",
+        url: "/doctor"
     },
     {
         icon: UilSetting,
-        heading: "Edit Profile"
+        heading: "Edit Profile",
+        url: "/doctor/edit_profile"
     },
 ]
 
 export const SidebarDataPatient = [
     {
         icon: UilEstate,
-        heading: "Examinations"
+        heading: "Examinations",
+        url: "/patient"
     },
     {
         icon: UilSearchPlus,
-        heading: "Search Exam."
+        heading: "Search Exam.",
+        url: ""
     },
     {
         icon: UilSetting,
-        heading: "Edit Profile"
+        heading: "Edit Profile",
+        url: "/patient/edit_profile"
     },
 ]

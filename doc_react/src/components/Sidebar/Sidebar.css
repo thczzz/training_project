@@ -75,7 +75,7 @@
 }
 
 @media screen and (max-width: 1200px) {
-    .menuItem>span{
+    .menuItem>a>span{
         display: none;
     }
     .logo {

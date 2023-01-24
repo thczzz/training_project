@@ -2,12 +2,21 @@ import { useState } from 'react'
 import { apiRequest } from '../../Data/getData'
 import { AuthAlert } from '../Alerts/AuthAlert'
 import { GlobalContext } from "../../GlobalContext";
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const ResetPasswordForm = () => {
     const [state, setState] = useState({
         password: '',
         password_confirmation: ''
     })
+    let [token, setToken] = useSearchParams();
+    const navigate = useNavigate();
+
+    const afterResetRedirect = () => {
+        setTimeout(() => {
+            navigate("/login")
+        }, 500);
+    }
 
     const handleChange = (event)=>{
         const {name, value} = event.target;
@@ -17,11 +26,12 @@ const ResetPasswordForm = () => {
 
     function handleSubmit(ev, props) {
         ev.preventDefault();
+        const pw_reset_token = token.get("reset_password_token");
         const data = {
             "user": {
                 "password": state.password,
                 "password_confirmation": state.password_confirmation,
-                "reset_password_token": "svJ6HCzG1G4Eyk6KBXkJ" // todo: get this value from URL params
+                "reset_password_token": pw_reset_token !== null ? pw_reset_token : ''
             }
         }
         
@@ -47,15 +57,12 @@ const ResetPasswordForm = () => {
                        el.classList.add("error");
                        el.lastChild.textContent = value[0];
                     } else {
-                        // setAlertMessage("Your Password reset token is " + value[0]); => old
-                        // setAlertType("danger");                                      => old
-                        /// todo: alert..... +  handle ...
+                        props.setAuthAlertMessage("Your Password reset token is " + value[0], "error")
                     }
                  }
                } else {
-                    // setAlertMessage("Success!Redirecting to the login page");        => old
-                    // setAlertType("success");                                         => old
-                    /// todo: alert..... + handle ...
+                    afterResetRedirect();
+                    props.setAuthAlertMessage("Your password was changed successfully!", "success");
                }
              },
              (error) => {

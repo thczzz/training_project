@@ -68,7 +68,7 @@ export const PatientExaminations = () => {
             <div id="aspect-content">
                 {/* EXAMINATIONS */}
 
-                {!examinations.length ? '' : (examinations.map((examination) => {
+                {examinations.length === 0 ? "You don't have any examinations yet." : (examinations.map((examination) => {
                     return examinationContainer(examination)
                 }))}
 

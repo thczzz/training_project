@@ -3,9 +3,10 @@ import { useState } from 'react';
 import { apiRequest } from '../../Data/getData';
 import { AuthAlert } from '../Alerts/AuthAlert';
 import { GlobalContext } from '../../GlobalContext';
+import { Link } from 'react-router-dom';
 
 const ReSendEmailActivationForm = () => {
-    const [email, setEmail]               = useState("");
+    const [email, setEmail] = useState("");
 
     const handleChange = (ev) => {
         setEmail(ev.target.value);
@@ -34,13 +35,8 @@ const ReSendEmailActivationForm = () => {
             })
             .then(
              (result) => {
-               if (resp.status === 400) {
-                // todo: alert...
-               } else {
-                // todo: alert...
+                props.setAuthAlertMessage(result["status"]["message"], "success");
                 setEmail("");
-               }
-
              },
              (error) => {
                console.log("Err");
@@ -69,6 +65,13 @@ const ReSendEmailActivationForm = () => {
                             <button class="login-btn">
                                 Request new Activation Link
                             </button>
+                            <div class="alternative-signup">
+                                <p>
+                                    <Link reloadDocument to="../login">
+                                        <span>Log-in</span>
+                                    </Link>
+                                </p>
+                            </div>
                         </section>
                     </form>
                 )

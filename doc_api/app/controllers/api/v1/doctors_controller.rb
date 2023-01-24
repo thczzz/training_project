@@ -1,6 +1,6 @@
 class Api::V1::DoctorsController < ApplicationController
-  # before_action :check_if_user_is_doctor
-  skip_before_action :doorkeeper_authorize! # For testing purposes!
+  before_action :check_if_user_is_doctor
+  # skip_before_action :doorkeeper_authorize! # For testing purposes!
 
   def create_examination
     resource = Examination.new(examination_params)
@@ -98,7 +98,7 @@ class Api::V1::DoctorsController < ApplicationController
     end
 
     def check_if_user_is_doctor
-      return render json: {status: {message: "Err. No permission"}}, status: :unauthorized unless current_user&.role_id == 2
+      return render json: {status: {message: "Err. No permission"}}, status: :unauthorized unless current_user&.role_id == 2 || current_user&.role_id == 1
     end
 
 end

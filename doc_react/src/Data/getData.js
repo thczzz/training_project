@@ -1,5 +1,10 @@
 export async function apiRequest(url, requestOptions) {
-  return await fetch(url, {...requestOptions, credentials: 'include'})
+  const response = await fetch(url, {...requestOptions, credentials: 'include'})
+  if (response.status === 401) {
+    window.location = '/login';
+    // todo: Add AuthErrorMessage (Your session has expired, you need to log in again)
+  }
+  return response
 }
 
 export function uniqueID() {

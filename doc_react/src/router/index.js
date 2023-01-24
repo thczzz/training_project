@@ -11,38 +11,57 @@ import { EmailActivationView } from '../views/EmailActivationView';
 import { RegisterView } from '../views/RegisterView';
 import { ResetPasswordView } from '../views/ResetPasswordView';
 import { EditProfileView } from '../views/EditProfileView';
+import { ConfirmEmailByToken } from '../components/Auth/ConfirmEmail';
+import { Logout } from '../components/Auth/Logout';
+
 import { Notification } from '../components/Alerts/Notification';
 import GlobalProvider from "../GlobalContext";
+import { AuthContextProvider } from '../AuthContext';
+
+import { ProtectedDocRoute, ProtectedPatientRoute, ProtectedAnonymousRoute } from './protectedRoutes';
 
 
 export default () => {
     return (
-        <GlobalProvider>
-            <Router>
+        <Router>
+            <AuthContextProvider>
+                <GlobalProvider>
 
-                <Notification show={true} />
+                    <Notification show={true} />
 
-                <Routes>
-                    <Route element={<Anonymous/>}>
-                        <Route path='/login' element={<LoginView/>} />
-                        <Route path='/register' element={<RegisterView/>} />
-                        <Route path='/req_password_reset' element={<RequestResetPasswordView/>} />
-                        <Route path='/reset_password' element={<ResetPasswordView/>} />
-                        <Route path='/req_account_activation_link' element={<EmailActivationView/>} />
-                    </Route>
+                    <Routes>
+                        <Route element={<ProtectedAnonymousRoute> <Anonymous/> </ProtectedAnonymousRoute>}>
+                            <Route path='/login' element={<LoginView/>} />
+                            <Route path='/register' element={<RegisterView/>} />
+                            <Route path='/req_password_reset' element={<RequestResetPasswordView/>} />
+                            <Route path='/change_password' element={<ResetPasswordView/>} />
+                        </Route>
 
-                    <Route path='/doctor/' element={<Doctor/>}>
-                        <Route path='' exact element={<DoctorDashboardView/>} />
-                        <Route path='/doctor/edit_profile' element={<EditProfileView/>} />
-                    </Route>
+                        <Route element={<Anonymous/>}> 
+                            <Route path='/req_account_activation_link' element={<EmailActivationView/>} />
+                        </Route>
 
-                    <Route path='/patient/' element={<Patient/>}>
-                        <Route path='' exact element={<PatientDashboardView/>} />
-                        <Route path='/patient/edit_profile' element={<EditProfileView/>} />
-                    </Route>
+                        <Route>
+                            <Route path='/confirm_email' element={<ConfirmEmailByToken />} />
+                        </Route>
 
-                </Routes>
-            </Router>
-        </GlobalProvider>
+                        <Route>
+                            <Route path='/logout' element={<Logout />} />
+                        </Route>
+
+                        <Route path='/doctor/' element={<ProtectedDocRoute> <Doctor/> </ProtectedDocRoute>}>
+                            <Route path='' exact element={<DoctorDashboardView/>} />
+                            <Route path='/doctor/edit_profile' element={<EditProfileView/>} />
+                        </Route>
+
+                        <Route path='/patient/' element={<ProtectedPatientRoute> <Patient/> </ProtectedPatientRoute>}>
+                            <Route path='' exact element={<PatientDashboardView/>} />
+                            <Route path='/patient/edit_profile' element={<EditProfileView/>} />
+                        </Route>
+
+                    </Routes>
+                </GlobalProvider>
+            </AuthContextProvider>
+        </Router>
     )
 }

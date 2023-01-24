@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { apiRequest } from '../../Data/getData';
 import { AuthAlert } from '../Alerts/AuthAlert';
 import { GlobalContext } from '../../GlobalContext';
+import { Link } from 'react-router-dom';
 
 const RequestResetPasswordForm = () => {
     const [email, setEmail] = useState("");
@@ -34,12 +35,8 @@ const RequestResetPasswordForm = () => {
             })
             .then(
              (result) => {
-               if (resp.status === 400) {
-                // todo: alert....
-               } else {
-                // todo: alert....
+                props.setAuthAlertMessage(result["status"]["message"], "success");
                 setEmail("");
-               }
              },
              (error) => {
                console.log("Err");
@@ -68,6 +65,13 @@ const RequestResetPasswordForm = () => {
                                 <button class="login-btn">
                                     Request Password Reset
                                 </button>
+                                <div class="alternative-signup">
+                                    <p>
+                                        <Link reloadDocument to="../login">
+                                            <span>Log-in</span>
+                                        </Link>
+                                    </p>
+                                </div>
                             </section>
                         </form>
                     )

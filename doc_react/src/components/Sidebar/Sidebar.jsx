@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import {useState} from 'react';
 import { SidebarDataDoc, SidebarDataPatient } from '../../Data/Data'
 import { UilSignOutAlt, UilBars } from "@iconscout/react-unicons";
+import { Link } from 'react-router-dom';
 
 export const Sidebar = ({context}) => {
 
@@ -52,23 +53,29 @@ export const Sidebar = ({context}) => {
             <div className="menu">
                 {sideBarItems.map((item, index) => {
                     return (
-                        <div className={selected === index ? 'menuItem active' : 'menuItem'}
-                        key={index}
-                        onClick={() => setSelected(index)}
+                        <div 
+                            className={selected === index ? 'menuItem active' : 'menuItem'}
+                            key={index}
+                            onClick={() => setSelected(index)}
                         >
-                            <item.icon />
-                            <span>
-                                {item.heading}
-                            </span>
+                            <Link to={item.url} replace>
+                            
+                                <item.icon />
+                                <span>
+                                    {item.heading}
+                                </span>
+                            </Link>
                         </div>
                     )
                 })}
 
                 <div className="menuItem">
-                    <UilSignOutAlt/>
-                    <span>
-                        Sign Out
-                    </span>
+                    <Link to="/logout" replace>
+                        <UilSignOutAlt/>
+                        <span>
+                            Sign Out
+                        </span>
+                    </Link>
                 </div>
             </div>
         </motion.div>

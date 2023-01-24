@@ -38,7 +38,7 @@ export default class GlobalProvider extends React.Component {
           ...this.state,
           showFlash: false
         });
-      }, 4300); // 3000 milliseconds = 3 seconds
+      }, 7000); // 3000 milliseconds = 3 seconds
     }
   };
 

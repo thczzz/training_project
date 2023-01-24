@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { GlobalContext } from "../../GlobalContext";
 import { AuthAlert } from '../Alerts/AuthAlert'
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const RegisterForm = () => {
     const [state, setState] = useState({
@@ -217,6 +218,13 @@ const RegisterForm = () => {
                             >
                                 Sign Up
                             </button>
+                            <div class="alternative-signup">
+                                <p>Already a member ?
+                                    <Link reloadDocument to="../login">
+                                        <span>Log-in</span>
+                                    </Link>
+                                </p>
+                            </div>
                         </section>   
                     </form> 
             )

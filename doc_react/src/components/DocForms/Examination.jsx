@@ -5,6 +5,7 @@ import { PerscriptionFields } from './PerscriptionFields'
 
 const Examination = () => {
     const [attachPerscription, setAttachPerscription] = React.useState(false)
+    const formRef = React.useRef();
 
     function handleChange() {
         if (attachPerscription === false) {
@@ -14,8 +15,16 @@ const Examination = () => {
         }
     }
 
+    const handleSubmit = (ev) => {
+        ev.preventDefault();
+        const formData = new FormData(formRef.current);
+        const data = Object.fromEntries(formData);
+        console.log(data);
+        console.log(PerscriptionFields.drugs)
+    }
+
   return (
-    <form id="survey-form" method="post" action="">
+    <form id="survey-form" ref={formRef} onSubmit={handleSubmit} action="">
         <div class="group">
             <SearchUser inputFieldLabel="Patient" url='http://localhost:3000/api/v1/doctors/search_user/?username=' />
         </div>
