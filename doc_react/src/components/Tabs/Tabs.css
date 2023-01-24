@@ -1,0 +1,40 @@
+.tabs {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tabs button {
+    background-color: rgb(102, 102, 102);
+    background: #686767;
+    border-width: thin;
+    border-color: wheat;
+    color: #686767;
+    cursor: pointer;
+    padding: 25px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.3);
+    transition: all 0.5s ease-out;
+}
+
+.tabs button:hover {
+    color: rgb(184, 165, 59);
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.tabs button:disabled {
+    background: linear-gradient(245.39deg, #FC65ED -35.14%, #0500FF 143.06%);
+    color: white;
+}
+
+@media screen and (max-width: 1200px) {
+    .tabs {
+        flex-direction: column;
+    }
+    
+}
+
+@media screen and (max-width: 768px) {
+    .tabs {
+        width: 90%;
+    }
+}

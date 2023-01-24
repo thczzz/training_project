@@ -1,6 +1,6 @@
 div[class="container" style="margin-top: 45px; margin-bottom: 20px;"]
     = form_with(url: "/", method: "get", class: "d-flex") do |f|
-      = f.collection_select :role_id, @roles, :id, :name, {:required => true}, {:class => "form-select"}
+      = f.collection_select :role_id, @roles, :id, :name, {:selected => params[:role_id], include_blank: 'Select account role', :required => true}, {:class => "form-select"}
       = f.submit "Filter", class: "btn btn-outline-success"
 
 div[class="container"]

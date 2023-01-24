@@ -1,0 +1,20 @@
+div[class="container"]
+  div[class="row"]
+   div[class="Absolute-Center is-Responsive"]
+     h2[class="text-center"]
+       | Add new Drug
+
+     = form_with(model: @drug, url: new_drug_admin_path, method: :post) do |form|
+        - if @drug.errors.any?
+          ul
+            - @drug.errors.each do |error|
+              li
+                == error.full_message
+        div[class="form-floating mb-3"]
+          = form.text_field :name, class: "form-control", placeholder: "example: Aspirin", :required => true
+          = form.label :name
+
+        div[class="mb-3"]
+          = form.text_area :description, class: "form-control", placeholder: "Enter description", rows: "5", :required => true
+
+        = form.submit "Add Drug", class: "form-control btn btn-primary"

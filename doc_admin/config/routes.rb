@@ -10,7 +10,9 @@ Rails.application.routes.draw do
     get  'new_role',      to: 'admins#new_role'
     post 'new_role',      to: 'admins#create_role'
     get  'dashboard',     to: 'admins#dashboard'
-    get  'view_user/:id', to: 'admins#view_user', :as => :view_user
+    get  'view_user/:id', to: 'admins#view_user',   :as => :view_user
+    get  'new_drug',      to: 'admins#new_drug',    :as => :new_drug
+    post 'new_drug',      to: 'admins#create_drug', :as => :create_drug
   end
 
   devise_scope :user do 

@@ -1,6 +1,6 @@
 class PerscriptionDrugSerializer
   include JSONAPI::Serializer
-  attributes :usage_description
+  attributes :id, :usage_description
   # has_one   :drug
 
   attribute :drug, if: Proc.new { |record, params| 

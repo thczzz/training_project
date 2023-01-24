@@ -7,7 +7,7 @@
 .Absolute-Center.is-Responsive {
   width: 50%; 
   height: 50%;
-  min-width: 200px;
+  min-width: 300px;
   max-width: 500px;
   padding: 40px;
 }
@@ -21,7 +21,7 @@
 .Absolute-Center-Create-User.is-Responsive {
   width: 50%; 
   height: 50%;
-  min-width: 200px;
+  min-width: 300px;
   max-width: 500px;
   padding: 40px;
 }

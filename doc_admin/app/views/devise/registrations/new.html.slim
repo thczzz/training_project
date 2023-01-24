@@ -35,7 +35,7 @@ div[class="container" style="margin-bottom: 55px;"]
         = f.date_field :date_of_birth, class: "form-control", :required => true
       .mb-3
         = f.label :role_id, class: "form-label"
-        = f.collection_select :role_id, @roles, :id, :name, {:required => true}, {:class => "form-select"}
+        = f.collection_select :role_id, @roles, :id, :name, {include_blank: 'Choose an account role', :required => true}, {:class => "form-select"}
       .mb-3
         = f.submit "Register the User", class: "form-control btn btn-primary"
 / = render "devise/shared/links"

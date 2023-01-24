@@ -1,16 +1,6 @@
 class PerscriptionSerializer
   include JSONAPI::Serializer
-  attributes :id, :description
-
-  # attribute :examination do |obj|
-  #   ExaminationSerializer.new(obj.examination)
-  # end
-
-  attribute :examination, if: Proc.new { |record, params| 
-    params && params[:id]
-  } do |obj|
-    ExaminationSerializer.new(obj.examination)
-  end
+  attributes :id, :description, :created_at
 
   attribute :perscription_drugs, if: Proc.new { |record, params| 
     params && params[:id]

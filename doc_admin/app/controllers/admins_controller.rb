@@ -16,6 +16,20 @@ class AdminsController < ApplicationController
     # render(json: {role: @role})
   end
 
+  def new_drug
+    @drug = Drug.new
+  end
+
+  def create_drug
+    @drug = Drug.new(drug_params)
+    if @drug.save
+      flash[:success] = "Drug was successfully created"
+    else
+      flash[:error] = "There was an error when trying to create a Drug."
+    end
+    redirect_back(fallback_location: root_path)
+  end
+
   def dashboard
     @users = User.includes(:role)
     if params[:role_id].present?
@@ -34,6 +48,10 @@ class AdminsController < ApplicationController
   private
     def role_params
       params.require(:role).permit(:name, :description)
+    end
+
+    def drug_params
+      params.require(:drug).permit(:name, :description)
     end
 
     def get_roles

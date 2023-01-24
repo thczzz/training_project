@@ -1,5 +1,6 @@
 class Api::V1::DoctorsController < ApplicationController
   before_action :check_if_user_is_doctor
+  # skip_before_action :doorkeeper_authorize! # For testing purposes!
 
   def create_examination
     resource = Examination.new(examination_params)
@@ -51,7 +52,34 @@ class Api::V1::DoctorsController < ApplicationController
     end   
   end
 
+  def search_user
+    resources = User.where("lower(username) like ?", "%#{search_user_params[:username].downcase}%").pluck(:id, :username)
+    render json: { status: {code: 302, message: "Found"}, data: resources }
+  end
+
+  def get_user_examinations
+    resources = Examination.where(user_id: get_user_examinations_params[:user_id].to_i).order(created_at: :desc).pluck(:id, :created_at)
+    render json: { status: {code: 302, message: "Found"}, data: resources }
+  end
+
+  def search_drug
+    resources = Drug.where("lower(name) like ?", "%#{search_drug_params[:name].downcase}%").pluck(:id, :name)
+    render json: { status: {code: 302, message: "Found"}, data: resources }
+  end
+
   private
+
+    def search_user_params
+      params.permit(:username, :doctor)
+    end
+
+    def search_drug_params
+      params.permit(:name, :doctor)
+    end
+
+    def get_user_examinations_params
+      params.permit(:user_id, :doctor)
+    end
 
     def examination_params
       params.require(:examination).permit(:user_id, :weight_kg, :height_cm, :anamnesis)
@@ -70,7 +98,7 @@ class Api::V1::DoctorsController < ApplicationController
     end
 
     def check_if_user_is_doctor
-      return render json: {status: {message: "Err. No permission"}}, status: :unauthorized unless current_user&.role_id == 2
+      return render json: {status: {message: "Err. No permission"}}, status: :unauthorized unless current_user&.role_id == 2 || current_user&.role_id == 1
     end
 
 end
