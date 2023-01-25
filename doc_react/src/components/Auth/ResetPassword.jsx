@@ -57,7 +57,7 @@ const ResetPasswordForm = () => {
                        el.classList.add("error");
                        el.lastChild.textContent = value[0];
                     } else {
-                        props.setAuthAlertMessage("Your Password reset token is " + value[0], "error")
+                        props.setAuthAlertMessage(`Your Password reset token is ${value[0]}`, "error")
                     }
                  }
                } else {

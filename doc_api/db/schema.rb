@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_05_105811) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_25_122428) do
   create_table "drugs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.text "description", null: false
@@ -61,6 +61,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_05_105811) do
     t.bigint "drug_id", null: false
     t.text "usage_description", null: false
     t.index ["drug_id"], name: "index_perscription_drugs_on_drug_id"
+    t.index ["perscription_id", "drug_id"], name: "index_perscription_drugs_on_perscription_id_and_drug_id", unique: true
     t.index ["perscription_id"], name: "index_perscription_drugs_on_perscription_id"
   end
 

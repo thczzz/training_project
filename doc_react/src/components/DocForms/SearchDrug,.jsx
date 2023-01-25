@@ -1,23 +1,25 @@
 import React from 'react'
 import './SearchSuggestions.css'
 import { search_user } from '../../Data/getData';
-import { SearchUserTemplate } from './SearchUserTemplate';
+import { SearchDrugTemplate } from './SearchDrugTemplate';
 
-export function SearchUser({inputFieldLabel, url, searchBy, inputId, setInputId, user, setUser}) {
+export function SearchDrug({inputFieldLabel, url, searchBy, inputId, setInputId}) {
     const [searchResults, setSearchResults] = React.useState([]);
+    const [drug, setDrug] = React.useState("");
  
     const searchUser = search_user(url, setSearchResults, setInputId)
 
     const handleClick = (ev) => {
+        ev.preventDefault();
+        ev.target.parentNode.parentNode.children[1].value = ev.target.textContent
         setSearchResults([]);
-        setUser(ev.target.textContent);
         setInputId(ev.target.id);
     }
     
     return (
        <div>
-        <SearchUserTemplate 
-            user={user} 
+        <SearchDrugTemplate 
+            user={drug} 
             inputFieldLabel={inputFieldLabel} 
             searchBy={searchBy}
             inputId={inputId}
