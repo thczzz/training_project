@@ -1,6 +1,6 @@
-div[class="container" style="margin-bottom: 55px;"]
-   div[class="Absolute-Center-Create-User is-Responsive"]
-    = form_for(resource, as: resource_name, url: admin_create_user_path()) do |f|
+div[class="container" style="max-height: 120%;"]
+   div[class="Absolute-Center-Create-User is-Responsive" style="margin-bottom: 50px;"]
+    = form_for(resource, as: resource_name, url: admin_create_user_path(), :html => { :style => "margin-bottom: 50px !important;" }) do |f|
       = render "devise/shared/error_messages", resource: resource
       h2
        | Register a new user

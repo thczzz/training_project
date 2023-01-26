@@ -3,53 +3,91 @@ class Api::V1::DoctorsController < ApplicationController
   # skip_before_action :doorkeeper_authorize! # For testing purposes!
 
   def create_examination
-    resource = Examination.new(examination_params)
+    errors = []
+    ActiveRecord::Base.transaction do
+      begin
+        examination = Examination.new(
+          user_id:   examination_params[:user_id].to_i,
+          weight_kg: examination_params[:weight_kg].to_f,
+          height_cm: examination_params[:height].to_f,
+          anamnesis: examination_params[:anamnesis]
+        )
+        if !examination.save
+          errors.append(examination.errors.full_messages)
+          raise ActiveRecord::ActiveRecordError
+        end
 
-    if resource.save
-      render json: { status: {code: 201, message: "Created"}, data: ExaminationSerializer.new(resource).serializable_hash[:data][:attributes] }
-    else
-      messages = ''
-      resource.errors.full_messages.each { |msg| messages += msg + "<br/>" }
-      render json: { status: {code: 422, message: messages}}
+        if examination_params[:attach_perscription] == "on"
+
+          perscription = Perscription.new(
+            examination_id: examination.id,
+            description:    examination_params[:description]
+          )
+          if !perscription.save
+            errors.append(perscription.errors.full_messages)
+            raise ActiveRecord::ActiveRecordError
+          end
+  
+          examination_params[:perscription_drugs].each do |persc_drug|
+            new_persc_drug = PerscriptionDrug.new(
+              drug_id:           persc_drug["id"].to_i,
+              usage_description: persc_drug["description"],
+              perscription_id:   perscription.id
+            )
+  
+            if !new_persc_drug.save
+              errors.append(new_persc_drug.errors.full_messages)
+              raise ActiveRecord::ActiveRecordError
+            end
+          end
+
+        end
+
+      rescue
+        render json: {errors: errors}, status: :unprocessable_entity
+        raise ActiveRecord::Rollback
+      else
+        render json: { status: {code: 201, message: "Created"}, data: ExaminationSerializer.new(examination).serializable_hash[:data][:attributes] }
+      end
     end
-  end
-
-  def update_examination
 
   end
 
   def create_perscription
-    resource = Perscription.new(perscription_params)
+    errors = []
+    ActiveRecord::Base.transaction do
+      begin
 
-    if resource.save
-      render json: { status: {code: 201, message: "Created"}, data: PerscriptionSerializer.new(resource).serializable_hash[:data][:attributes] }
-    else
-      messages = ''
-      resource.errors.full_messages.each { |msg| messages += msg + "<br/>" }
-      render json: { status: {code: 422, message: messages}}
+        perscription = Perscription.new(
+          examination_id: perscription_params[:examination_id].to_i,
+          description:    perscription_params[:description]
+        )
+        if !perscription.save
+          errors.append(perscription.errors.full_messages)
+          raise ActiveRecord::ActiveRecordError
+        end
+
+        perscription_params[:perscription_drugs].each do |persc_drug|
+          new_persc_drug = PerscriptionDrug.new(
+            drug_id:           persc_drug["id"].to_i,
+            usage_description: persc_drug["description"],
+            perscription_id:   perscription.id
+          )
+
+          if !new_persc_drug.save
+            errors.append(new_persc_drug.errors.full_messages)
+            raise ActiveRecord::ActiveRecordError
+          end
+        end
+
+      rescue
+        render json: {errors: errors}, status: :unprocessable_entity
+        raise ActiveRecord::Rollback
+      else
+        render json: { status: {code: 201, message: "Created"}, data: PerscriptionSerializer.new(perscription).serializable_hash[:data][:attributes] }
+      end
+
     end
-  end
-
-  def create_drug
-    resource = Drug.new(drug_params)
-    if resource.save
-      render json: { status: {code: 201, message: "Created"}, data: DrugSerializer.new(resource).serializable_hash[:data][:attributes] }
-    else
-      messages = ''
-      resource.errors.full_messages.each { |msg| messages += msg + "<br/>" }
-      render json: { status: {code: 422, message: messages}}
-    end
-  end
-
-  def create_perscription_drug
-    resource = PerscriptionDrug.new(perscription_drug_params)
-    if resource.save
-      render json: { status: {code: 201, message: "Created"}, data: PerscriptionDrugSerializer.new(resource).serializable_hash[:data][:attributes] }
-    else
-      messages = ''
-      resource.errors.full_messages.each { |msg| messages += msg + "<br/>" }
-      render json: { status: {code: 422, message: messages}}
-    end   
   end
 
   def search_user
@@ -82,19 +120,11 @@ class Api::V1::DoctorsController < ApplicationController
     end
 
     def examination_params
-      params.require(:examination).permit(:user_id, :weight_kg, :height_cm, :anamnesis)
+      params.require(:examination).permit(:user_id, :weight, :height, :anamnesis, :attach_perscription, :description, perscription_drugs: [:id, :description, :title])
     end
 
     def perscription_params
-      params.require(:perscription).permit(:examination_id, :description)
-    end
-
-    def drug_params
-      params.require(:drug).permit(:name, :description)
-    end
-
-    def perscription_drug_params
-      params.require(:perscription_drug).permit(:perscription_id, :drug_id, :usage_description)
+      params.require(:perscription).permit(:examination_id, :description, perscription_drugs: [:id, :description, :title])
     end
 
     def check_if_user_is_doctor

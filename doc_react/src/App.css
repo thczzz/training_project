@@ -36,13 +36,13 @@
 }
 
 .App form { 
-  width: 80%; 
+  /* width: 80%;  */
   background-color: #ffcfd140;
   margin-top: 20px; 
   margin-bottom: 20px;
   padding: 3rem; 
   max-width: 600px; 
-  min-width: 300px;
+  /* min-width: 300px; */
   text-align: left;
 } 
 

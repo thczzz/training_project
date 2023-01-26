@@ -1,7 +1,6 @@
 import { Fragment } from "react"
-import { uniqueID } from "../../Data/getData"
 
-export function SearchUserTemplate(props) {
+export function SearchDrugTemplate(props) {
 
     return (
         <Fragment>
@@ -11,18 +10,15 @@ export function SearchUserTemplate(props) {
             <input
               className="searchFieldInput"
               type="text"
-              id={props.inputId}
-              name="user_id"
+              name={props.inputFieldLabel}
               placeholder={'Search by ' + props.searchBy}
-              defaultValue={props.user}
               onChange={props.searchUser}
-              key={props.inputId}
+            //   key={props.inputId}
               required
             />
-            
             {(!props.searchResults.length ? "" : 
                <ul className="suggestions">
-                   {props.searchResults.map(itemArr => {
+                   {props.searchResults.map(itemArr => { 
                        return <li 
                                 className='suggestion' 
                                 id={itemArr[0]} 
