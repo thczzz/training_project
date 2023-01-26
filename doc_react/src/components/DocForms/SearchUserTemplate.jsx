@@ -12,13 +12,14 @@ export function SearchUserTemplate(props) {
               className="searchFieldInput"
               type="text"
               id={props.inputId}
-              name={props.inputFieldLabel}
+              name="user_id"
               placeholder={'Search by ' + props.searchBy}
               defaultValue={props.user}
               onChange={props.searchUser}
               key={props.inputId}
               required
             />
+            
             {(!props.searchResults.length ? "" : 
                <ul className="suggestions">
                    {props.searchResults.map(itemArr => {

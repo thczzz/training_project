@@ -6,8 +6,6 @@ namespace :api do
     scope :doctors do
       post '/create_examination',  to: "doctors#create_examination",       as: :create_examination
       post '/create_perscription', to: "doctors#create_perscription",      as: :create_perscription
-      post '/create_drug',         to: "doctors#create_drug",              as: :create_drug
-      post '/create_persc_drug',   to: "doctors#create_perscription_drug", as: :create_persc_drug
       get  '/search_user',         to: "doctors#search_user",              as: :search_user
       get  '/user_examinations',   to: "doctors#get_user_examinations",    as: :get_user_examinations
       get  '/search_drug',         to: "doctors#search_drug",              as: :search_drug

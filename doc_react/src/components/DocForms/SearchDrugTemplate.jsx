@@ -10,11 +10,10 @@ export function SearchDrugTemplate(props) {
             <input
               className="searchFieldInput"
               type="text"
-              id={props.inputId}
               name={props.inputFieldLabel}
               placeholder={'Search by ' + props.searchBy}
               onChange={props.searchUser}
-              key={props.inputId}
+            //   key={props.inputId}
               required
             />
             {(!props.searchResults.length ? "" : 

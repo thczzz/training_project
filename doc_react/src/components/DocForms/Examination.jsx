@@ -31,7 +31,7 @@ const Examination = () => {
         ev.preventDefault();
         const formData = new FormData(formRef.current);
         const form_data = Object.fromEntries(formData);
-        form_data["Patient"] = patientId
+        form_data["user_id"] = patientId
         if (form_data["attach_perscription"] === "on") {
             // data["perscription_description"] = perscriptionDescription;
             form_data["perscription_drugs"] = drugs

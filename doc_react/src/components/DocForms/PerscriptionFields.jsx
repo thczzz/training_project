@@ -84,7 +84,8 @@ export function PerscriptionFields({drugs, setDrugs, perscriptionDescription, se
                                 className="searchFieldInput"
                                 type="text"
                                 id={obj.id}
-                                name="Drug"
+                                key={key}
+                                name="drug_id"
                                 value={obj.title}
                                 required
                                 disabled
@@ -152,7 +153,7 @@ export function PerscriptionFields({drugs, setDrugs, perscriptionDescription, se
                     <textarea 
                         rows="3" 
                         cols="30" 
-                        name="comment" 
+                        name="description" 
                         value={perscriptionDescription}
                         onChange={(ev) => {setPerscriptionDescription(ev.target.value)}}
                         placeholder="Type something here..." 
