@@ -82,7 +82,6 @@ export const AuthContextProvider = ({ children }) => {
 
         var currentTime = new Date()
         var elapsed = currentTime.getTime() - startTime.getTime()
-        // var duration = 30000 - elapsed;
         var duration = 865000 - elapsed; // 14.41m
         return duration;
     }

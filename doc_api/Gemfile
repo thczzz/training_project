@@ -61,3 +61,11 @@ group :development do
   
 end
 
+group :test do
+  gem 'faker'
+  gem 'rails-controller-testing'
+  gem 'factory_bot_rails'
+  gem 'database_cleaner'
+  gem 'shoulda-matchers'
+  gem 'rspec-rails'
+end
