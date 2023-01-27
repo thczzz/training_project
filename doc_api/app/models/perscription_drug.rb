@@ -3,5 +3,5 @@ class PerscriptionDrug < ApplicationRecord
   belongs_to :drug,         foreign_key: :drug_id
 
   validates_uniqueness_of :drug_id, :scope => :perscription_id
-  validates               :usage_description, presence: true
+  validates :perscription_id, :drug_id, :usage_description, presence: true
 end

@@ -11,6 +11,10 @@ class User < ApplicationRecord
   validates :username, :email, uniqueness: true
   validates :email, format: URI::MailTo::EMAIL_REGEXP
   validates :role_id, numericality: { only_integer: true }
+  validates :username, length: { maximum: 16 }
+  validates :first_name, :last_name, length: { maximum: 40 }
+  validates :address, length: { maximum: 255 }
+  validates :email, length: { maximum: 60 }
 
   validate  :date_of_birth_cannot_be_in_the_future
 
