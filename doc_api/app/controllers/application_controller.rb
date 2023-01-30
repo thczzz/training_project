@@ -4,7 +4,6 @@ class ApplicationController < ActionController::API
   include ActionController::MimeResponds
   include RackSessionFix
   before_action :doorkeeper_authorize!
-  # skip_before_action :verify_authenticity_token
   respond_to :json
 
   self.responder = ApplicationResponder
