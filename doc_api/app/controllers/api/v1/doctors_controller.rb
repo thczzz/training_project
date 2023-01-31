@@ -7,9 +7,9 @@ class Api::V1::DoctorsController < ApplicationController
     ActiveRecord::Base.transaction do
       begin
         examination = Examination.new(
-          user_id:   examination_params[:user_id].to_i,
-          weight_kg: examination_params[:weight_kg].to_f,
-          height_cm: examination_params[:height].to_f,
+          user_id:   examination_params[:user_id],
+          weight_kg: examination_params[:weight],
+          height_cm: examination_params[:height],
           anamnesis: examination_params[:anamnesis]
         )
         if !examination.save
@@ -18,6 +18,11 @@ class Api::V1::DoctorsController < ApplicationController
         end
 
         if examination_params[:attach_perscription] == "on"
+          
+          if !examination_params[:perscription_drugs] || examination_params[:perscription_drugs].empty? || examination_params[:perscription_drugs][0].empty?
+            errors.append("Perscription Drugs cannot be empty!")
+            raise ActiveRecord::ActiveRecordError
+          end
 
           perscription = Perscription.new(
             examination_id: examination.id,
@@ -30,7 +35,7 @@ class Api::V1::DoctorsController < ApplicationController
   
           examination_params[:perscription_drugs].each do |persc_drug|
             new_persc_drug = PerscriptionDrug.new(
-              drug_id:           persc_drug["id"].to_i,
+              drug_id:           persc_drug["id"],
               usage_description: persc_drug["description"],
               perscription_id:   perscription.id
             )
@@ -58,8 +63,13 @@ class Api::V1::DoctorsController < ApplicationController
     ActiveRecord::Base.transaction do
       begin
 
+        if !perscription_params[:perscription_drugs] || perscription_params[:perscription_drugs].empty? || perscription_params[:perscription_drugs][0].empty?
+          errors.append("Perscription Drugs cannot be empty!")
+          raise ActiveRecord::ActiveRecordError
+        end
+
         perscription = Perscription.new(
-          examination_id: perscription_params[:examination_id].to_i,
+          examination_id: perscription_params[:examination_id],
           description:    perscription_params[:description]
         )
         if !perscription.save
@@ -69,7 +79,7 @@ class Api::V1::DoctorsController < ApplicationController
 
         perscription_params[:perscription_drugs].each do |persc_drug|
           new_persc_drug = PerscriptionDrug.new(
-            drug_id:           persc_drug["id"].to_i,
+            drug_id:           persc_drug["id"],
             usage_description: persc_drug["description"],
             perscription_id:   perscription.id
           )
@@ -91,23 +101,36 @@ class Api::V1::DoctorsController < ApplicationController
   end
 
   def search_user
-    resources = User.where("lower(username) like ?", "%#{search_user_params[:username].downcase}%").pluck(:id, :username)
-    render json: { status: {code: 302, message: "Found"}, data: resources }
+    if search_user_params[:username]
+      resources = User.where("lower(username) like ?", "%#{search_user_params[:username].downcase}%").pluck(:id, :username)
+      render json: { status: {code: 302, message: "Found"}, data: resources }
+    else
+      render json: { message: "Err" }, status: :unprocessable_entity
+    end
   end
 
   def get_user_examinations
-    resources = Examination.where(user_id: get_user_examinations_params[:user_id].to_i).order(created_at: :desc).pluck(:id, :created_at)
-    render json: { status: {code: 302, message: "Found"}, data: resources }
+    if get_user_examinations_params[:user_id]
+      resources = Examination.where(user_id: get_user_examinations_params[:user_id].to_i).order(created_at: :desc).pluck(:id, :created_at)
+      render json: { status: {code: 302, message: "Found"}, data: resources }
+    else
+      render json: { message: "Err" }, status: :unprocessable_entity
+    end
   end
 
   def search_drug
-    resources = Drug.where("lower(name) like ?", "%#{search_drug_params[:name].downcase}%").pluck(:id, :name)
-    render json: { status: {code: 302, message: "Found"}, data: resources }
+    if search_drug_params[:name]
+      resources = Drug.where("lower(name) like ?", "%#{search_drug_params[:name].downcase}%").pluck(:id, :name)
+      render json: { status: {code: 302, message: "Found"}, data: resources }
+    else
+      render json: { message: "Err" }, status: :unprocessable_entity
+    end
   end
 
   private
 
-    def search_user_params
+    def search_user_params\
+      # todo => params.require(:doctor).permit(:username)
       params.permit(:username, :doctor)
     end
 

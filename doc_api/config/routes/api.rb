@@ -13,9 +13,6 @@ namespace :api do
 
     scope :patients do
       get '/examinations',         to: "patients#examinations",            as: :view_examinations
-      get '/perscriptions',        to: "patients#perscriptions",           as: :view_perscriptions
-      get '/perscriptions/:id',    to: "patients#perscription_details",    as: :view_perscription_details
-      get '/examinations/:id',     to: "patients#examination_details",     as: :view_examination_details
     end
 
     get '/user_info',              to: "shared#get_current_user",          as: :get_user_info

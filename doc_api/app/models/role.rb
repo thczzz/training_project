@@ -1,3 +1,3 @@
 class Role < ApplicationRecord
-  validates :name, :description, presence: true
+  validates :name, :description, :created_at, :updated_at, presence: true
 end
