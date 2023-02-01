@@ -1,3 +1,4 @@
 class Role < ApplicationRecord
-  validates :name, :description, :created_at, :updated_at, presence: true
+  validates :name,        presence: true, length: { maximum: 90 }
+  validates :description, presence: true, length: { maximum: 255 }
 end

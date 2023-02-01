@@ -12,8 +12,6 @@ RSpec.describe Role, type: :model do
   # Validations
   it { should validate_presence_of(:name) }
   it { should validate_presence_of(:description) }
-  it { should validate_presence_of(:created_at) }
-  it { should validate_presence_of(:updated_at) }
 
   # Creation with Valid attributes
   context 'with valid attributes' do
@@ -21,7 +19,6 @@ RSpec.describe Role, type: :model do
       expect(create(:admin_role)).to be_valid
     end
   end
-
 
   # Creation with Invalid attributes
   context 'with valid attributes' do

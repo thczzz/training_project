@@ -3,19 +3,16 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, 
          :trackable, :recoverable, :validatable, :confirmable
   
-  has_many :examinations
+  has_many   :examinations
   belongs_to :role, foreign_key: :role_id
 
-  validates :first_name, :last_name, :address, :date_of_birth, :role_id,
-            :username, :email, presence: true
-  validates :username, :email, uniqueness: true
-  validates :email, format: URI::MailTo::EMAIL_REGEXP
-  validates :role_id, numericality: { only_integer: true }
-  validates :username, length: { maximum: 16 }
-  validates :first_name, :last_name, length: { maximum: 40 }
-  validates :address, length: { maximum: 255 }
-  validates :email, length: { maximum: 60 }
-
+  validates :date_of_birth, presence: true
+  validates :first_name,    presence: true, length: { maximum: 40 }
+  validates :last_name,     presence: true, length: { maximum: 40 }
+  validates :address,       presence: true, length: { maximum: 255 }
+  validates :role_id,       presence: true, numericality: { only_integer: true }
+  validates :username,      presence: true, length: { maximum: 16 }, uniqueness: true
+  validates :email,         presence: true, length: { maximum: 60 }, uniqueness: true, format: URI::MailTo::EMAIL_REGEXP
   validate  :date_of_birth_cannot_be_in_the_future
 
   def self.authenticate(email, password)
