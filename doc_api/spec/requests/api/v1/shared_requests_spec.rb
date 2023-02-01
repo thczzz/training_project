@@ -35,7 +35,6 @@ RSpec.describe 'Shared Controller', type: :request do
       }.to_json
 
       get '/api/v1/user_info'
-
       expect(response.status).to eq(200)
       expect(response.body).to eq(expected_response)
     end

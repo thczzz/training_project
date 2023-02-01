@@ -17,12 +17,11 @@ class Api::V1::Users::RegistrationsController < Devise::RegistrationsController
       if !resource.active_for_authentication?
         expire_data_after_sign_in!
       end
-      respond_with resource
     else
       clean_up_passwords resource
       set_minimum_password_length
-      respond_with resource
     end
+    respond_with resource
   end
 
   # PUT/PATCH /users
