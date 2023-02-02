@@ -302,7 +302,7 @@ Doorkeeper.configure do
   access_token_methods lambda { |request|
     # return nil if request.headers['HTTP_ORIGIN'] != 'http://localhost:3000'
     # return nil if request.headers['HTTP_REFERER'] != 'http://localhost:3000/'
-    JSON.parse(request.cookies["tokens"])["access_token"] if request.cookies["tokens"]
+    JSON.parse(request.cookies["tokens"])["access_token"] if request.cookies["tokens"] && request.cookies["tokens"] != ''
   }
 
   # Forces the usage of the HTTPS protocol in non-native redirect uris (enabled
