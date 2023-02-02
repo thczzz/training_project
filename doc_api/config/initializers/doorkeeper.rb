@@ -302,7 +302,7 @@ Doorkeeper.configure do
   access_token_methods lambda { |request|
     # return nil if request.headers['HTTP_ORIGIN'] != 'http://localhost:3000'
     # return nil if request.headers['HTTP_REFERER'] != 'http://localhost:3000/'
-    JSON.parse(request.cookies["tokens"])["access_token"] if request.cookies["tokens"]
+    JSON.parse(request.cookies["tokens"])["access_token"] if request.cookies["tokens"] && request.cookies["tokens"] != ''
   }
 
   # Forces the usage of the HTTPS protocol in non-native redirect uris (enabled
@@ -451,7 +451,9 @@ Doorkeeper.configure do
   #
   before_successful_authorization do |controller, context|
     if controller.request.params["grant_type"]&. == "refresh_token"
-      refresh_token = JSON.parse(controller.request.cookies["tokens"])["refresh_token"] if controller.request.cookies["tokens"]
+      if controller.request.cookies["tokens"] && controller.request.cookies["tokens"] != ''
+        refresh_token = JSON.parse(controller.request.cookies["tokens"])["refresh_token"]
+      end
       
       token = Doorkeeper::AccessToken.by_refresh_token(refresh_token)
       token_initial_create = token.initial_create

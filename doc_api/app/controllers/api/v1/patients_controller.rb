@@ -7,14 +7,8 @@ class Api::V1::PatientsController < ApplicationController
     render json: { status: {code: 200, message: "OK"}, next_page: _next_page, data: ExaminationSerializer.new(resources, { is_collection: true, params: { id: '' }}).serializable_hash} 
   end
 
-  def print_perscription_details
+  # def print_perscription_details
 
-  end
-
-  private
-
-    def current_user_examinations_arr
-      current_user.examinations.pluck(:id)
-    end
+  # end
 
 end
