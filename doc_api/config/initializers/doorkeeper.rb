@@ -451,7 +451,9 @@ Doorkeeper.configure do
   #
   before_successful_authorization do |controller, context|
     if controller.request.params["grant_type"]&. == "refresh_token"
-      refresh_token = JSON.parse(controller.request.cookies["tokens"])["refresh_token"] if controller.request.cookies["tokens"]
+      if controller.request.cookies["tokens"] && controller.request.cookies["tokens"] != ''
+        refresh_token = JSON.parse(controller.request.cookies["tokens"])["refresh_token"]
+      end
       
       token = Doorkeeper::AccessToken.by_refresh_token(refresh_token)
       token_initial_create = token.initial_create
