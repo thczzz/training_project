@@ -1,3 +1,3 @@
 # training_project
 
-Ruby, Ruby on Rails, MySQL, React
+Ruby, Ruby on Rails, MySQL, React.js
