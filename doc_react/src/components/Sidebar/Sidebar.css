@@ -4,6 +4,7 @@
     position: relative;
     padding-top: 4rem;
     transition: all 300ms ease;
+    left: 0%;
 }
 
 .logo{
@@ -89,10 +90,11 @@
         z-index: 9;
         background: #ffe0e0;
         width: 55%;
+        left: -60%;
         padding-right: 1rem;
         height: 100%;
     }
-    .menuItem>span {
+    .menuItem>a>span {
         display: block;
     }
 
@@ -113,5 +115,6 @@
         background: #ffe0e0;
         padding: 10px;
         border-radius: 10px;
+        /* left: 5% !important; */
     }
 }

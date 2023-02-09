@@ -4,11 +4,8 @@ import { apiRequest, debounce, search_user } from '../../Data/getData';
 import { SearchExaminationTemplate } from './SearchExaminationTemplate';
 import { SearchUserTemplate } from './SearchUserTemplate';
 
-export function SearchExamination({inputFieldLabel}) {
-    const [user, setUser]                             = React.useState("");
+export function SearchExamination({inputFieldLabel, searchBy, user, setUser, inputId, setInputId, examinationResults, setExaminationResults}) {
     const [searchResults, setSearchResults]           = React.useState([]);
-    const [examinationResults, setExaminationResults] = React.useState([]);
-    const [inputId, setInputId]                       = React.useState("");
  
     const requestOptions = {
         method: 'GET',
@@ -42,6 +39,7 @@ export function SearchExamination({inputFieldLabel}) {
             <SearchUserTemplate 
                 user={user} 
                 inputFieldLabel={inputFieldLabel} 
+                searchBy={searchBy}
                 inputId={inputId}
                 searchUser={searchUser}
                 searchResults={searchResults} 

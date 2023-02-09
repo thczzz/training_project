@@ -19,6 +19,7 @@ import GlobalProvider from "../GlobalContext";
 import { AuthContextProvider } from '../AuthContext';
 
 import { ProtectedDocRoute, ProtectedPatientRoute, ProtectedAnonymousRoute } from './protectedRoutes';
+import { Navigate } from 'react-router-dom';
 
 
 export default () => {
@@ -36,6 +37,8 @@ export default () => {
                             <Route path='/req_password_reset' element={<RequestResetPasswordView/>} />
                             <Route path='/change_password' element={<ResetPasswordView/>} />
                         </Route>
+
+                        <Route index element={<Navigate to="/patient" />} />
 
                         <Route element={<Anonymous/>}> 
                             <Route path='/req_account_activation_link' element={<EmailActivationView/>} />

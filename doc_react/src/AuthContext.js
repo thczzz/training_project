@@ -82,7 +82,6 @@ export const AuthContextProvider = ({ children }) => {
 
         var currentTime = new Date()
         var elapsed = currentTime.getTime() - startTime.getTime()
-        // var duration = 30000 - elapsed;
         var duration = 865000 - elapsed; // 14.41m
         return duration;
     }
@@ -94,7 +93,7 @@ export const AuthContextProvider = ({ children }) => {
         var diffMs = Math.abs(d1 - d2); // milliseconds between now & last activity
         var seconds = Math.floor((diffMs/1000));
         var minute = Math.floor((seconds/60));
-        console.log(seconds +' sec and '+minute+' min since last activity')
+        console.log(seconds +' sec or '+minute+' min since last activity')
         return minute <= 14
     }
 

@@ -3,9 +3,7 @@ import './SearchSuggestions.css'
 import { search_user } from '../../Data/getData';
 import { SearchUserTemplate } from './SearchUserTemplate';
 
-export function SearchUser({inputFieldLabel, url}) {
-    const [user, setUser]                   = React.useState("");
-    const [inputId, setInputId]             = React.useState("");
+export function SearchUser({inputFieldLabel, url, searchBy, inputId, setInputId, user, setUser}) {
     const [searchResults, setSearchResults] = React.useState([]);
  
     const searchUser = search_user(url, setSearchResults, setInputId)
@@ -21,6 +19,7 @@ export function SearchUser({inputFieldLabel, url}) {
         <SearchUserTemplate 
             user={user} 
             inputFieldLabel={inputFieldLabel} 
+            searchBy={searchBy}
             inputId={inputId}
             searchUser={searchUser}
             searchResults={searchResults} 

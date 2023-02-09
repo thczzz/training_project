@@ -1,11 +1,10 @@
 import React, { Fragment } from 'react'
 import './AttachDrugs.css'
 import './Forms.css'
-import { SearchUser } from './SearchUser'
+import { SearchDrug } from './SearchDrug,'
 import { uniqueID } from '../../Data/getData'
 
-export function PerscriptionFields() {
-    const [drugs, setDrugs] = React.useState([{}]);
+export function PerscriptionFields({drugs, setDrugs, perscriptionDescription, setPerscriptionDescription, inputId, setInputId}) {
 
     function handleClick(ev) {
         ev.preventDefault();
@@ -59,7 +58,6 @@ export function PerscriptionFields() {
 
     function handleAdd() {
         setDrugs(prev => ( [...prev, {}] ))
-        console.log(drugs);
     }
 
     function handleRemove(idx) {
@@ -76,24 +74,31 @@ export function PerscriptionFields() {
             >
                 {disabled ? obj.title : "New drug"}
             </button>
-            <div className="collapsible-content">
+            <div className="collapsible-content" key="Drugs">
                 <div className="group">
                     {disabled 
                     ? 
-                        <Fragment>
+                        <Fragment >
                             <label htmlFor='Drug'>Drug*</label>
                             <input
                                 className="searchFieldInput"
                                 type="text"
                                 id={obj.id}
-                                name="Drug"
+                                key={key}
+                                name="drug_id"
                                 value={obj.title}
                                 required
                                 disabled
                             />
                         </Fragment>
                     : 
-                        <SearchUser inputFieldLabel="Drug" url='http://localhost:3000/api/v1/doctors/search_drug/?name='/> 
+                        <SearchDrug
+                            inputFieldLabel="Drug" 
+                            url='http://localhost:3000/api/v1/doctors/search_drug/?name=' 
+                            searchBy="drug name"
+                            inputId={inputId}
+                            setInputId={setInputId}
+                        /> 
                     }
                     <div class="error-message">Drug is a required field.</div>
                 </div>
@@ -145,7 +150,16 @@ export function PerscriptionFields() {
         <>
             <div className="group">
                 <label for="description">Description*
-                    <textarea rows="3" cols="30" name="comment" placeholder="Type something here..." required></textarea>
+                    <textarea 
+                        rows="3" 
+                        cols="30" 
+                        name="description" 
+                        value={perscriptionDescription}
+                        onChange={(ev) => {setPerscriptionDescription(ev.target.value)}}
+                        placeholder="Type something here..." 
+                        required
+                    >
+                    </textarea>
                 </label>
             </div>
             <div>

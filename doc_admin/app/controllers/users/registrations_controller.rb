@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
+  # before_action :check_if_user_is_admin
+  prepend_before_action :require_no_authentication, except: [:new, :create, :edit, :update, :destroy]
+  prepend_before_action :authenticate_scope!, only: [:new, :create, :edit, :update, :destroy]
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
-  prepend_before_action :require_no_authentication, only: :cancel
   before_action :get_roles
   before_action :set_user, only: %i[ edit update destroy ]
 
@@ -25,13 +27,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
     else
       clean_up_passwords resource
       set_minimum_password_length
-      respond_with resource, status: :unprocessable_entity
+      render :new, status: :unprocessable_entity, content_type: "text/html"
     end
   end
 
   # GET /admin/edit_user/:id
   def edit
-    super
+    return
   end
 
   def update
@@ -39,7 +41,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     resource.skip_reconfirmation!
     if resource.update(set_create_or_update_params(params))
       flash[:success] = "Successfully Edited User."
-      redirect_back(fallback_location: root_path)
+      respond_with resource, location: after_update_path_for(resource)
     else
       respond_with(resource) do |format|
         format.turbo_stream {
@@ -93,7 +95,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
 
     def set_user
-      @user = User.find(params[:id])
+      begin
+        @user = User.find(params[:id])
+      rescue ActiveRecord::RecordNotFound => ex
+        flash[:error] = "User with id #{params[:id]} does not exist."
+        redirect_to(root_path)
+      end
     end
 
     def set_create_or_update_params(params)

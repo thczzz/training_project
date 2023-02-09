@@ -4,7 +4,7 @@ Rails.application.routes.draw do
                :registrations => "users/registrations",
                :sessions      => "users/sessions"
              }, defaults: { format: :html },
-             :skip => [:sessions, :registrations, :passwords]
+             :skip => [:sessions, :registrations, :passwords, :confirmations]
 
   resource :admin, :except => [:show, :new, :create, :edit, :update, :destroy] do
     get  'new_role',      to: 'admins#new_role'
