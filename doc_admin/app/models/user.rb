@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :rememberable, :registerable, :trackable, :confirmable
-  paginates_per 1
+  paginates_per 6
 
   # has_many :examinations
   belongs_to :role, foreign_key: :role_id
