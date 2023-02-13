@@ -5,14 +5,20 @@ import { GlobalContext } from "../../GlobalContext";
 import { AuthAlert } from '../Alerts/AuthAlert';
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useAuth } from '../../hooks/authHook';
 
 const LoginForm = () => {
     const {value: email,    bind: bindEmail,    reset: resetEmail}    = useInput('');
     const {value: password, bind: bindPassword, reset: resetPassword} = useInput('');
     const navigate = useNavigate();
+    const userType = useAuth()["userType"];
 
     const afterLoginRedirect = () => {
-        navigate("/doctor")
+        if (userType === 1 || userType === 2) {
+            navigate("/doctor")
+        } else {
+            navigate("/patient")
+        }
     }
 
     const handleSubmit = (ev, props) => {
@@ -43,10 +49,8 @@ const LoginForm = () => {
              (result) => {
                if (resp.status === 200) {
                     localStorage.clear();
-                    console.log(result);
                     props.setAuthAlertMessage("Success! Redirecting..", "success");
                     return afterLoginRedirect();
-                    // todo: redirect to dashboard(patient/doctor)
                } else if (resp.status === 400) {
                     props.setAuthAlertMessage("Error! Wrong Email or Password!", "error");
                } else {
