@@ -122,12 +122,14 @@ export function PerscriptionFields({drugs, setDrugs, perscriptionDescription, se
                     ?
                         <button
                             disabled
+                            name="attachDrug"
                         >
                             Attached
                         </button>
                     :
                         <button
                             onClick={(ev) => handleAttach(ev, idx)}
+                            name="attachDrug"
                         >
                             Attach this Drug
                         </button>
@@ -176,7 +178,8 @@ export function PerscriptionFields({drugs, setDrugs, perscriptionDescription, se
 
                 {drugs.map((obj, idx) => {
                     const key = uniqueID();
-                    const disabled = true ? obj.id !== undefined : false
+                    // const disabled = true ? obj.id !== undefined : false
+                    const disabled = obj.id !== undefined ? true : false
                     return drugContainer(key, idx, disabled, obj)
                 })}
 

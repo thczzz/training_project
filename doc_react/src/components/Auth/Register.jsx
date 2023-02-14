@@ -77,7 +77,7 @@ const RegisterForm = () => {
              },
              (error) => {
                console.log("Err");
-             }
+            }
         );
     }
 

@@ -80,6 +80,8 @@ describe("Test Login Form Component", () => {
         RenderHelper(<LoginForm />)
       );
 
+      fireEvent.change(screen.getByPlaceholderText("user@example.com"), { target: { value: "dummymail@mail.com" } });
+      fireEvent.change(screen.getByPlaceholderText("Type your password"), { target: { value: "dummypw" } });
       fireEvent.click(screen.getByRole('button'));
 
       await waitFor(() => {
@@ -97,6 +99,8 @@ describe("Test Login Form Component", () => {
         RenderHelper(<LoginForm />)
       );
 
+      fireEvent.change(screen.getByPlaceholderText("user@example.com"), { target: { value: "dummymail@mail.com" } });
+      fireEvent.change(screen.getByPlaceholderText("Type your password"), { target: { value: "dummypw" } });
       fireEvent.click(screen.getByRole('button'));
 
       await waitFor(() => {
@@ -123,6 +127,8 @@ describe("Test Login Form Component", () => {
         RenderHelper(<LoginForm />)
       );
 
+      fireEvent.change(screen.getByPlaceholderText("user@example.com"), { target: { value: "dummymail@mail.com" } });
+      fireEvent.change(screen.getByPlaceholderText("Type your password"), { target: { value: "dummypw" } });
       fireEvent.click(screen.getByRole('button'));
 
       await waitFor(() => {
@@ -149,6 +155,8 @@ describe("Test Login Form Component", () => {
         RenderHelper(<LoginForm />)
       );
 
+      fireEvent.change(screen.getByPlaceholderText("user@example.com"), { target: { value: "dummymail@mail.com" } });
+      fireEvent.change(screen.getByPlaceholderText("Type your password"), { target: { value: "dummypw" } });
       fireEvent.click(screen.getByRole('button'));
 
       await waitFor(() => {
