@@ -28,8 +28,8 @@ const LoginForm = () => {
             "grant_type": "password",
             "email": email,
             "password": password,
-            "client_id": "v4s4PyFR-J_Ecnimxd9tukG8lUMH05KGE1autNE1hVs",
-            "client_secret": "eo939spJ8AdxEI9EKrM3fzEu-D3x-KAm2IPBFd2-HLg"
+            "client_id": "Ylh6R1AYcyr5M5-9gQx9plQ9blIJ3vGcpsdcWiUcMKI",
+            "client_secret": "ShD4ueDj0eCPhbs_NqB0pNZ0fA4UBneeNL6CWwJd-t8"
         }
 
         const requestOptions = {
@@ -70,7 +70,7 @@ const LoginForm = () => {
         <GlobalContext.Consumer>
             {(props) => {
                 return (
-                    <form key="loginForm" onSubmit={(ev) => {handleSubmit(ev, props)}}>
+                    <form onSubmit={(ev) => {handleSubmit(ev, props)}}>
                         <section>
                             <h1>Login</h1>
 
@@ -90,7 +90,7 @@ const LoginForm = () => {
                                 <Link reloadDocument to="../req_password_reset"><p>Forgot password?</p></Link>
                                 
                             </div>
-                            <button type="submit" class="login-btn">
+                            <button class="login-btn">
                                 LOGIN
                             </button>
                             <div class="alternative-signup">

@@ -61,6 +61,31 @@ describe("Test RegisterForm Component", () => {
       })
     });
 
+    test("HTML expected Validation on form fields", async () => {
+      const { container } = render(RenderHelper(<RegisterForm />));
+      let onChangeFields = getOnChangeFields(container);
+
+      fireEvent.change(onChangeFields["first_name"],            { target: { value: "" } });
+      fireEvent.change(onChangeFields["last_name"],             { target: { value: "" } });
+      fireEvent.change(onChangeFields["address"],               { target: { value: "" } });
+      fireEvent.change(onChangeFields["date_of_birth"],         { target: { value: "invalidDate" } });
+      fireEvent.change(onChangeFields["username"],              { target: { value: "" } });
+      fireEvent.change(onChangeFields["email"],                 { target: { value: "invalidEmail" } });
+      fireEvent.change(onChangeFields["password"],              { target: { value: "" } });
+      fireEvent.change(onChangeFields["password_confirmation"], { target: { value: "" } });
+
+      await waitFor(() => {
+        expect(onChangeFields["first_name"]).toBeInvalid()
+        expect(onChangeFields["last_name"]).toBeInvalid()
+        expect(onChangeFields["address"]).toBeInvalid()
+        expect(onChangeFields["date_of_birth"]).toBeInvalid()
+        expect(onChangeFields["username"]).toBeInvalid()
+        expect(onChangeFields["email"]).toBeInvalid()
+        expect(onChangeFields["password"]).toBeInvalid()
+        expect(onChangeFields["password_confirmation"]).toBeInvalid()
+      })
+    });
+
     test("onChange events on fields should change their value", async () => {
       const { container } = render(RenderHelper(<RegisterForm />));
       const onChangeFields = getOnChangeFields(container);
@@ -90,7 +115,25 @@ describe("Test RegisterForm Component", () => {
   describe("Test Form Submit requests", () => {
     test("If User is registered succesffully it should redirect to /login and display success message from JSON response", async () => {
       useAuth.mockImplementation(() => ({"userType": 0}))
-      render(RenderHelper(<RegisterForm />))
+      const { container } = render(RenderHelper(<RegisterForm />));
+      let onChangeFields = getOnChangeFields(container);
+
+      fireEvent.change(onChangeFields["first_name"],            { target: { value: "Peter" } });
+      fireEvent.change(onChangeFields["last_name"],             { target: { value: "Smith" } });
+      fireEvent.change(onChangeFields["address"],               { target: { value: "Stara Zagora" } });
+      fireEvent.change(onChangeFields["date_of_birth"],         { target: { value: "2000-05-12" } });
+      fireEvent.change(onChangeFields["username"],              { target: { value: "dummyusername" } });
+      fireEvent.change(onChangeFields["email"],                 { target: { value: "dummymail@mail.com" } });
+      fireEvent.change(onChangeFields["password"],              { target: { value: "dummypw" } });
+      fireEvent.change(onChangeFields["password_confirmation"], { target: { value: "dummypw" } });
+      expect(onChangeFields["first_name"]).toBeValid()
+      expect(onChangeFields["last_name"]).toBeValid()
+      expect(onChangeFields["address"]).toBeValid()
+      expect(onChangeFields["date_of_birth"]).toBeValid()
+      expect(onChangeFields["username"]).toBeValid()
+      expect(onChangeFields["email"]).toBeValid()
+      expect(onChangeFields["password"]).toBeValid()
+      expect(onChangeFields["password_confirmation"]).toBeValid()
 
       fireEvent.click(screen.getByRole('button'));
 

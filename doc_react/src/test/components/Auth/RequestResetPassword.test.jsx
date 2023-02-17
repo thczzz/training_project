@@ -29,6 +29,19 @@ describe("Test RequestResetPasswordForm Component", () => {
       })
     });
 
+    test("HTML expected Validation on form fields", async () => {
+      const { container } = render(RenderHelper(<RequestResetPasswordForm />));
+
+      fireEvent.change(container.querySelector('input[name="email"]'), { target: { value: "invalidEmail" } })
+
+      await waitFor(() => {
+        expect(container.querySelector('input[name="email"]')).toBeInvalid();
+        fireEvent.change(container.querySelector('input[name="email"]'), { target: { value: "" } })
+        expect(container.querySelector('input[name="email"]')).toBeInvalid();
+      })
+
+    });
+
     test("If email's onChange handler works as expected", async () => {
       const { container } = render(RenderHelper(<RequestResetPasswordForm />));
 
@@ -46,6 +59,9 @@ describe("Test RequestResetPasswordForm Component", () => {
       const { container } = render(RenderHelper(<RequestResetPasswordForm />));
 
       fireEvent.change(container.querySelector('input[name="email"]'), { target: { value: "dummymail@mail.com" } });
+
+      expect(container.querySelector('input[name="email"]')).toBeValid();
+
       fireEvent.click(screen.getByRole('button'));
 
       await waitFor(() => {

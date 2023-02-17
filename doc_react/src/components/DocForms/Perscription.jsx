@@ -4,6 +4,7 @@ import { PerscriptionFields } from './PerscriptionFields'
 import { apiRequest } from '../../Data/getData'
 import { useContext } from 'react'
 import { GlobalContext } from "../../GlobalContext";
+import { uniqueID } from '../../Data/getData'
 
 const Perscription = () => {
   const [drugs, setDrugs]                                     = React.useState([{}]);
@@ -49,7 +50,7 @@ const Perscription = () => {
                 setExaminationResults([]);
                 alertContext.setMessage("Perscription was created successfully", "success")
             } else {
-                alertContext.setMessage(`Error! ${result["errors"]}`, "error")
+                alertContext.setMessage(`Error! ${result["errors"][0][0]}`, "error")
             }
         },
         (error) => {
@@ -58,12 +59,15 @@ const Perscription = () => {
     );
   }
 
+  const formKey = uniqueID();
+
   return (
-    <form id="survey-form" ref={formRef} onSubmit={handleSubmit}>
+    <form  id={formKey} ref={formRef} onSubmit={handleSubmit}>
         <div className="group">
             <SearchExamination 
               inputFieldLabel="Examination" 
-              searchBy="user" user={user} 
+              searchBy="user" 
+              user={user}
               setUser={setUser} 
               inputId={inputId} 
               setInputId={setInputId}

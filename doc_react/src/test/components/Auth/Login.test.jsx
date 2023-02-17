@@ -52,6 +52,21 @@ describe("Test Login Form Component", () => {
       })
     });
 
+    test("HTML expected Validation on form fields", async () => {
+      useAuth.mockImplementation(() => ({"userType": 0}))
+  
+      render(
+        RenderHelper(<LoginForm />)
+      );
+
+      fireEvent.change(screen.getByPlaceholderText("user@example.com"), { target: { value: "invalidEmail" } })
+
+      await waitFor(() => {
+        expect(screen.getByPlaceholderText("user@example.com")).toBeInvalid();
+        expect(screen.getByPlaceholderText("Type your password")).toBeInvalid();
+      })
+    });
+
     test("It should change email and pw inputs onChange", async () => {
       useAuth.mockImplementation(() => ({"userType": 0}))
   
@@ -82,6 +97,10 @@ describe("Test Login Form Component", () => {
 
       fireEvent.change(screen.getByPlaceholderText("user@example.com"), { target: { value: "dummymail@mail.com" } });
       fireEvent.change(screen.getByPlaceholderText("Type your password"), { target: { value: "dummypw" } });
+      
+      expect(screen.getByPlaceholderText("user@example.com")).toBeValid();
+      expect(screen.getByPlaceholderText("Type your password")).toBeValid();
+      
       fireEvent.click(screen.getByRole('button'));
 
       await waitFor(() => {

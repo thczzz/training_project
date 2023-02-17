@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom'
 
 function Anonymous() {
 
-    console.log('render Anonymous')
+    // console.log('render Anonymous')
 
     return (    
         <div className="Auth">

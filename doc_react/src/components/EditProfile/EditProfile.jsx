@@ -68,7 +68,6 @@ const EditProfileForm = () => {
 
     const handleSubmit = (ev, props) => {
         ev.preventDefault();
-        console.log(props);
         const data = {
             "user": {
                 "first_name": state.first_name,
@@ -137,8 +136,7 @@ const EditProfileForm = () => {
                console.log("Err");
              }
         );            
-
-            console.log('form submitted')
+        
     }
 
     const handleChange = (event) => {
@@ -154,35 +152,42 @@ const EditProfileForm = () => {
                     <form id="survey-form" onSubmit={(ev) => {handleSubmit(ev, props)}} action="">
                         <div id="first_name" class="group">
                             <label id="name-label" for="first_name">
-                                First Name*
+                                First Name
                             </label> 
                             <input type="text" value={state.first_name} onChange={handleChange} name="first_name" required />
                             <div class="error-message"></div>
                         </div>
                         <div id="last_name" class="group">
                             <label id="name-label" for="last_name">
-                                Last Name*
+                                Last Name
                             </label> 
                             <input type="text"  value={state.last_name} onChange={handleChange} name="last_name" required />
                             <div class="error-message"></div>
                         </div>
                         <div id="address" class="group">
                             <label id="name-label" for="address">
-                                Address*
+                                Address
                             </label> 
                             <input type="text"  value={state.address} onChange={handleChange} name="address" required />
                             <div class="error-message"></div>
                         </div>
                         <div id="date_of_birth" class="group">
                             <label id="name-label" for="date_of_birth">
-                                Date of Birth*
+                                Date of Birth
                             </label> 
                             <input type="date"  value={state.date_of_birth} onChange={handleChange} name="date_of_birth" required />
                             <div class="error-message"></div>
                         </div>
+                        <div id="username" class="group">
+                            <label id="name-label" for="date_of_birth">
+                                Username
+                            </label> 
+                            <input type="text"  value={state.username} onChange={handleChange} name="username" required />
+                            <div class="error-message"></div>
+                        </div>
                         <div id="email" class="group">
                             <label id="email-label" for="email">
-                                Email*
+                                Email
                             </label> 
                             <input type="email"  value={state.email} onChange={handleChange} name="email" required />
                         </div>

@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom'
 
 function Patient (){
 
-    console.log('render Patient')
+    // console.log('render Patient')
 
     return (    
         <div className="App">
