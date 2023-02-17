@@ -4,7 +4,6 @@ import { PerscriptionFields } from './PerscriptionFields'
 import { apiRequest } from '../../Data/getData'
 import { useContext } from 'react'
 import { GlobalContext } from "../../GlobalContext";
-import { uniqueID } from '../../Data/getData'
 
 const Perscription = () => {
   const [drugs, setDrugs]                                     = React.useState([{}]);
@@ -59,10 +58,8 @@ const Perscription = () => {
     );
   }
 
-  const formKey = uniqueID();
-
   return (
-    <form  id={formKey} ref={formRef} onSubmit={handleSubmit}>
+    <form  ref={formRef} onSubmit={handleSubmit}>
         <div className="group">
             <SearchExamination 
               inputFieldLabel="Examination" 
