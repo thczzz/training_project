@@ -1,8 +1,8 @@
 require "rails_helper"
 
 RSpec.describe "Doctors requests", type: :request do
-  context "Unauthorized" do
-    it "should return status 401 Unauthorized" do
+  context "when Unauthorized" do
+    it "returns status 401 Unauthorized" do
       get "/api/v1/doctors/search_drug"
       expect(response.status).to eq(401)
       expect(response.body).to eq("")
@@ -25,13 +25,14 @@ RSpec.describe "Doctors requests", type: :request do
     end
   end
 
-  context "Authorized but not Doctor/Admin" do
+  context "when Authorized but not Doctor/Admin" do
     let(:user) { create(:patient) }
+
     before do
       cookies["tokens"] = authorize_for_test(user)
     end
 
-    it "should return status 401 Unauthorized" do
+    it "returns status 401 Unauthorized" do
       get "/api/v1/doctors/search_drug"
       expect(response.status).to eq(401)
 
@@ -49,7 +50,7 @@ RSpec.describe "Doctors requests", type: :request do
     end
   end
 
-  context "Authorized as Doctor" do
+  context "when Authorized as Doctor" do
     let(:doc_role) { create(:doctor_role) }
     let(:user) { create(:doctor, role: doc_role) }
     let(:patient) { create(:patient) }
@@ -60,31 +61,38 @@ RSpec.describe "Doctors requests", type: :request do
     end
 
     context "with valid Params" do
-      it "should return status 200 OK" do
-        create(:drug)
-        get "/api/v1/doctors/search_drug", params: { name: "drug" }
-        body = JSON.parse(response.body)
-        expect(response.status).to eq(200)
-        expect(body["data"].length).to eq(1)
+
+      context "when GET /api/v1/doctors/search_drug" do
+        it "returns status 200 OK" do
+          create(:drug)
+          get "/api/v1/doctors/search_drug", params: { name: "drug" }
+          body = JSON.parse(response.body)
+          expect(response.status).to eq(200)
+          expect(body["data"].length).to eq(1)
+        end
       end
 
-      it "should return status 200 OK" do
-        get "/api/v1/doctors/search_user", params: { username: "user" }
-        body = JSON.parse(response.body)
-        expect(response.status).to eq(200)
-        expect(body["data"].length).to eq(1)
+      context "when GET /api/v1/doctors/search_user" do
+        it "returns status 200 OK" do
+          get "/api/v1/doctors/search_user", params: { username: "user" }
+          body = JSON.parse(response.body)
+          expect(response.status).to eq(200)
+          expect(body["data"].length).to eq(1)
+        end
       end
 
-      it "should return status 200 OK" do
-        get "/api/v1/doctors/user_examinations", params: { user_id: "1" }
-        body = JSON.parse(response.body)
-        expect(response.status).to eq(200)
-        expect(body["data"].length).to eq(0)
+      context "when GET /api/v1/doctors/user_examinations" do
+        it "returns status 200 OK" do
+          get "/api/v1/doctors/user_examinations", params: { user_id: "1" }
+          body = JSON.parse(response.body)
+          expect(response.status).to eq(200)
+          expect(body["data"].length).to eq(0)
+        end
       end
 
-      context "Create Examination" do
+      context "when Creating Examination" do
         context "when attach_perscription is 'on' " do
-          it "should return status 200 OK and Create Examination, Perscription, PerscriptionDrug" do
+          it "returns status 200 OK and Create Examination, Perscription, PerscriptionDrug" do
             post "/api/v1/doctors/create_examination", params: {
               'examination': {
                 'user_id': patient.id,
@@ -119,7 +127,7 @@ RSpec.describe "Doctors requests", type: :request do
         end
 
         context "when attach_perscription is 'off' " do
-          it "should return status 200 OK and only Create Examination" do
+          it "returns status 200 OK and only Create Examination" do
             post "/api/v1/doctors/create_examination", params: {
               'examination': {
                 'user_id': patient.id,
@@ -144,9 +152,10 @@ RSpec.describe "Doctors requests", type: :request do
         end
       end
 
-      context "Create Perscription" do
+      context "when Creating Perscription" do
         let(:examination) { create(:examination, user: patient) }
-        it "should return status 200 OK and Create Perscription with Perscription Drugs" do
+
+        it "returns status 200 OK and Create Perscription with Perscription Drugs" do
           post "/api/v1/doctors/create_perscription", params: {
             'perscription': {
               'examination_id': examination.id,
@@ -169,26 +178,33 @@ RSpec.describe "Doctors requests", type: :request do
     end
 
     context "with Invalid Params" do
-      it "should return status 422" do
-        get "/api/v1/doctors/search_drug", params: { bad_param: "drug" }
-        expect(response.status).to eq(422)
-        expect(JSON.parse(response.body)["message"]).to eq("Err")
+
+      context "when GET /api/v1/doctors/search_drug" do
+        it "returns status 422" do
+          get "/api/v1/doctors/search_drug", params: { bad_param: "drug" }
+          expect(response.status).to eq(422)
+          expect(JSON.parse(response.body)["message"]).to eq("Err")
+        end
       end
 
-      it "should return status 422" do
-        get "/api/v1/doctors/search_user", params: { bad_param: "user" }
-        expect(response.status).to eq(422)
-        expect(JSON.parse(response.body)["message"]).to eq("Err")
+      context "when GET /api/v1/doctors/search_user" do
+        it "returns status 422" do
+          get "/api/v1/doctors/search_user", params: { bad_param: "user" }
+          expect(response.status).to eq(422)
+          expect(JSON.parse(response.body)["message"]).to eq("Err")
+        end
       end
 
-      it "should return status 422" do
-        get "/api/v1/doctors/user_examinations", params: { bad_param: "1" }
-        expect(response.status).to eq(422)
-        expect(JSON.parse(response.body)["message"]).to eq("Err")
+      context "when GET /api/v1/doctors/user_examinations" do
+        it "returns status 422" do
+          get "/api/v1/doctors/user_examinations", params: { bad_param: "1" }
+          expect(response.status).to eq(422)
+          expect(JSON.parse(response.body)["message"]).to eq("Err")
+        end
       end
 
-      context "Create Examination" do
-        it "should return status 422 with errors if perscription_drugs is empty" do
+      context "when Creating Examination" do
+        it "returns status 422 with errors if perscription_drugs is empty" do
           post "/api/v1/doctors/create_examination", params: {
             'examination': {
               'user_id': patient.id,
@@ -210,7 +226,7 @@ RSpec.describe "Doctors requests", type: :request do
           expect(PerscriptionDrug.all.count).to eq(0)
         end
 
-        it "should return status 422 if wrong params passed" do
+        it "returns status 422 if wrong params passed" do
           post "/api/v1/doctors/create_examination", params: {
             'examinatio': {
               'user_id': patient.id,
@@ -230,7 +246,7 @@ RSpec.describe "Doctors requests", type: :request do
           expect(PerscriptionDrug.all.count).to eq(0)
         end
 
-        it "should return status 422 with msg if Examination didnt save" do
+        it "returns status 422 with msg if Examination didnt save" do
           post "/api/v1/doctors/create_examination", params: {
             'examination': {
               'user_id': patient.id,
@@ -251,7 +267,7 @@ RSpec.describe "Doctors requests", type: :request do
           expect(PerscriptionDrug.all.count).to eq(0)
         end
 
-        it "should return status 422 with msg if Perscription didnt save" do
+        it "returns status 422 with msg if Perscription didnt save" do
           post "/api/v1/doctors/create_examination", params: {
             'examination': {
               'user_id': patient.id,
@@ -279,7 +295,7 @@ RSpec.describe "Doctors requests", type: :request do
           expect(PerscriptionDrug.all.count).to eq(0)
         end
 
-        it "should return status 422 with msg if Perscription drug didnt save" do
+        it "returns status 422 with msg if Perscription drug didnt save" do
           post "/api/v1/doctors/create_examination", params: {
             'examination': {
               'user_id': patient.id,
@@ -313,10 +329,10 @@ RSpec.describe "Doctors requests", type: :request do
         end
       end
 
-      context "Create Perscription" do
+      context "when Creating Perscription" do
         let(:examination) { create(:examination, user: patient) }
 
-        it "should return status 422 with err. message if perscription_drugs is empty" do
+        it "returns status 422 with err. message if perscription_drugs is empty" do
           post "/api/v1/doctors/create_perscription", params: {
             'perscription': {
               'examination_id': examination.id,
@@ -333,7 +349,7 @@ RSpec.describe "Doctors requests", type: :request do
           expect(PerscriptionDrug.all.count).to eq(0)
         end
 
-        it "should return status 422 with err. message if Examination does not exist" do
+        it "returns status 422 with err. message if Examination does not exist" do
           post "/api/v1/doctors/create_perscription", params: {
             'perscription': {
               'examination_id': " qwerty",
@@ -354,7 +370,7 @@ RSpec.describe "Doctors requests", type: :request do
           expect(PerscriptionDrug.all.count).to eq(0)
         end
 
-        it "should return status 422 with err. message if Persc. drug already exists for current Persc." do
+        it "returns status 422 with err. message if Persc. drug already exists for current Persc." do
           post "/api/v1/doctors/create_perscription", params: {
             'perscription': {
               'examination_id': examination.id,
@@ -382,7 +398,7 @@ RSpec.describe "Doctors requests", type: :request do
           expect(PerscriptionDrug.all.count).to eq(0)
         end
 
-        it "should return status 422 if wrong params" do
+        it "returns status 422 if wrong params" do
           post "/api/v1/doctors/create_perscription", params: {
             'asdperscription': {
               'examination_id': examination.id,

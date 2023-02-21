@@ -1,28 +1,33 @@
 require "rails_helper"
 
 RSpec.describe "Shared Controller", type: :request do
-  context "Unauthorized" do
-    it "should return status 401 Unauthorized and empty body" do
-      get "/api/v1/user_info"
-      expect(response.status).to eq(401)
-      expect(response.body).to eq("")
+  context "when Unauthorized" do
+
+    context "when GET /api/v1/user_info" do
+      it "returns status 401 Unauthorized and empty body" do
+        get "/api/v1/user_info"
+        expect(response.status).to eq(401)
+        expect(response.body).to eq("")
+      end
     end
 
-    it "should return status 401 Unauthorized and empty body" do
-      get "/api/v1/user_type"
-      expect(response.status).to eq(401)
-      expect(response.body).to eq("")
+    context "when GET /api/v1/user_type" do
+      it "returns status 401 Unauthorized and empty body" do
+        get "/api/v1/user_type"
+        expect(response.status).to eq(401)
+        expect(response.body).to eq("")
+      end
     end
   end
 
-  context "Authorized" do
+  context "when Authorized" do
     let(:user) { create(:patient) }
 
     before do
       cookies["tokens"] = authorize_for_test(user)
     end
 
-    it "should return status 200" do
+    it "returns status 200" do
       expected_response = {
         status:
           {
@@ -37,7 +42,7 @@ RSpec.describe "Shared Controller", type: :request do
       expect(response.body).to eq(expected_response)
     end
 
-    it "should return status 200" do
+    it "returns status 200" do
       expected_response = {
         status:
           {

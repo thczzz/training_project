@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "admins/view_user", type: :view do
   let(:admin_user) { create(:admin) }

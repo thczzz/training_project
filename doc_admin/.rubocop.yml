@@ -19,22 +19,21 @@ AllCops:
     - '**/node_modules/**/*'
     - 'db/**/*'
 
-
-Performance:
-  Exclude:
-    - '**/test/**/*'
-
 RSpec/MultipleMemoizedHelpers:
   Max: 6
 
 RSpec/ExampleLength:
-  Max: 20
+  Max: 10
 
 RSpec/MultipleExpectations:
   Max: 15
 
 RSpec/NestedGroups:
   Max: 5
+
+Performance:
+  Exclude:
+    - '**/test/**/*'
 
 # Prefer assert_not over assert !
 Rails/AssertNot:

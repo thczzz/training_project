@@ -1,9 +1,8 @@
 require "rails_helper"
 
 RSpec.describe "Password change requests", type: :request do
-  context "Sending PW reset token" do
-    it "should always return status 200 OK and success message, even
-      if wrong/non-existent email ( Devise paranoid is ON )" do
+  context "when Sending PW reset token" do
+    it "always return status 200 OK and success message, even if wrong/non-existent email ( Devise paranoid is ON )" do
       post "/api/v1/users/password", params: { "user": { "email": "nonexistentuzer@protonmail.com" } },
         headers: {
           "Content-Type" => "application/json", "Accept" => "application/json"
@@ -16,9 +15,9 @@ RSpec.describe "Password change requests", type: :request do
     end
   end
 
-  context "Attemp to change the password" do
-    context "With Invalid token" do
-      it "should return status 422 and err. message" do
+  context "when Attempting to change the password" do
+    context "with Invalid token" do
+      it "returns status 422 and err. message" do
         patch "/api/v1/users/password",
               params: {
                 "user": {
@@ -37,7 +36,7 @@ RSpec.describe "Password change requests", type: :request do
       end
     end
 
-    context "With Valid token" do
+    context "with Valid token" do
       let(:user) { create(:patient) }
       let(:doorkeeper_app) { Doorkeeper::Application.create!(name: "React", redirect_uri: "", scopes: "") }
 
@@ -63,7 +62,7 @@ RSpec.describe "Password change requests", type: :request do
         @pw_reset_token = extract_token_from_email("reset_password")
       end
 
-      context "With valid password & password_confirmation" do
+      context "with valid password & password_confirmation" do
         before do
           non_revoked_tokens = Doorkeeper::AccessToken.by_resource_owner(user).where(revoked_at: nil)
           expect(non_revoked_tokens.length).to eq(1)
@@ -81,19 +80,19 @@ RSpec.describe "Password change requests", type: :request do
                 }, as: :json
         end
 
-        it "Should return status 200 and message" do
+        it "returns status 200 and message" do
           response_hash = JSON.parse(response.body)
           expect(response.status).to eq(200)
           expect(response_hash["status"]["message"]).to eq("Your password has been changed successfully. You'll have to login again.")
         end
 
-        it "Should revoke all current tokens for the User" do
+        it "revokes all current tokens for the User" do
           non_revoked_tokens = Doorkeeper::AccessToken.by_resource_owner(user).where(revoked_at: nil)
           expect(non_revoked_tokens.length).to eq(0)
         end
       end
 
-      context "With Invalid password & password_confirmation" do
+      context "with Invalid password & password_confirmation" do
         before do
           patch "/api/v1/users/password",
                 params: {
@@ -108,13 +107,13 @@ RSpec.describe "Password change requests", type: :request do
                 }, as: :json
         end
 
-        it "Should return status 422 and error message" do
+        it "returns status 422 and error message" do
           response_hash = JSON.parse(response.body)
           expect(response.status).to eq(422)
           expect(response_hash["errors"]).to eq({ "password_confirmation" => ["doesn't match Password"] })
         end
 
-        it "Should NOT revoke any current tokens for the User" do
+        it "does not revoke any current tokens for the User" do
           non_revoked_tokens = Doorkeeper::AccessToken.by_resource_owner(user).where(revoked_at: nil)
           expect(non_revoked_tokens.length).to eq(1)
         end

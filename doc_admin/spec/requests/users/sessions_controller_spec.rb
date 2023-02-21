@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "SessionsController", type: :request do
   let(:doc_role)     { create(:doctor_role) }
@@ -7,10 +7,9 @@ RSpec.describe "SessionsController", type: :request do
   let(:doc_user)     { create(:doctor, role_id: doc_role.id) }
   let(:patient_user) { create(:patient, role_id: patient_role.id) }
 
-  context "Login attempt" do
-    context "Admin User" do
-
-      it "Should login the admin user and redirect to dashboard" do
+  context "when Login attempt" do
+    context "when Admin User" do
+      it "logins the admin user and redirect to dashboard" do
         post user_session_url, params: {
           "user": {
             "email": admin_user.email,
@@ -20,11 +19,10 @@ RSpec.describe "SessionsController", type: :request do
         expect(response).to redirect_to(root_path)
         expect(flash[:notice]).to be_present
       end
-
     end
 
-    context "Doctor User" do
-      it "Should NOT log in the User" do
+    context "when Doctor User" do
+      it "does not log in the User" do
         post user_session_url, params: {
           "user": {
             "email": doc_user.email,
@@ -36,8 +34,8 @@ RSpec.describe "SessionsController", type: :request do
       end
     end
 
-    context "Patient User" do
-      it "Should NOT log in the User" do
+    context "when Patient User" do
+      it "does not log in the User" do
         post user_session_url, params: {
           "user": {
             "email": patient_user.email,
@@ -50,12 +48,12 @@ RSpec.describe "SessionsController", type: :request do
     end
   end
 
-  context "Logout" do
+  context "when Logout" do
     before do
       sign_in admin_user
     end
 
-    it "Should logout the Admin User, redirect to the login page" do
+    it "logouts the Admin User, redirect to the login page" do
       delete destroy_user_session_url
       expect(response).to redirect_to(new_user_session_url)
     end

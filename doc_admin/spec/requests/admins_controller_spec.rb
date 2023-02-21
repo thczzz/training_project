@@ -1,50 +1,62 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "AdminsController", type: :request do
-
-  shared_examples "Unauthorized" do 
-    context 'Unauthorized' do
-      it "Redirects to the login page" do
-        get root_url
-        expect(response).to redirect_to(new_user_session_url)
+  shared_examples "Unauthorized" do
+    context "when Unauthorized" do
+      context "when GET root_url" do
+        it "Redirects to the login page" do
+          get root_url
+          expect(response).to redirect_to(new_user_session_url)
+        end
       end
 
-      it "Redirects to the login page" do
-        get dashboard_admin_url
-        expect(response).to redirect_to(new_user_session_url)
+      context "when GET dashboard_admin_url" do
+        it "Redirects to the login page" do
+          get dashboard_admin_url
+          expect(response).to redirect_to(new_user_session_url)
+        end
       end
 
-      it "Redirects to the login page" do
-        get new_role_admin_url
-        expect(response).to redirect_to(new_user_session_url)
+      context "when GET new_role_admin_url" do
+        it "Redirects to the login page" do
+          get new_role_admin_url
+          expect(response).to redirect_to(new_user_session_url)
+        end
       end
 
-      it "Redirects to the login page" do
-        post new_role_admin_url
-        expect(response).to redirect_to(new_user_session_url)
+      context "when POST new_role_admin_url" do
+        it "Redirects to the login page" do
+          post new_role_admin_url
+          expect(response).to redirect_to(new_user_session_url)
+        end
       end
 
-      it "Redirects to the login page" do
-        get view_user_admin_url(id: 1)
-        expect(response).to redirect_to(new_user_session_url)
+      context "when GET view_user_admin_url(id: )" do
+        it "Redirects to the login page" do
+          get view_user_admin_url(id: 1)
+          expect(response).to redirect_to(new_user_session_url)
+        end
       end
 
-      it "Redirects to the login page" do
-        get new_drug_admin_url
-        expect(response).to redirect_to(new_user_session_url)
+      context "when GET new_drug_admin_url" do
+        it "Redirects to the login page" do
+          get new_drug_admin_url
+          expect(response).to redirect_to(new_user_session_url)
+        end
       end
 
-      it "Redirects to the login page" do
-        post create_drug_admin_url
-        expect(response).to redirect_to(new_user_session_url)
+      context "when POST create_drug_admin_url" do
+        it "Redirects to the login page" do
+          post create_drug_admin_url
+          expect(response).to redirect_to(new_user_session_url)
+        end
       end
     end
   end
 
-  context "Authorized" do
-
-    context "Doctor User" do
-      let (:role) { create(:doctor_role) }
+  context "when Authorized" do
+    context "when Doctor User" do
+      let(:role) { create(:doctor_role) }
       let(:user) { create(:doctor, role_id: role.id) }
 
       before do
@@ -54,8 +66,8 @@ RSpec.describe "AdminsController", type: :request do
       it_behaves_like "Unauthorized"
     end
 
-    context "Patient User" do
-      let (:role) { create(:patient_role) }
+    context "when Patient User" do
+      let(:role) { create(:patient_role) }
       let(:user) { create(:patient, role_id: role.id) }
 
       before do
@@ -65,7 +77,7 @@ RSpec.describe "AdminsController", type: :request do
       it_behaves_like "Unauthorized"
     end
 
-    context "Admin User" do
+    context "when Admin User" do
       let(:user) { create(:admin) }
       let(:role) { create(:patient_role) }
       let(:patient_user) { create(:patient, role_id: role.id) }
@@ -74,23 +86,29 @@ RSpec.describe "AdminsController", type: :request do
         sign_in user
       end
 
-      it "returns status 200 OK" do
-        get root_url
-        expect(response.status).to eq(200) 
+      context "when GET root_url" do
+        it "returns status 200 OK" do
+          get root_url
+          expect(response.status).to eq(200)
+        end
       end
 
-      it "returns status 200 OK" do
-        get dashboard_admin_url
-        expect(response.status).to eq(200) 
+      context "when GET dashboard_admin_url" do
+        it "returns status 200 OK" do
+          get dashboard_admin_url
+          expect(response.status).to eq(200)
+        end
       end
 
-      it "returns status 200 OK" do
-        get new_role_admin_url
-        expect(response.status).to eq(200) 
+      context "when GET new_role_admin_url" do
+        it "returns status 200 OK" do
+          get new_role_admin_url
+          expect(response.status).to eq(200)
+        end
       end
 
-      context "Creating New Role" do
-        context "Wit valid params" do
+      context "when Creating New Role" do
+        context "with valid params" do
           it "Successfully creates new role" do
             post new_role_admin_url, params: {
               "role": {
@@ -104,7 +122,7 @@ RSpec.describe "AdminsController", type: :request do
           end
         end
 
-        context "With Invalid params" do
+        context "with Invalid params" do
           it "Does not create new role" do
             post new_role_admin_url, params: {
               "role": {
@@ -118,29 +136,31 @@ RSpec.describe "AdminsController", type: :request do
         end
       end
 
-      context "Viewing User" do
-        context "With existing User ID" do
+      context "when Viewing User" do
+        context "with existing User ID" do
           it "returns status 200 OK" do
             get view_user_admin_url(id: patient_user.id)
             expect(response.status).to eq(200)
           end
         end
 
-        context "With NON-existent User" do
-          it "Should display flash error message" do 
+        context "with NON-existent User" do
+          it "displays flash error message" do
             get view_user_admin_url(id: "thishouldraise")
             expect(flash[:error]).to be_present
           end
         end
       end
 
-      it "returns status 200 OK" do
-        get new_drug_admin_url
-        expect(response.status).to eq(200)
+      context "when GET new_drug_admin_url" do
+        it "returns status 200 OK" do
+          get new_drug_admin_url
+          expect(response.status).to eq(200)
+        end
       end
 
-      context "When Creating new Drug" do
-        context "With Valid params" do
+      context "when Creating new Drug" do
+        context "with Valid params" do
           it "Successfully creates new Drug" do
             post create_drug_admin_url, params: {
               "drug": {
@@ -154,7 +174,7 @@ RSpec.describe "AdminsController", type: :request do
           end
         end
 
-        context "With Invalid params" do
+        context "with Invalid params" do
           it "does NOT create new Drug" do
             post create_drug_admin_url, params: {
               "drug": {
