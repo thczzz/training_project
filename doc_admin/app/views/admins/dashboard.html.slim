@@ -1,7 +1,7 @@
 div[class="container" style="margin-top: 45px; margin-bottom: 20px;"]
-    = form_with(url: "/", method: "get", class: "d-flex") do |f|
-      = f.collection_select :role_id, @roles, :id, :name, {:selected => params[:role_id], include_blank: 'Filter by account role', :required => true}, {:class => "form-select"}
-      = f.submit "Filter", class: "btn btn-outline-success"
+    = form_with(url: '/', method: 'get', class: 'd-flex') do |f|
+      = f.collection_select :role_id, @roles, :id, :name, { selected: params[:role_id], include_blank: 'Filter by account role', required: true }, { class: 'form-select' }
+      = f.submit 'Filter', class: 'btn btn-outline-success'
 
 div[class="container"]
   div[class="table-responsive"]
@@ -25,12 +25,12 @@ div[class="container"]
             td #{u.role.name}
             td #{u.email}
             td
-              = link_to "View", view_user_admin_path(u.id), class: "btn btn-info", type: "button"
-              = link_to "Edit", view_user_admin_path(u.id), class: "btn btn-warning", type: "button", style: "margin-left: 3px; margin-right: 3px;"
-              = link_to "Delete", delete_user_registration_path(u.id), class: "btn btn-danger", type: "button", \
-                data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}
+              = link_to 'View', view_user_admin_path(u.id), class: 'btn btn-info', type: 'button'
+              = link_to 'Edit', view_user_admin_path(u.id), class: 'btn btn-warning', type: 'button', style: 'margin-left: 3px; margin-right: 3px;'
+              = link_to 'Delete', delete_user_registration_path(u.id), class: 'btn btn-danger', type: 'button', \
+                data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }
 
   div[class="Absolute-Center is-Responsive" style="position: relative !important;"]
-    == paginate @users, theme: 'bootstrap-5',
-                        pagination_class: "pagination-sm flex-wrap justify-content-center",
-                        nav_class: "d-inline-block"
+    == paginate @users, theme:     'bootstrap-5',
+                 pagination_class: 'pagination-sm flex-wrap justify-content-center',
+                 nav_class:        'd-inline-block'

@@ -65,12 +65,12 @@ div[class="container" style="margin-top: 45px;"]
             div[class="col-md-8"]
               div[class="card mb-3"]
                 div[class="card-body"]
-                    == render "devise/registrations/edit", resource: @resource
+                    == render 'devise/registrations/edit', resource: @resource
                     .mb-3
-                        == link_to "Edit", "", class: "form-control btn btn-info", id: "editBtn"
+                        == link_to 'Edit', '', class: 'form-control btn btn-info', id: 'editBtn'
 
 == content_for :custom_js do
-  = javascript_include_tag "viewEditUser", "data-turbo-track": "false"
+  = javascript_include_tag 'viewEditUser', "data-turbo-track": 'false'
   javascript:
     document.addEventListener("turbo:before-stream-render", function() {
       window.scrollTo(0,0)

@@ -1,5 +1,5 @@
 class AdminsController < ApplicationController
-  before_action :get_roles, only: [:view_user, :dashboard]
+  before_action :get_roles, only: %i[view_user dashboard]
 
   def new_role
     @role = Role.new
@@ -32,22 +32,16 @@ class AdminsController < ApplicationController
 
   def dashboard
     @users = User.includes(:role)
-    if params[:role_id].present?
-      @users = @users.where(role_id: params[:role_id])
-    end
-    if params[:username].present?
-      @users = @users.where(username: params[:username])
-    end
+    @users = @users.where(role_id: params[:role_id]) if params[:role_id].present?
+    @users = @users.where(username: params[:username]) if params[:username].present?
     @users = @users.page params[:page]
   end
 
   def view_user
-    begin
-      @resource = User.find(params[:id])
-    rescue ActiveRecord::RecordNotFound => ex
-      flash[:error] = "User with id #{params[:id]} does not exist."
-      redirect_back(fallback_location: root_path)
-    end
+    @resource = User.find(params[:id])
+  rescue ActiveRecord::RecordNotFound => e
+    flash[:error] = "User with id #{params[:id]} does not exist."
+    redirect_back(fallback_location: root_path)
   end
 
   private
@@ -62,5 +56,4 @@ class AdminsController < ApplicationController
     def get_roles
       @roles = Role.all
     end
-
 end

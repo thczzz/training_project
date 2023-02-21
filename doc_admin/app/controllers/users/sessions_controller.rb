@@ -2,8 +2,8 @@
 
 class Users::SessionsController < Devise::SessionsController
   # before_action :configure_sign_in_params, only: [:create]
-  skip_before_action :authenticate_user!, :only => [:new, :create]
-  skip_before_action :check_if_user_is_admin, :only => [:new, :create]
+  skip_before_action :authenticate_user!, only: %i[new create]
+  skip_before_action :check_if_user_is_admin, only: %i[new create]
 
   # GET /admin/login
   def new
@@ -37,10 +37,8 @@ class Users::SessionsController < Devise::SessionsController
   #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
   # end
 
-  private 
-
-    def after_sign_out_path_for(resource)
+  private
+    def after_sign_out_path_for(_resource)
       new_user_session_url
     end
-
 end

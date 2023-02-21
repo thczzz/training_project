@@ -1,9 +1,8 @@
 require "rails_helper"
 
 RSpec.describe "Email confirmation requests", type: :request do
-  context "Sending confirmation" do
-    it "should always return status 200 OK and success message,
-      even if wrong/non-existent email ( Devise paranoid is ON )" do
+  context "when Sending confirmation" do
+    it "alwayses return status 200 OK and success message, even if wrong/non-existent email ( Devise paranoid is ON )" do
       post "/api/v1/users/confirmation", params: { "user": { "email": "nonexistentuzer@protonmail.com" } },
         headers: {
           "Content-Type" => "application/json", "Accept" => "application/json"
@@ -16,9 +15,9 @@ RSpec.describe "Email confirmation requests", type: :request do
     end
   end
 
-  context "Confirming the email/account" do
-    context "With Invalid token" do
-      it "should return status 422 and err. message" do
+  context "when Confirming the email/account" do
+    context "with Invalid token" do
+      it "returns status 422 and err. message" do
         get "/api/v1/users/confirmation?confirmation_token=yxqN8oFxdQxcK2dZGiiE"
 
         response_hash = JSON.parse(response.body)
@@ -28,7 +27,7 @@ RSpec.describe "Email confirmation requests", type: :request do
       end
     end
 
-    context "With Valid token" do
+    context "with Valid token" do
       let(:unconfirmed_user) { create(:patient, confirmed_at: nil) }
 
       before do
@@ -38,7 +37,7 @@ RSpec.describe "Email confirmation requests", type: :request do
         }, as: :json
       end
 
-      it "should return status 200 and success message" do
+      it "returns status 200 and success message" do
         expect(unconfirmed_user.confirmed_at).to eq(nil)
         expect(unconfirmed_user.confirmed?).to be(false)
 

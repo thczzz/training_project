@@ -2,12 +2,12 @@
 
 class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :check_if_user_is_admin
-  prepend_before_action :require_no_authentication, except: [:new, :create, :edit, :update, :destroy]
-  prepend_before_action :authenticate_scope!, only: [:new, :create, :edit, :update, :destroy]
+  prepend_before_action :require_no_authentication, except: %i[new create edit update destroy]
+  prepend_before_action :authenticate_scope!, only: %i[new create edit update destroy]
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
   before_action :get_roles
-  before_action :set_user, only: %i[ edit update destroy ]
+  before_action :set_user, only: %i[edit update destroy]
 
   # GET /admin/create_user
   def new
@@ -33,7 +33,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # GET /admin/edit_user/:id
   def edit
-    return
+    nil
   end
 
   def update
@@ -44,14 +44,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
       respond_with resource, location: after_update_path_for(resource)
     else
       respond_with(resource) do |format|
-        format.turbo_stream {
+        format.turbo_stream do
           render turbo_stream:
-            turbo_stream.replace(
-              "error_explanation",
-              partial: "devise/shared/error_messages",
-              locals: { resource: resource }
-            )
-        }
+                               turbo_stream.replace(
+                                 "error_explanation",
+                                 partial: "devise/shared/error_messages",
+                                 locals:  { resource: }
+                               )
+        end
       end
     end
   end
@@ -67,8 +67,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   protected
-
-    def after_sign_up_path_for(resource)
+    def after_sign_up_path_for(_resource)
       new_user_registration_path
     end
 
@@ -79,28 +78,26 @@ class Users::RegistrationsController < Devise::RegistrationsController
     # If you have extra params to permit, append them to the sanitizer.
     def configure_sign_up_params
       devise_parameter_sanitizer.permit(:sign_up,
-        keys: [:first_name, :last_name, :address, :date_of_birth, :role_id, :username])
+                                        keys: %i[first_name last_name address date_of_birth role_id username])
     end
 
     # If you have extra params to permit, append them to the sanitizer.
     def configure_account_update_params
       devise_parameter_sanitizer.permit(:account_update,
-        keys: [:first_name, :last_name, :address, :date_of_birth, :role_id, :username])
+                                        keys: %i[first_name last_name address date_of_birth role_id username])
     end
 
   private
-  
     def get_roles
       @roles = Role.all
     end
 
     def set_user
-      begin
-        @user = User.find(params[:id])
-      rescue ActiveRecord::RecordNotFound => ex
-        flash[:error] = "User with id #{params[:id]} does not exist."
-        redirect_to(root_path)
-      end
+      @user = User.find(params[:id])
+    rescue ActiveRecord::RecordNotFound => e
+      flash[:error] = "User with id #{params[:id]} does not exist."
+      redirect_to(root_path)
+      puts(e)
     end
 
     def set_create_or_update_params(params)
@@ -115,6 +112,5 @@ class Users::RegistrationsController < Devise::RegistrationsController
         password:              params[:user][:password],
         password_confirmation: params[:user][:password_confirmation]
       }
-    end    
-
+    end
 end
