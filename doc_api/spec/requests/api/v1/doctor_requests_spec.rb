@@ -105,7 +105,6 @@ RSpec.describe "Doctors requests", type: :request do
               "Content-Type" => "application/json", "Accept" => "application/json"
             }, as: :json
             response_hash = JSON.parse(response.body)
-            byebug
             expect(response.status).to eq(200)
             expect(response_hash["data"]["weight_kg"]).to eq(90.5)
             expect(response_hash["data"]["height_cm"]).to eq(188.0)

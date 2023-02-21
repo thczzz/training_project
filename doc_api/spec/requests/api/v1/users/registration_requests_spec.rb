@@ -31,8 +31,7 @@ RSpec.describe "Registrations requests", type: :request do
       it "Should return status 200 and success message" do
         response_hash = JSON.parse(response.body)
         expect(response.status).to eq(200)
-        expect(response_hash["status"]["message"]).to eq("A message with a confirmation link has been sent to your email
-                                                          address. Please follow the link to activate your account.")
+        expect(response_hash["status"]["message"]).to eq("A message with a confirmation link has been sent to your email address. Please follow the link to activate your account.")
       end
 
       it "Should create User with role_id: 3(patient)" do
@@ -66,8 +65,7 @@ RSpec.describe "Registrations requests", type: :request do
 
           response_hash = JSON.parse(response.body)
           expect(response.status).to eq(200)
-          expect(response_hash["status"]["message"]).to eq("A message with a confirmation link has been sent to your email
-                                                            address. Please follow the link to activate your account.")
+          expect(response_hash["status"]["message"]).to eq("A message with a confirmation link has been sent to your email address. Please follow the link to activate your account.")
           expect(User.first.role_id).to eq(3)
           expect(User.first.confirmed?).to eq(false)
         end
@@ -155,9 +153,7 @@ RSpec.describe "Registrations requests", type: :request do
           it "Should return status 200 and email changed message" do
             response_hash = JSON.parse(response.body)
             expect(response.status).to eq(200)
-            expect(response_hash["status"]["message"]).to eq(["You updated your account successfully, but we need to verify
-                                                               your new email address. Please check your email and follow
-                                                               the confirmation link to confirm your new email address."])
+            expect(response_hash["status"]["message"]).to eq(["You updated your account successfully, but we need to verify your new email address. Please check your email and follow the confirmation link to confirm your new email address."])
             expect(response_hash["actions"]).to eq("pw_updated" => false)
           end
 
@@ -203,9 +199,7 @@ RSpec.describe "Registrations requests", type: :request do
           it "Should return password changed message" do
             response_hash = JSON.parse(response.body)
             expect(response.status).to eq(200)
-            expect(response_hash["status"]["message"]).to eq(["Your account has been updated successfully,
-                                                               but since your password was changed,
-                                                               you need to sign in again."])
+            expect(response_hash["status"]["message"]).to eq(["Your account has been updated successfully, but since your password was changed, you need to sign in again."])
             expect(response_hash["actions"]).to eq("pw_updated" => true)
           end
 
@@ -243,10 +237,8 @@ RSpec.describe "Registrations requests", type: :request do
             expect(response.status).to eq(200)
             expect(response_hash["status"]["message"]).to eq(
               [
-                "You updated your account successfully, but we need to verify your new email address.
-                  Please check your email and follow the confirmation link to confirm your new email address.",
-                "Your account has been updated successfully, but since
-                  your password was changed, you need to sign in again."
+                "You updated your account successfully, but we need to verify your new email address. Please check your email and follow the confirmation link to confirm your new email address.",
+                "Your account has been updated successfully, but since your password was changed, you need to sign in again."
               ]
             )
             expect(response_hash["actions"]).to eq("pw_updated" => true)

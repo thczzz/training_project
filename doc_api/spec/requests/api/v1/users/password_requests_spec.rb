@@ -12,9 +12,7 @@ RSpec.describe "Password change requests", type: :request do
       response_hash = JSON.parse(response.body)
 
       expect(response.status).to eq(200)
-      expect(response_hash["status"]["message"]).to eq("If your email address exists in our database, you will
-                                                        receive a password recovery link
-                                                        at your email address in a few minutes.")
+      expect(response_hash["status"]["message"]).to eq("If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes.")
     end
   end
 
@@ -86,8 +84,7 @@ RSpec.describe "Password change requests", type: :request do
         it "Should return status 200 and message" do
           response_hash = JSON.parse(response.body)
           expect(response.status).to eq(200)
-          expect(response_hash["status"]["message"]).to eq("Your password has been changed successfully.
-                                                            You'll have to login again.")
+          expect(response_hash["status"]["message"]).to eq("Your password has been changed successfully. You'll have to login again.")
         end
 
         it "Should revoke all current tokens for the User" do

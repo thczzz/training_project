@@ -12,9 +12,7 @@ RSpec.describe "Email confirmation requests", type: :request do
       response_hash = JSON.parse(response.body)
 
       expect(response.status).to eq(200)
-      expect(response_hash["status"]["message"]).to eq("If your email address exists in our database, you will receive an
-                                                        email with instructions for how to
-                                                        confirm your email address in a few minutes.")
+      expect(response_hash["status"]["message"]).to eq("If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes.")
     end
   end
 
