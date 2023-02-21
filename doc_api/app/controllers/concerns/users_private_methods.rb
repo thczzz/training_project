@@ -1,11 +1,10 @@
 module UsersPrivateMethods
   extend ActiveSupport::Concern
-  
+
   private
-  
     # Override
-    def set_flash_message(key, kind, options = {})
-      message = find_message(kind, options)
+    def set_flash_message(_key, kind, options = {})
+      find_message(kind, options)
     end
 
     # Override
@@ -17,9 +16,8 @@ module UsersPrivateMethods
         :send_instructions
       end
 
-      if notice
-        [true, notice]
-      end
-    end
+      return unless notice
 
+      [true, notice]
+    end
 end

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe PerscriptionDrug, type: :model do
   # Columns
@@ -12,5 +12,4 @@ RSpec.describe PerscriptionDrug, type: :model do
   it { should validate_presence_of(:perscription_id) }
   it { should validate_presence_of(:usage_description) }
   it { expect(create(:perscription_drug)).to validate_uniqueness_of(:drug_id).ignoring_case_sensitivity.scoped_to(:perscription_id) }
-
 end

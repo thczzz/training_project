@@ -1,7 +1,7 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe PerscriptionSerializer, type: :serializer do
-  let (:perscription) { create(:perscription) }
+  let(:perscription) { create(:perscription) }
 
   context "without param :id" do
     it "Should return exact" do
@@ -9,27 +9,27 @@ RSpec.describe PerscriptionSerializer, type: :serializer do
       persc_id_string = perscription.id.to_s
 
       expect(serialized_persc).to eq(
-        {:data=>
+        {
+          data:
           {
-            :id=>perscription.id.to_s,
-            :type=>:perscription,
-            :attributes=>
-              {
-                :id=>perscription.id,
-                :description=>perscription.description,
-                :created_at=>perscription.created_at
-              }
+            id: perscription.id.to_s,
+            type: :perscription,
+            attributes: {
+              id: perscription.id,
+                description: perscription.description,
+                created_at: perscription.created_at
+            }
           }
         }
       )
-
     end
   end
 
   context "With param :id" do
     it "Should return exact hash" do
       persc_drug = create(:perscription_drug, perscription_id: perscription.id)
-      serialized_persc = PerscriptionSerializer.new(perscription, { is_collection: false, params: { id: '' }}).serializable_hash
+      serialized_persc = PerscriptionSerializer.new(perscription,
+                                                    { is_collection: false, params: { id: "" } }).serializable_hash
       expected = {
         "data": {
           "id": perscription.id.to_s,
@@ -63,9 +63,8 @@ RSpec.describe PerscriptionSerializer, type: :serializer do
           }
         }
       }.to_json
-      
+
       expect(serialized_persc.to_json).to be_json_eql(expected)
     end
   end
 end
-  

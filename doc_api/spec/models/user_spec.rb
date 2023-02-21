@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe User, type: :model do
   before(:each) { create(:patient) }
@@ -53,96 +53,95 @@ RSpec.describe User, type: :model do
   it { should validate_length_of(:email).is_at_most(60) }
   it { should validate_length_of(:address).is_at_most(255) }
 
-  describe 'Validates date_of_birth with date_of_birth_cannot_be_in_the_future' do
-    context 'with invalid attribute' do
-      it 'is not valid with date_of_birth in the future' do
+  describe "Validates date_of_birth with date_of_birth_cannot_be_in_the_future" do
+    context "with invalid attribute" do
+      it "is not valid with date_of_birth in the future" do
         expect(build(:patient, date_of_birth: 2.days.from_now)).to_not be_valid
       end
     end
 
-    context 'with valid attribute' do
-      it 'is valid with date_of_birth in the past' do
+    context "with valid attribute" do
+      it "is valid with date_of_birth in the past" do
         expect(build(:patient, date_of_birth: 2.days.ago)).to be_valid
       end
     end
   end
 
   # Creation
-  describe 'Test Creation with Valid/Invalid attrs' do
+  describe "Test Creation with Valid/Invalid attrs" do
     let(:user) { FactoryBot.build(:patient) }
 
-    context 'with Valid attributes' do
-      it 'is valid' do
+    context "with Valid attributes" do
+      it "is valid" do
         expect(user).to be_valid
       end
     end
 
-    context 'with invalid attributes' do
-      it 'is not valid without first_name' do
+    context "with invalid attributes" do
+      it "is not valid without first_name" do
         user.first_name = nil
         expect(user).to_not be_valid
       end
-      it 'is not valid without last_name' do
+      it "is not valid without last_name" do
         user.last_name = nil
         expect(user).to_not be_valid
       end
-      it 'is not valid without address' do
+      it "is not valid without address" do
         user.address = nil
         expect(user).to_not be_valid
       end
-      it 'is not valid without date_of_birth' do
+      it "is not valid without date_of_birth" do
         user.date_of_birth = nil
         expect(user).to_not be_valid
       end
-      it 'is not valid without role_id' do
+      it "is not valid without role_id" do
         user.role_id = nil
         expect(user).to_not be_valid
       end
-      it 'is not valid without username' do
+      it "is not valid without username" do
         user.username = nil
         expect(user).to_not be_valid
       end
-      it 'is not valid without email' do
+      it "is not valid without email" do
         user.email = nil
         expect(user).to_not be_valid
       end
-      it 'is not valid without password' do
+      it "is not valid without password" do
         user.password = nil
         expect(user).to_not be_valid
       end
-      it 'is not valid without password_confirmation' do
-        user.password_confirmation = ''
+      it "is not valid without password_confirmation" do
+        user.password_confirmation = ""
         expect(user).to_not be_valid
       end
-      it 'is not valid if passwords do not match' do
-        user.password = '123456789'
+      it "is not valid if passwords do not match" do
+        user.password = "123456789"
         expect(user).to_not be_valid
       end
-      it 'is not valid if password less than 6 chars' do
-        user.password = '12345'
-        user.password_confirmation = '12345'
+      it "is not valid if password less than 6 chars" do
+        user.password = "12345"
+        user.password_confirmation = "12345"
         expect(user).to_not be_valid
       end
     end
   end
 
   # Class methods
-  describe 'test self.authenticate(email, password) method' do
+  describe "test self.authenticate(email, password) method" do
     let(:user) { User.first }
 
-    context 'with Valid attributes' do
-      it 'is valid' do
+    context "with Valid attributes" do
+      it "is valid" do
         expect(User.authenticate(user.email, "123456")).to eq user
       end
     end
 
-    context 'with Invalid attributes' do
-      it 'is invalid' do
+    context "with Invalid attributes" do
+      it "is invalid" do
         expect(User.authenticate(user.email, "12345")).to eq nil
       end
     end
   end
 
   # Instance methods
-
 end

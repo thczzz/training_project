@@ -17,7 +17,7 @@ class Api::V1::Users::PasswordsController < Devise::PasswordsController
     successfully_sent, notice = successfully_sent?(resource)
     if successfully_sent
       message = set_flash_message(:notice, notice)
-      respond_with(resource, {:message => message})
+      respond_with(resource, { message: })
     else
       respond_with(resource)
     end
@@ -38,7 +38,7 @@ class Api::V1::Users::PasswordsController < Devise::PasswordsController
       resource.revoke_user_token
       resource.reload
       message = set_flash_message(:notice, :updated_not_active)
-      respond_with(resource, {:message => message})
+      respond_with(resource, { message: })
     else
       set_minimum_password_length
       respond_with resource
@@ -46,12 +46,10 @@ class Api::V1::Users::PasswordsController < Devise::PasswordsController
   end
 
   private
-    
     def respond_with(resource, _opts = {})
       super && return if !_opts[:message]
-      response_success = { status: {code: 200} }
+      response_success = { status: { code: 200 } }
       response_success[:status][:message] = _opts[:message]
       render json: response_success
     end
-
 end

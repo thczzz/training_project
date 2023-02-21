@@ -16,7 +16,7 @@ class Api::V1::Users::ConfirmationsController < Devise::ConfirmationsController
     successfully_sent, notice = successfully_sent?(resource)
     if successfully_sent
       message = set_flash_message(:notice, notice)
-      respond_with(resource, {:message => message})
+      respond_with(resource, { message: })
     else
       respond_with(resource)
     end
@@ -29,20 +29,18 @@ class Api::V1::Users::ConfirmationsController < Devise::ConfirmationsController
 
     if resource.errors.empty?
       message = set_flash_message(:notice, :confirmed)
-      respond_with(resource, {:message => message})
+      respond_with(resource, { message: })
     else
-      respond_with_navigational(resource.errors, status: :unprocessable_entity){ render :new }
+      respond_with_navigational(resource.errors, status: :unprocessable_entity) { render :new }
     end
   end
 
   private
-
     def respond_with(resource, _opts = {})
       super && return if !_opts[:message]
-      response_success = { status: {code: 200} }
+      response_success = { status: { code: 200 } }
 
       response_success[:status][:message] = _opts[:message]
       render json: response_success
     end
-    
 end

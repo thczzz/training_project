@@ -23,7 +23,7 @@ module DocApi
     # config.eager_load_paths << Rails.root.join("extras")
     # config.eager_load_paths << Rails.root.join('lib')
 
-    config.autoload_paths << Rails.root.join('lib')
+    config.autoload_paths << Rails.root.join("lib")
     config.autoload_paths += %W(#{config.root}/app)
     config.autoload_paths += %W(#{config.root}/lib)
 

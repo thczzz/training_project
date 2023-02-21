@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 
 RSpec.describe Role, type: :model do
@@ -14,17 +14,16 @@ RSpec.describe Role, type: :model do
   it { should validate_presence_of(:description) }
 
   # Creation with Valid attributes
-  context 'with valid attributes' do
-    it 'is valid with valid attributes' do
+  context "with valid attributes" do
+    it "is valid with valid attributes" do
       expect(create(:admin_role)).to be_valid
     end
   end
 
   # Creation with Invalid attributes
-  context 'with valid attributes' do
-    it 'is not valid with empty description' do
+  context "with valid attributes" do
+    it "is not valid with empty description" do
       expect(build(:admin_role, description: nil)).to_not be_valid
     end
   end
-
 end

@@ -1,10 +1,9 @@
 class User < ApplicationRecord
-
-  devise :database_authenticatable, :registerable, 
+  devise :database_authenticatable, :registerable,
          :trackable, :recoverable, :validatable, :confirmable
-  
+
   has_many   :examinations
-  belongs_to :role, foreign_key: :role_id
+  belongs_to :role
 
   validates :date_of_birth, presence: true
   validates :first_name,    presence: true, length: { maximum: 40 }
@@ -16,7 +15,7 @@ class User < ApplicationRecord
   validate  :date_of_birth_cannot_be_in_the_future
 
   def self.authenticate(email, password)
-    user = User.find_for_authentication(email: email)
+    user = User.find_for_authentication(email:)
     user&.valid_password?(password) ? user : nil
   end
 
@@ -25,9 +24,8 @@ class User < ApplicationRecord
   end
 
   def date_of_birth_cannot_be_in_the_future
-    if date_of_birth.present? && date_of_birth > Date.today
-        errors.add(:date_of_birth, "can't be in the future")
-    end
-  end
+    return unless date_of_birth.present? && date_of_birth > Date.today
 
+    errors.add(:date_of_birth, "can't be in the future")
+  end
 end

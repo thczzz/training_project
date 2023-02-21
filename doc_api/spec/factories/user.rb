@@ -7,8 +7,8 @@ FactoryBot.define do
     address               { "Stara Zagora" }
     date_of_birth         { Faker::Date.backward(days: 365) }
     email                 { Faker::Internet.unique.email }
-    password              { '123456' }
-    password_confirmation { '123456' }
+    password              { "123456" }
+    password_confirmation { "123456" }
     confirmed_at          { Time.now }
     created_at            { Time.now }
     updated_at            { Time.now }
@@ -24,6 +24,5 @@ FactoryBot.define do
     factory :patient do
       role_id { 3 }
     end
-
   end
 end
