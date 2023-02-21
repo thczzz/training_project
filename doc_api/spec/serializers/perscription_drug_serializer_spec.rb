@@ -1,7 +1,7 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe PerscriptionDrugSerializer, type: :serializer do
-  let (:perscription_drug) { create(:perscription_drug) }
+  let(:perscription_drug) { create(:perscription_drug) }
 
   context "without param :id" do
     it "Should return exact" do
@@ -22,7 +22,9 @@ RSpec.describe PerscriptionDrugSerializer, type: :serializer do
 
   context "with param :id" do
     it "Should return exact" do
-      serialized_persc_drug = PerscriptionDrugSerializer.new(perscription_drug, { is_collection: false, params: { id: '' }}).serializable_hash
+      serialized_persc_drug = PerscriptionDrugSerializer.new(perscription_drug,
+                                                             { is_collection: false,
+                                                               params: { id: "" } }).serializable_hash
       expected = {
         "data": {
           "id": nil,

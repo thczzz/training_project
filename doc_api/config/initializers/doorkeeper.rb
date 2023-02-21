@@ -2,7 +2,7 @@
 
 module CookieTokenResponse
   def body
-    {"message": "Logged in successfully."}.to_json
+    { "message": "Logged in successfully." }.to_json
   end
 
   def headers
@@ -15,17 +15,16 @@ module CookieTokenResponse
 
     cookie_args = [
       "tokens=#{data}",
-      'Path=/',
-      'HttpOnly',
+      "Path=/",
+      "HttpOnly",
     ]
     if Rails.env.production?
-      cookie_args.push('Secure')
+      cookie_args.push("Secure")
     end
-    
-    cookie = cookie_args.join('; ')
-    super.merge({'Set-Cookie' => cookie})
-  end
 
+    cookie = cookie_args.join("; ")
+    super.merge({ "Set-Cookie" => cookie })
+  end
 end
 
 Doorkeeper::OAuth::TokenResponse.send :prepend, CookieTokenResponse
@@ -151,7 +150,7 @@ Doorkeeper.configure do
   # Use a custom class for generating the access token.
   # See https://doorkeeper.gitbook.io/guides/configuration/other-configurations#custom-access-token-generator
   #
-  access_token_generator '::Doorkeeper::JWT'
+  access_token_generator "::Doorkeeper::JWT"
 
   # The controller +Doorkeeper::ApplicationController+ inherits from.
   # Defaults to +ActionController::Base+ unless +api_only+ is set, which changes the default to
@@ -302,7 +301,7 @@ Doorkeeper.configure do
   access_token_methods lambda { |request|
     # return nil if request.headers['HTTP_ORIGIN'] != 'http://localhost:3000'
     # return nil if request.headers['HTTP_REFERER'] != 'http://localhost:3000/'
-    JSON.parse(request.cookies["tokens"])["access_token"] if request.cookies["tokens"] && request.cookies["tokens"] != ''
+    JSON.parse(request.cookies["tokens"])["access_token"] if request.cookies["tokens"] && request.cookies["tokens"] != ""
   }
 
   # Forces the usage of the HTTPS protocol in non-native redirect uris (enabled
@@ -451,10 +450,10 @@ Doorkeeper.configure do
   #
   before_successful_authorization do |controller, context|
     if controller.request.params["grant_type"]&. == "refresh_token"
-      if controller.request.cookies["tokens"] && controller.request.cookies["tokens"] != ''
+      if controller.request.cookies["tokens"] && controller.request.cookies["tokens"] != ""
         refresh_token = JSON.parse(controller.request.cookies["tokens"])["refresh_token"]
       end
-      
+
       token = Doorkeeper::AccessToken.by_refresh_token(refresh_token)
       token_initial_create = token.initial_create
       time_limit = Time.current.utc - 12.hours
@@ -480,7 +479,6 @@ Doorkeeper.configure do
       token.initial_create = previous_refresh.initial_create
       token.save
     end
-
   end
 
   # Under some circumstances you might want to have applications auto-approved,
@@ -561,7 +559,7 @@ Doorkeeper::JWT.configure do
     user = User.find(opts[:resource_owner_id])
 
     {
-      iss: 'My App',
+      iss: "My App",
       iat: Time.current.utc.to_i,
 
       # @see JWT reserved claims - https://tools.ietf.org/html/draft-jones-json-web-token-07#page-7
@@ -587,7 +585,7 @@ Doorkeeper::JWT.configure do
 
   # Set the encryption secret. This would be shared with any other applications
   # that should be able to read the payload of the token. Defaults to "secret".
-  secret_key ENV['JWT_SECRET']
+  secret_key ENV["JWT_SECRET"]
 
   # If you want to use RS* encoding specify the path to the RSA key to use for
   # signing. If you specify a `secret_key_path` it will be used instead of

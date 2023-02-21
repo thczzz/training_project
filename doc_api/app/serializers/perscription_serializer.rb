@@ -2,10 +2,9 @@ class PerscriptionSerializer
   include JSONAPI::Serializer
   attributes :id, :description, :created_at
 
-  attribute :perscription_drugs, if: Proc.new { |record, params| 
+  attribute :perscription_drugs, if: proc { |_record, params|
     params && params[:id]
   } do |obj|
-    PerscriptionDrugSerializer.new(obj.perscription_drugs, { params: { id: '' }})
+    PerscriptionDrugSerializer.new(obj.perscription_drugs, { params: { id: "" } })
   end
-
 end

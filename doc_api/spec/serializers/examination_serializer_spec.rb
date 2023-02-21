@@ -1,8 +1,7 @@
-require 'rails_helper'
-require 'pp'
+require "rails_helper"
 
 RSpec.describe ExaminationSerializer, type: :serializer do
-  let (:examination) { create(:examination) }
+  let(:examination) { create(:examination) }
 
   context "without param :id" do
     it "Should return exact" do
@@ -25,11 +24,12 @@ RSpec.describe ExaminationSerializer, type: :serializer do
   end
 
   context "With param :id" do
-    let (:perscription) { create(:perscription, examination_id: examination.id) }
-    let (:persc_drug)   { create(:perscription_drug, perscription_id: perscription.id) }
+    let(:perscription) { create(:perscription, examination_id: examination.id) }
+    let(:persc_drug)   { create(:perscription_drug, perscription_id: perscription.id) }
 
     it "Should return exact" do
-      serialized_examination = ExaminationSerializer.new(examination, { is_collection: false, params: { id: '' }}).serializable_hash
+      serialized_examination = ExaminationSerializer.new(examination,
+                                                         { is_collection: false, params: { id: "" } }).serializable_hash
       expected = {
         "data": {
           "id": examination.id.to_s,
@@ -82,5 +82,4 @@ RSpec.describe ExaminationSerializer, type: :serializer do
       expect(serialized_examination.to_json).to be_json_eql(expected.to_json)
     end
   end
-
 end

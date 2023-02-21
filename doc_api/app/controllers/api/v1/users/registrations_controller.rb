@@ -33,11 +33,11 @@ class Api::V1::Users::RegistrationsController < Devise::RegistrationsController
 
     yield resource if block_given?
     if @resource_updated
-      respond_with resource, {:prev_unconfirmed_email => prev_unconfirmed_email, :update_action => true}
+      respond_with resource, { prev_unconfirmed_email:, update_action: true }
     else
       clean_up_passwords resource
       set_minimum_password_length
-      respond_with resource, {:update_action => true}
+      respond_with resource, { update_action: true }
     end
   end
 
@@ -46,11 +46,10 @@ class Api::V1::Users::RegistrationsController < Devise::RegistrationsController
     resource.destroy
     Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
     yield resource if block_given?
-    respond_with(resource, {destroyed: true})
+    respond_with(resource, { destroyed: true })
   end
 
   protected
-    
     def configure_sign_up_params
       devise_parameter_sanitizer.permit(:sign_up,
         # TODO: remove role_id, default = 3 (patient, on create)
@@ -63,10 +62,9 @@ class Api::V1::Users::RegistrationsController < Devise::RegistrationsController
     end
 
   private
-    
     # Override
     def respond_with(resource, _opts = {})
-      response_success = { status: {code: 200} }
+      response_success = { status: { code: 200 } }
       if resource.persisted?
         if !_opts[:update_action]
           message = sign_up_success(resource)
@@ -96,24 +94,24 @@ class Api::V1::Users::RegistrationsController < Devise::RegistrationsController
 
     def sign_up_success(resource)
       if resource.active_for_authentication?
-        message = set_flash_message(:notice, :signed_up)
+        set_flash_message(:notice, :signed_up)
       else
-        message = set_flash_message(:notice, :"signed_up_but_#{resource.inactive_message}")
+        set_flash_message(:notice, :"signed_up_but_#{resource.inactive_message}")
       end
     end
 
     def update_success(resource, _opts)
       message, actions = set_flash_message_for_update(resource, _opts[:prev_unconfirmed_email])
-      return [message, actions]
+      [message, actions]
     end
 
     def destroy_success
-      message = set_flash_message(:notice, :destroyed)
+      set_flash_message(:notice, :destroyed)
     end
 
     # Override
-    def set_flash_message(key, kind, options = {update: true})
-      message = find_message(kind, options)
+    def set_flash_message(key, kind, options = { update: true })
+      find_message(kind, options)
     end
 
     # Override
@@ -131,12 +129,11 @@ class Api::V1::Users::RegistrationsController < Devise::RegistrationsController
         actions["pw_updated"] = true
       end
 
-      return [messages, actions]
+      [messages, actions]
     end
 
     # Override
     def sign_in_after_change_password?
       account_update_params[:password].blank?
     end
-
 end

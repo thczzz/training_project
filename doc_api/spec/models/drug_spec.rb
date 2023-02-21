@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Drug, type: :model do
   # Columns
@@ -10,5 +10,4 @@ RSpec.describe Drug, type: :model do
   # Validations
   it { should validate_presence_of(:name) }
   it { should validate_presence_of(:description) }
-
 end
