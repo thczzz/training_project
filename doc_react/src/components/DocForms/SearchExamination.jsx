@@ -5,7 +5,7 @@ import { SearchExaminationTemplate } from './SearchExaminationTemplate';
 import { SearchUserTemplate } from './SearchUserTemplate';
 
 export function SearchExamination({inputFieldLabel, searchBy, user, setUser, inputId, setInputId, examinationResults, setExaminationResults}) {
-    const [searchResults, setSearchResults]           = React.useState([]);
+    const [searchResults, setSearchResults] = React.useState([]);
  
     const requestOptions = {
         method: 'GET',

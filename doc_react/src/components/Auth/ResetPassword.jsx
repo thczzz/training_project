@@ -70,7 +70,6 @@ const ResetPasswordForm = () => {
              }
         );            
 
-            console.log('form submitted')
     }
 
     return (

@@ -9,7 +9,7 @@ export const perscriptionDrugContainer = (obj, idx) => {
                 <label for={"itemd-" + unique_id} class="aspect-label"></label>
                 <div class="aspect-content drugtab">
                     <div class="aspect-info">
-                        <span class="aspect-name info">{perscription_drug["drug"]["data"]["attributes"]["name"]}</span>
+                        <span name="drugName" class="aspect-name info">{perscription_drug["drug"]["data"]["attributes"]["name"]}</span>
                     </div>
                 </div>
                 <div class="aspect-tab-content">
@@ -22,7 +22,7 @@ export const perscriptionDrugContainer = (obj, idx) => {
                                 </div>
                                 
                                 <div>
-                                    <span>{perscription_drug["usage_description"]}</span>
+                                    <span name="drugUsageDescription">{perscription_drug["usage_description"]}</span>
                                 </div>
                             </div>
                         </div>

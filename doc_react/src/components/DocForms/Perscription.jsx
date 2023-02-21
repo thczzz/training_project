@@ -49,7 +49,7 @@ const Perscription = () => {
                 setExaminationResults([]);
                 alertContext.setMessage("Perscription was created successfully", "success")
             } else {
-                alertContext.setMessage(`Error! ${result["errors"]}`, "error")
+                alertContext.setMessage(`Error! ${result["errors"][0][0]}`, "error")
             }
         },
         (error) => {
@@ -59,11 +59,12 @@ const Perscription = () => {
   }
 
   return (
-    <form id="survey-form" ref={formRef} onSubmit={handleSubmit}>
+    <form  ref={formRef} onSubmit={handleSubmit}>
         <div className="group">
             <SearchExamination 
               inputFieldLabel="Examination" 
-              searchBy="user" user={user} 
+              searchBy="user" 
+              user={user}
               setUser={setUser} 
               inputId={inputId} 
               setInputId={setInputId}

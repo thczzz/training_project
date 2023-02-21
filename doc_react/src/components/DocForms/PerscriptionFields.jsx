@@ -4,7 +4,7 @@ import './Forms.css'
 import { SearchDrug } from './SearchDrug,'
 import { uniqueID } from '../../Data/getData'
 
-export function PerscriptionFields({drugs, setDrugs, perscriptionDescription, setPerscriptionDescription, inputId, setInputId}) {
+export function PerscriptionFields({drugs, setDrugs, perscriptionDescription, setPerscriptionDescription}) {
 
     function handleClick(ev) {
         ev.preventDefault();
@@ -69,7 +69,8 @@ export function PerscriptionFields({drugs, setDrugs, perscriptionDescription, se
     const drugContainer = (key, idx, disabled, obj) => {
         return <div key={key} id={key}> 
             <button 
-                className="collapsible" 
+                className="collapsible"
+                name="drugContainerBtn" 
                 onClick={handleClick}
             >
                 {disabled ? obj.title : "New drug"}
@@ -96,8 +97,6 @@ export function PerscriptionFields({drugs, setDrugs, perscriptionDescription, se
                             inputFieldLabel="Drug" 
                             url='http://localhost:3000/api/v1/doctors/search_drug/?name=' 
                             searchBy="drug name"
-                            inputId={inputId}
-                            setInputId={setInputId}
                         /> 
                     }
                     <div class="error-message">Drug is a required field.</div>
@@ -122,12 +121,14 @@ export function PerscriptionFields({drugs, setDrugs, perscriptionDescription, se
                     ?
                         <button
                             disabled
+                            name="attachDrug"
                         >
                             Attached
                         </button>
                     :
                         <button
                             onClick={(ev) => handleAttach(ev, idx)}
+                            name="attachDrug"
                         >
                             Attach this Drug
                         </button>
@@ -138,6 +139,7 @@ export function PerscriptionFields({drugs, setDrugs, perscriptionDescription, se
                             ev.preventDefault();
                             handleRemove(idx);
                         }}
+                        name="removeDrugContainerBtn"
                     >
                         Remove
                     </button>
@@ -168,6 +170,7 @@ export function PerscriptionFields({drugs, setDrugs, perscriptionDescription, se
                     ev.preventDefault();
                     handleAdd();
                 }}
+                name="addNewDrugBtn"
                 >
                     Add new Drug
                 </button>
@@ -176,7 +179,8 @@ export function PerscriptionFields({drugs, setDrugs, perscriptionDescription, se
 
                 {drugs.map((obj, idx) => {
                     const key = uniqueID();
-                    const disabled = true ? obj.id !== undefined : false
+                    // const disabled = true ? obj.id !== undefined : false
+                    const disabled = obj.id !== undefined ? true : false
                     return drugContainer(key, idx, disabled, obj)
                 })}
 

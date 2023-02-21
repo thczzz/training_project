@@ -1,5 +1,4 @@
 import { Fragment } from "react"
-import { uniqueID } from "../../Data/getData"
 
 export function SearchUserTemplate(props) {
 

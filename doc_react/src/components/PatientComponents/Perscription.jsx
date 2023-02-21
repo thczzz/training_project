@@ -9,7 +9,7 @@ export const PatientPerscription = (obj) => {
         <label for={"itemp-" + obj["id"]} class="aspect-label"></label>
         <div class="aspect-content perscription_tab">
             <div class="aspect-info">
-                <span class="aspect-name info">Perscription - {(new Date(Date.parse(perscription["created_at"]))).toLocaleString()}</span>
+                <span name="perscriptionDate" class="aspect-name info">Perscription - ({(new Date(Date.parse(perscription["created_at"]))).toLocaleString()})</span>
             </div>
         </div>
 
@@ -24,7 +24,7 @@ export const PatientPerscription = (obj) => {
                             <span>Description</span>
                         </div>
                         <div className='perscription-description-content'>
-                            <span>{perscription["description"]}</span>
+                            <span name="perscriptionDescription">{perscription["description"]}</span>
                         </div>
                         {/* Perscription Description */}
 

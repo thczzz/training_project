@@ -60,6 +60,8 @@ export const AuthContextProvider = ({ children }) => {
                         localStorage.setItem("startTime", new Date());
                         let r_interval = refreshInterval();
                         setTimeout(test, r_interval); 
+                    } else {
+                        return false
                     }
                 } else {
                     console.log("Will be logged out automatically")
@@ -123,6 +125,8 @@ export const AuthContextProvider = ({ children }) => {
            (result) => {
              if (resp.status === 200) {
                 success = true;
+             } else {
+                success = false;
              }
            },
            (error) => {

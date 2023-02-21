@@ -24,7 +24,7 @@ export const PatientExaminations = () => {
                     <label for={"item-" + obj["id"]} class="aspect-label"></label>
                     <div class="aspect-content perscription_tab">
                         <div class="aspect-info">
-                            <span class="aspect-name info">Examination - ({(new Date(Date.parse(examination["created_at"]))).toLocaleString()})</span>
+                            <span name="examinationDate" class="aspect-name info">Examination - ({(new Date(Date.parse(examination["created_at"]))).toLocaleString()})</span>
                         </div>
                     </div>
 
@@ -39,7 +39,7 @@ export const PatientExaminations = () => {
                                         <span>Examination info</span>
                                     </div>
                                     <div className="examination_description_content">
-                                        <span>
+                                        <span name="examinationDetails">
                                             <p>Weight: {examination["weight_kg"]}</p>
                                             <p>Height: {examination["height_cm"]}</p>
                                             <p>Anamnesis: {examination["anamnesis"]}</p>
@@ -78,6 +78,7 @@ export const PatientExaminations = () => {
             <div>
                 <input 
                     type="button"
+                    name="loadMoreBtn"
                     value="Load more"
                     onClick={(ev) => handleLoadMore(ev)}
                     disabled={loadMoreBtn}

@@ -5,21 +5,26 @@ import { SearchDrugTemplate } from './SearchDrugTemplate';
 
 export function SearchDrug({inputFieldLabel, url, searchBy}) {
     const [searchResults, setSearchResults] = React.useState([]);
-    const [drug, setDrug] = React.useState("");
- 
+
     const searchUser = search_user(url, setSearchResults)
 
     const handleClick = (ev) => {
         ev.preventDefault();
-        ev.target.parentNode.parentNode.children[1].id = ev.target.id
-        ev.target.parentNode.parentNode.children[1].value = ev.target.textContent
+        // console.log(ev.target.parentNode.parentNode.children[1].id)
+        // console.log(ev.target.parentNode.parentNode.children[1].value)
+
+        ev.target.parentNode.parentNode.children[1].id = ev.target.id;
+        ev.target.parentNode.parentNode.children[1].value = ev.target.textContent;
+
+        // console.log(ev.target.parentNode.parentNode.children[1].id)
+        // console.log(ev.target.parentNode.parentNode.children[1].value)
+
         setSearchResults([]);
     }
     
     return (
        <div>
-        <SearchDrugTemplate 
-            user={drug} 
+        <SearchDrugTemplate
             inputFieldLabel={inputFieldLabel} 
             searchBy={searchBy}
             searchUser={searchUser}

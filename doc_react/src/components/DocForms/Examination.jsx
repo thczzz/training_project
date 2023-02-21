@@ -9,7 +9,6 @@ const Examination = () => {
     const [attachPerscription, setAttachPerscription]           = React.useState(false)
     const [perscriptionDescription, setPerscriptionDescription] = React.useState('');
     const [patientId, setPatientId]                             = React.useState("");
-    let   [drugId, setDrugId]                                   = React.useState("");
     const [drugs, setDrugs]                                     = React.useState([{}]);
     const [patient, setPatient]                                 = React.useState("");
     const [weight, setWeight]                                   = React.useState("");
@@ -102,7 +101,7 @@ const Examination = () => {
         </div>
         <div class="group">
             <label for="comment">Anamnesis*
-                <textarea onChange={(ev) => {setAnamnesis(ev.target.value)}} value={anamnesis} rows="3" cols="30" name="anamnesis" placeholder="Anamnesis">
+                <textarea onChange={(ev) => {setAnamnesis(ev.target.value)}} value={anamnesis} rows="3" cols="30" name="anamnesis" placeholder="Anamnesis" required>
                 </textarea>
             </label>
         </div>
@@ -125,8 +124,6 @@ const Examination = () => {
                 setDrugs={setDrugs}
                 perscriptionDescription={perscriptionDescription} 
                 setPerscriptionDescription={setPerscriptionDescription}
-                inputId={drugId}
-                setInputId={setDrugId}
             />
         :
             ''
