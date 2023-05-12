@@ -61,7 +61,6 @@ RSpec.describe "Doctors requests", type: :request do
     end
 
     context "with valid Params" do
-
       context "when GET /api/v1/doctors/search_drug" do
         it "returns status 200 OK" do
           create(:drug)
