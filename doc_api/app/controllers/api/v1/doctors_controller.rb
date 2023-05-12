@@ -4,7 +4,7 @@ class Api::V1::DoctorsController < ApplicationController
 
   def create_examination
     ActiveRecord::Base.transaction do
-      status, examination_or_errors = ExaminationCreator.call(*set_examination_creator_params)
+      status, examination_or_errors = ExaminationCreator.call(*examination_creator_params)
       raise ActiveRecord::ActiveRecordError unless status == true
     rescue StandardError => e
       render json: { errors: examination_or_errors, e: }, status: :unprocessable_entity
@@ -17,7 +17,7 @@ class Api::V1::DoctorsController < ApplicationController
 
   def create_perscription
     ActiveRecord::Base.transaction do
-      status, perscription_or_errors = PerscriptionCreator.call(*set_perscription_creator_params)
+      status, perscription_or_errors = PerscriptionCreator.call(*perscription_creator_params)
       raise ActiveRecord::ActiveRecordError unless status == true
     rescue StandardError => e
       render json: { errors: perscription_or_errors, e: }, status: :unprocessable_entity
@@ -77,7 +77,7 @@ class Api::V1::DoctorsController < ApplicationController
                                           perscription_drugs: %i[id description title])
     end
 
-    def set_examination_creator_params
+    def examination_creator_params
       [
         examination_params["user_id"],
         examination_params["weight"],
@@ -94,7 +94,7 @@ class Api::V1::DoctorsController < ApplicationController
                                            perscription_drugs: %i[id description title])
     end
 
-    def set_perscription_creator_params
+    def perscription_creator_params
       [
         perscription_params["examination_id"],
         perscription_params["description"],

@@ -18,6 +18,7 @@ services:
     ports:
       - "3307:3306"
   web_admin:
+    container_name: admin_app
     env_file:
       - '.env'
     build: ./doc_admin
@@ -31,6 +32,7 @@ services:
     depends_on:
       - db
   web_api:
+    container_name: api_app
     env_file:
       - '.env'
     build: ./doc_api
@@ -44,6 +46,7 @@ services:
     depends_on:
       - db
   web_react:
+    container_name: react_app
     build: ./doc_react
     ports:
       - "3001:3001"

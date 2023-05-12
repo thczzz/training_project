@@ -27,9 +27,7 @@ const LoginForm = () => {
         const data = {
             "grant_type": "password",
             "email": email,
-            "password": password,
-            "client_id": "Ylh6R1AYcyr5M5-9gQx9plQ9blIJ3vGcpsdcWiUcMKI",
-            "client_secret": "ShD4ueDj0eCPhbs_NqB0pNZ0fA4UBneeNL6CWwJd-t8"
+            "password": password
         }
 
         const requestOptions = {

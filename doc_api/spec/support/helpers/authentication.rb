@@ -1,7 +1,7 @@
 module Helpers
   module Authentication
     def authorize_for_test(user)
-      doorkeeper_app = if Doorkeeper::Application.count.zero?
+      if Doorkeeper::Application.count.zero?
         Doorkeeper::Application.create!(name: "React", redirect_uri: "", scopes: "")
       else
         Doorkeeper::Application.first
@@ -10,9 +10,7 @@ module Helpers
       post "/api/v1/oauth/token", params: {
         "grant_type": "password",
         "email": user.email,
-        "password": user.password,
-        "client_id": doorkeeper_app.uid,
-        "client_secret": doorkeeper_app.secret
+        "password": user.password
       }, headers: {
         "Content-Type" => "application/json", "Accept" => "application/json"
       }, as: :json

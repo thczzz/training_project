@@ -25,4 +25,5 @@ const params = process.argv.slice(2)
 if (params.includes("-silent")) {
   console.warn  = function () { return };
   console.error = function () { return };
+  console.log   = function () { return };
 } 
