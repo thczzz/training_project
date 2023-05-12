@@ -463,6 +463,9 @@ Doorkeeper.configure do
 
       controller.request.params["refresh_token"] = refresh_token
     end
+    doorkeeper_app = Doorkeeper::Application.first
+    controller.request.params["client_id"] = doorkeeper_app.uid
+    controller.request.params["client_secret"] = doorkeeper_app.secret
   end
 
   #

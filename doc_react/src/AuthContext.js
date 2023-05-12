@@ -102,9 +102,7 @@ export const AuthContextProvider = ({ children }) => {
     async function handleRefresh(email) {
         const data = {
             "grant_type": "refresh_token",
-            "email": email,
-            "client_id": "v4s4PyFR-J_Ecnimxd9tukG8lUMH05KGE1autNE1hVs",
-            "client_secret": "eo939spJ8AdxEI9EKrM3fzEu-D3x-KAm2IPBFd2-HLg"
+            "email": email
         }
 
         const requestOptions = {

@@ -81,15 +81,12 @@ RSpec.describe "Token requests", type: :request do
       context "when Unconfirmed user" do
         before do
           cookies["tokens"] = authorize_for_test(user)
-          doorkeeper_app = Doorkeeper::Application.first
           user.update_attribute(:confirmed_at, nil)
           user.reload
 
           post "/api/v1/oauth/token", params: {
             "grant_type": "refresh_token",
-            "email": user.email,
-            "client_id": doorkeeper_app.uid,
-            "client_secret": doorkeeper_app.secret
+            "email": user.email
           }, headers: {
             "Content-Type" => "application/json", "Accept" => "application/json"
           }, as: :json
@@ -107,13 +104,10 @@ RSpec.describe "Token requests", type: :request do
           before do
             cookies["tokens"] = authorize_for_test(user)
             @previous_token = Doorkeeper::AccessToken.by_resource_owner(user).where(revoked_at: nil).first
-            doorkeeper_app = Doorkeeper::Application.first
 
             post "/api/v1/oauth/token", params: {
               "grant_type": "refresh_token",
-              "email": user.email,
-              "client_id": doorkeeper_app.uid,
-              "client_secret": doorkeeper_app.secret
+              "email": user.email
             }, headers: {
               "Content-Type" => "application/json", "Accept" => "application/json"
             }, as: :json
@@ -143,13 +137,10 @@ RSpec.describe "Token requests", type: :request do
             @previous_token = Doorkeeper::AccessToken.by_resource_owner(user).where(revoked_at: nil).first
             @previous_token.update_attribute(:initial_create, Time.current.utc - (12.hours + 5.seconds))
             @previous_token.reload
-            doorkeeper_app = Doorkeeper::Application.first
 
             post "/api/v1/oauth/token", params: {
               "grant_type": "refresh_token",
               "email": user.email,
-              "client_id": doorkeeper_app.uid,
-              "client_secret": doorkeeper_app.secret
             }, headers: {
               "Content-Type" => "application/json", "Accept" => "application/json"
             }, as: :json

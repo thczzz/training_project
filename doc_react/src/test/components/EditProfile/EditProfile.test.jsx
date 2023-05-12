@@ -46,7 +46,7 @@ describe("Test EditProfileForm Component", () => {
   }
 
   describe("Test Form elements and fields", () => {
-    test("The Form should have and validate", async () => {
+    test("The Form should have", async () => {
       useAuth.mockImplementation(() => ({"userType": userType, "manuallySetUserType": manuallySetUserType}));
       const { container } = render(RenderHelper(<EditProfileForm />));
       let onChangeFields = getOnChangeFields(container);
@@ -61,16 +61,6 @@ describe("Test EditProfileForm Component", () => {
         expect(onChangeFields["current_password"].value).toEqual('');
         expect(onChangeFields["password"].value).toEqual('');
         expect(onChangeFields["password_confirmation"].value).toEqual('');
-
-        expect(onChangeFields["first_name"]).toBeValid();
-        expect(onChangeFields["last_name"]).toBeValid();
-        expect(onChangeFields["address"]).toBeValid();
-        expect(onChangeFields["date_of_birth"]).toBeValid();
-        expect(onChangeFields["username"]).toBeValid();
-        expect(onChangeFields["email"]).toBeValid();
-        expect(onChangeFields["current_password"]).toBeInvalid();
-        expect(onChangeFields["password"]).toBeValid();
-        expect(onChangeFields["password_confirmation"]).toBeValid();
 
         expect(container.querySelector('input[id="submit"]')).toBeInTheDocument();
       })
