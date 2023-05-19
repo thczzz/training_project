@@ -5,7 +5,7 @@ WORKDIR /web_react
 
 COPY . .
 
-RUN npm install -g react-scripts
+RUN npm install react-scripts
 RUN npm install --legacy-peer-deps
 
 EXPOSE 3001
