@@ -280,7 +280,7 @@ describe("Test Examination Component", () => {
 
     test("On Failure, it should display error message and not reset the fields", async () => {
       server.use(
-        rest.post(`http://${location.hostname}:3000/api/v1/doctors/create_examination`, (req, res, ctx) => {
+        rest.post(`http://${window.location.hostname}:3000/api/v1/doctors/create_examination`, (req, res, ctx) => {
           return res(
             ctx.status(422),
             ctx.json({ errors: [["Error message from API"]] })

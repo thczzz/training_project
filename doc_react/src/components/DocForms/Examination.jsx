@@ -46,7 +46,7 @@ const Examination = () => {
         };
 
         var resp;
-        apiRequest(`http://${location.hostname}:3000/api/v1/doctors/create_examination`, requestOptions)
+        apiRequest(`http://${window.location.hostname}:3000/api/v1/doctors/create_examination`, requestOptions)
           .then(
             (response) => {
                 resp = response;
@@ -79,7 +79,7 @@ const Examination = () => {
         <div class="group">
             <SearchUser 
                 inputFieldLabel="Patient" 
-                url={`http://${location.hostname}:3000/api/v1/doctors/search_user/?username=`} 
+                url={`http://${window.location.hostname}:3000/api/v1/doctors/search_user/?username=`} 
                 searchBy="username"
                 inputId={patientId}
                 setInputId={setPatientId}

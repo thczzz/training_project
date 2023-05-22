@@ -12,10 +12,10 @@ export function SearchExamination({inputFieldLabel, searchBy, user, setUser, inp
         headers: { 'Content-Type': 'application/json' }
     };
     
-    const searchUser = search_user(`http://${location.hostname}:3000/api/v1/doctors/search_user/?username=`, setSearchResults, setInputId, setExaminationResults)
+    const searchUser = search_user(`http://${window.location.hostname}:3000/api/v1/doctors/search_user/?username=`, setSearchResults, setInputId, setExaminationResults)
 
     const getUserExaminations = debounce((event) => {
-        apiRequest(`http://${location.hostname}:3000/api/v1/doctors/user_examinations/?user_id=${event.target.id}`, requestOptions)
+        apiRequest(`http://${window.location.hostname}:3000/api/v1/doctors/user_examinations/?user_id=${event.target.id}`, requestOptions)
             .then(res => res.json())
             .then(
             (result) => {

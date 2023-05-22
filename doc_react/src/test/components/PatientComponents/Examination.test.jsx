@@ -42,7 +42,7 @@ describe("Test PatientExaminations Component", () => {
 
   test("When patient has more than one examination, after clicking the loadMoreBtn it should load one more examination", async () => {
     server.use(
-      rest.get(`http://${location.hostname}:3000/api/v1/patients/examinations`, (req, res, ctx) => {
+      rest.get(`http://${window.location.hostname}:3000/api/v1/patients/examinations`, (req, res, ctx) => {
         const data = examinationMockData();
         return res(
           ctx.status(200),
@@ -68,7 +68,7 @@ describe("Test PatientExaminations Component", () => {
 
   test("When Patient has no examinations, it should display message and not display any examinations", async () => {
     server.use(
-      rest.get(`http://${location.hostname}:3000/api/v1/patients/examinations`, (req, res, ctx) => {
+      rest.get(`http://${window.location.hostname}:3000/api/v1/patients/examinations`, (req, res, ctx) => {
         return res(
           ctx.status(200),
           ctx.json

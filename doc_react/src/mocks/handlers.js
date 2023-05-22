@@ -2,14 +2,14 @@ import { rest } from 'msw'
 
 export const handlers = [
 
-  rest.get(`http://${location.hostname}:3000/api/v1/users/confirmation`, (req, res, ctx) => {
+  rest.get(`http://${window.location.hostname}:3000/api/v1/users/confirmation`, (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({ success: true })
     );
   }),
 
-  rest.get(`http://${location.hostname}:3000/api/v1/user_type`, (req, res, ctx) => {
+  rest.get(`http://${window.location.hostname}:3000/api/v1/user_type`, (req, res, ctx) => {
     return res(
       ctx.status(401),
       ctx.json(
@@ -20,84 +20,84 @@ export const handlers = [
     );
   }),
 
-  rest.post(`http://${location.hostname}:3000/api/v1/oauth/token`, (req, res, ctx) => {
+  rest.post(`http://${window.location.hostname}:3000/api/v1/oauth/token`, (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({ success: true })
     );
   }),
 
-  rest.post(`http://${location.hostname}:3000/api/v1/oauth/revoke`, (req, res, ctx) => {
+  rest.post(`http://${window.location.hostname}:3000/api/v1/oauth/revoke`, (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({ success: true })
     );
   }),
 
-  rest.post(`http://${location.hostname}:3000/api/v1/users/sign_up`, (req, res, ctx) => {
+  rest.post(`http://${window.location.hostname}:3000/api/v1/users/sign_up`, (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({ status: {"message": "You have registered successfully!"} })
     );
   }),
 
-  rest.post(`http://${location.hostname}:3000/api/v1/users/password`, (req, res, ctx) => {
+  rest.post(`http://${window.location.hostname}:3000/api/v1/users/password`, (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({ status: {"message": "Password reset request was sent successfully."} })
     );
   }),
 
-  rest.patch(`http://${location.hostname}:3000/api/v1/users/password`, (req, res, ctx) => {
+  rest.patch(`http://${window.location.hostname}:3000/api/v1/users/password`, (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({ success: true })
     );
   }),
 
-  rest.post(`http://${location.hostname}:3000/api/v1/users/confirmation`, (req, res, ctx) => {
+  rest.post(`http://${window.location.hostname}:3000/api/v1/users/confirmation`, (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({ status: {"message": "Email Activation request was sent successfully."} })
     );
   }),
 
-  rest.post(`http://${location.hostname}:3000/api/v1/doctors/create_examination`, (req, res, ctx) => {
+  rest.post(`http://${window.location.hostname}:3000/api/v1/doctors/create_examination`, (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({ status: {"message": "Email Activation request was sent successfully."} })
     );
   }),
 
-  rest.get(`http://${location.hostname}:3000/api/v1/doctors/search_user/`, (req, res, ctx) => {
+  rest.get(`http://${window.location.hostname}:3000/api/v1/doctors/search_user/`, (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({ data: [[1, "dummyuser"]] })
     );
   }),
 
-  rest.get(`http://${location.hostname}:3000/api/v1/doctors/search_drug/`, (req, res, ctx) => {
+  rest.get(`http://${window.location.hostname}:3000/api/v1/doctors/search_drug/`, (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({ data: [[3, "Aspirin 200mg"]] })
     );
   }),
 
-  rest.post(`http://${location.hostname}:3000/api/v1/doctors/create_perscription`, (req, res, ctx) => {
+  rest.post(`http://${window.location.hostname}:3000/api/v1/doctors/create_perscription`, (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({ success: true })
     );
   }),
 
-  rest.get(`http://${location.hostname}:3000/api/v1/doctors/user_examinations/`, (req, res, ctx) => {
+  rest.get(`http://${window.location.hostname}:3000/api/v1/doctors/user_examinations/`, (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({ data: [[7, "2023-02-13T14:35:31"]] })
     );
   }),
 
-  rest.get(`http://${location.hostname}:3000/api/v1/user_info`, (req, res, ctx) => {
+  rest.get(`http://${window.location.hostname}:3000/api/v1/user_info`, (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json(
@@ -121,7 +121,7 @@ export const handlers = [
     );
   }),
 
-  rest.patch(`http://${location.hostname}:3000/api/v1/users`, (req, res, ctx) => {
+  rest.patch(`http://${window.location.hostname}:3000/api/v1/users`, (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json(
@@ -137,7 +137,7 @@ export const handlers = [
     );
   }),
 
-  rest.get(`http://${location.hostname}:3000/api/v1/patients/examinations`, (req, res, ctx) => {
+  rest.get(`http://${window.location.hostname}:3000/api/v1/patients/examinations`, (req, res, ctx) => {
     const data = examinationMockData();
     return res(
       ctx.status(200),

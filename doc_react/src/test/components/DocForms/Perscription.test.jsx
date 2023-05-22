@@ -102,7 +102,7 @@ describe("Test the Perscription Component", () => {
       const user = userEvent.setup();
 
       server.use(
-        rest.post(`http://${location.hostname}:3000/api/v1/doctors/create_perscription`, (req, res, ctx) => {
+        rest.post(`http://${window.location.hostname}:3000/api/v1/doctors/create_perscription`, (req, res, ctx) => {
           return res(
             ctx.status(422),
             ctx.json({ errors: [["Error message from API"]] })
