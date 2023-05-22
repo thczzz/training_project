@@ -27,7 +27,7 @@ const ReSendEmailActivationForm = () => {
         };
 
         var resp;
-        apiRequest(`http://localhost:3000/api/v1/users/confirmation`, requestOptions)
+        apiRequest(`http://${location.hostname}:3000/api/v1/users/confirmation`, requestOptions)
           .then(
             (response) => {
                 resp = response;

@@ -65,7 +65,7 @@ export function get_examinations(setExaminations, page, setPage, setLoadMoreBtn)
     headers: { 'Content-Type': 'application/json' }
   };
 
-  apiRequest(`http://localhost:3000/api/v1/patients/examinations?page=${page}`, requestOptions)
+  apiRequest(`http://${location.hostname}:3000/api/v1/patients/examinations?page=${page}`, requestOptions)
   .then(res => res.json())
   .then(
     (result) => {

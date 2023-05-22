@@ -24,7 +24,7 @@ export const AuthContextProvider = ({ children }) => {
     // Track user_type
     React.useEffect(() => {
         async function get_user_type() {
-            const response = await fetch("http://localhost:3000/api/v1/user_type", {...requestOptions, credentials: 'include'})
+            const response = await fetch(`http://${location.hostname}:3000/api/v1/user_type`, {...requestOptions, credentials: 'include'})
 
             if (response.status === 401) {
                 setUserType(0);
@@ -113,7 +113,7 @@ export const AuthContextProvider = ({ children }) => {
 
        let success = false;
        var resp;
-       await apiRequest(`http://localhost:3000/api/v1/oauth/token`, requestOptions)
+       await apiRequest(`http://${location.hostname}:3000/api/v1/oauth/token`, requestOptions)
         .then(
           (response) => {
               resp = response;

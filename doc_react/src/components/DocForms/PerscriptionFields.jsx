@@ -95,7 +95,7 @@ export function PerscriptionFields({drugs, setDrugs, perscriptionDescription, se
                     : 
                         <SearchDrug
                             inputFieldLabel="Drug" 
-                            url='http://localhost:3000/api/v1/doctors/search_drug/?name=' 
+                            url={`http://${location.hostname}:3000/api/v1/doctors/search_drug/?name=`} 
                             searchBy="drug name"
                         /> 
                     }

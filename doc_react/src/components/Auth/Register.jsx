@@ -53,7 +53,7 @@ const RegisterForm = () => {
         };
 
         var resp;
-        apiRequest(`http://localhost:3000/api/v1/users/sign_up`, requestOptions)
+        apiRequest(`http://${location.hostname}:3000/api/v1/users/sign_up`, requestOptions)
           .then(
             (response) => {
                 resp = response;
