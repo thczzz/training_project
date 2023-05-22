@@ -134,7 +134,7 @@ describe("Test Login Form Component", () => {
       useAuth.mockImplementation(() => ({"userType": 0}))
 
       server.use(
-        rest.post(`http://${}:3000/api/v1/oauth/token`, (req, res, ctx) => {
+        rest.post(`http://${window.location.hostname}:3000/api/v1/oauth/token`, (req, res, ctx) => {
           return res(
             ctx.status(400),
             ctx.json({ success: false })
@@ -162,7 +162,7 @@ describe("Test Login Form Component", () => {
       useAuth.mockImplementation(() => ({"userType": 0}))
 
       server.use(
-        rest.post(`http://${}:3000/api/v1/oauth/token`, (req, res, ctx) => {
+        rest.post(`http://${window.location.hostname}:3000/api/v1/oauth/token`, (req, res, ctx) => {
           return res(
             ctx.status(500),
             ctx.json({ message: "Error message from API response." })

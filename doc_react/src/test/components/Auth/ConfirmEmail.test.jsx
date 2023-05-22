@@ -50,7 +50,7 @@ describe("Confirming Email tests", () => {
       useAuth.mockImplementation(() => ({"userType": 0}))
 
       server.use(
-        rest.get(`http://${}:3000/api/v1/users/confirmation`, (req, res, ctx) => {
+        rest.get(`http://${window.location.hostname}:3000/api/v1/users/confirmation`, (req, res, ctx) => {
           return res(
             ctx.status(401),
             ctx.json({ "confirmation_token": "is invalid" })
@@ -87,7 +87,7 @@ describe("Confirming Email tests", () => {
       useAuth.mockImplementation(() => ({"userType": 2}))
 
       server.use(
-        rest.get(`http://${}:3000/api/v1/users/confirmation`, (req, res, ctx) => {
+        rest.get(`http://${window.location.hostname}:3000/api/v1/users/confirmation`, (req, res, ctx) => {
           return res(
             ctx.status(401),
             ctx.json({ "confirmation_token": "is invalid" })
@@ -124,7 +124,7 @@ describe("Confirming Email tests", () => {
       useAuth.mockImplementation(() => ({"userType": 3}))
 
       server.use(
-        rest.get(`http://${}:3000/api/v1/users/confirmation`, (req, res, ctx) => {
+        rest.get(`http://${window.location.hostname}:3000/api/v1/users/confirmation`, (req, res, ctx) => {
           return res(
             ctx.status(401),
             ctx.json({ "confirmation_token": "is invalid" })
