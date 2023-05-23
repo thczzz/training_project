@@ -10,6 +10,8 @@ gem "slim"
 gem 'bootstrap_sb_admin_base_v1'
 gem 'kaminari'
 gem 'bootstrap5-kaminari-views'
+gem 'dalli'
+gem 'connection_pool'
 
 # Use Sass to process CSS
 gem "sassc-rails"

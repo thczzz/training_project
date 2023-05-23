@@ -31,14 +31,18 @@ class AdminsController < ApplicationController
   end
 
   def dashboard
-    @users = User.includes(:role)
+    @users = Rails.cache.fetch('users', expires_in: 5.minutes){ 
+      User.includes(:role)
+    }
     @users = @users.where(role_id: params[:role_id]) if params[:role_id].present?
     @users = @users.where(username: params[:username]) if params[:username].present?
     @users = @users.page params[:page]
   end
 
   def view_user
-    @resource = User.find(params[:id])
+    @resource = Rails.cache.fetch('user', expires_in: 5.minutes){ 
+      User.find(params[:id])
+    }
   rescue ActiveRecord::RecordNotFound => e
     flash[:error] = "User with id #{params[:id]} does not exist."
     redirect_back(fallback_location: root_path)

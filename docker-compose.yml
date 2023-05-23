@@ -50,6 +50,19 @@ services:
     build: ./doc_react
     ports:
       - "3001:3001"
+  cache:
+    container_name: memcached
+    image: ubuntu/memcached:1.6-22.04_beta
+    ports:
+      - "11211:11211"
+    restart: always
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx.Dockerfile
+    ports:
+      - 80:80
+    restart: always
   
 volumes:
   dbdata:

@@ -10,6 +10,8 @@ gem "responders"
 gem 'jsonapi-serializer'
 gem 'doorkeeper-jwt'
 gem 'kaminari'
+gem 'dalli'
+gem 'connection_pool'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.4"

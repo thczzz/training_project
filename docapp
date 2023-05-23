@@ -1,0 +1,12 @@
+upstream docapp {
+
+  server web_react:3001;
+
+}
+
+server {
+  listen 0.0.0.0:80;
+  location / {
+    proxy_pass http://docapp;
+  }
+}
