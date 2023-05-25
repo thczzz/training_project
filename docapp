@@ -9,11 +9,6 @@ upstream api {
   server api_app:3000;
 }
 
-upstream admin {
-
-  server admin_app:4000;
-}
-
 server {
   listen 0.0.0.0:80;
   location / {
@@ -35,20 +30,6 @@ server {
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header X-Forwarded-Proto $scheme; 
-    proxy_pass http://api;
-  }
-
-  location /admin {
-    rewrite ^/admin/(.*) /$1 break;
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme; 
-
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection "upgrade";
-
-    proxy_pass http://admin;
+    proxy_pass http://api/$request_uri;
   }
 }
