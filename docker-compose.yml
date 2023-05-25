@@ -45,11 +45,14 @@ services:
       - ./doc_api:/web_api
     depends_on:
       - db
+      - nginx
   web_react:
     container_name: react_app
     build: ./doc_react
     ports:
       - "3001:3001"
+    depends_on:
+      - web_api
   cache:
     container_name: memcached
     image: ubuntu/memcached:1.6-22.04_beta
@@ -63,6 +66,9 @@ services:
     ports:
       - 80:80
     restart: always
+    depends_on:
+      - web_react
+      - web_admin
   
 volumes:
   dbdata:
