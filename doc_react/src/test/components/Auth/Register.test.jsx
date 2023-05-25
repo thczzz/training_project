@@ -149,7 +149,7 @@ describe("Test RegisterForm Component", () => {
       useAuth.mockImplementation(() => ({"userType": 0}))
 
       server.use(
-        rest.post(`http://${window.location.hostname}:3000/api/v1/users/sign_up`, (req, res, ctx) => {
+        rest.post(`http://${window.location.hostname}/api/v1/users/sign_up`, (req, res, ctx) => {
           return res(
             ctx.status(422),
             ctx.json({ errors: {

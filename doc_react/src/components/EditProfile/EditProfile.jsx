@@ -30,7 +30,7 @@ const EditProfileForm = () => {
         };
       
         var resp;
-        fetch(`http://${window.location.hostname}:3000/api/v1/user_info`, {...requestOptions, credentials: 'include'})
+        fetch(`http://${window.location.hostname}/api/v1/user_info`, {...requestOptions, credentials: 'include'})
           .then(
             (response) => {
                 resp = response;
@@ -89,7 +89,7 @@ const EditProfileForm = () => {
         };
 
         var resp;
-        apiRequest(`http://${window.location.hostname}:3000/api/v1/users`, requestOptions)
+        apiRequest(`http://${window.location.hostname}/api/v1/users`, requestOptions)
           .then(
             (response) => {
                 resp = response;

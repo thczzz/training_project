@@ -64,7 +64,7 @@ describe("Test Logout Component", () => {
       expect(localStorage.getItem("testing")).toEqual("hello");
 
       server.use(
-        rest.post(`http://${window.location.hostname}:3000/api/v1/oauth/revoke`, (req, res, ctx) => {
+        rest.post(`http://${window.location.hostname}/api/v1/oauth/revoke`, (req, res, ctx) => {
           return res(
             ctx.status(500),
             ctx.json({ success: false })

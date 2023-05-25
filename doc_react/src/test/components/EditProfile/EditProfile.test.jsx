@@ -103,7 +103,7 @@ describe("Test EditProfileForm Component", () => {
       fireEvent.click(container.querySelector('input[id="submit"]'));
 
       server.use(
-        rest.get(`http://${window.location.hostname}:3000/api/v1/user_info`, (req, res, ctx) => {
+        rest.get(`http://${window.location.hostname}/api/v1/user_info`, (req, res, ctx) => {
           return res(
             ctx.status(401),
             ctx.json(
@@ -128,7 +128,7 @@ describe("Test EditProfileForm Component", () => {
       useAuth.mockImplementation(() => ({"userType": userType, "manuallySetUserType": manuallySetUserType}));
 
       server.use(
-        rest.patch(`http://${window.location.hostname}:3000/api/v1/users`, (req, res, ctx) => {
+        rest.patch(`http://${window.location.hostname}/api/v1/users`, (req, res, ctx) => {
           return res(
             ctx.status(200),
             ctx.json(
@@ -166,7 +166,7 @@ describe("Test EditProfileForm Component", () => {
       })
 
       server.use(
-        rest.get(`http://${window.location.hostname}:3000/api/v1/user_info`, (req, res, ctx) => {
+        rest.get(`http://${window.location.hostname}/api/v1/user_info`, (req, res, ctx) => {
           return res(
             ctx.status(200),
             ctx.json(
@@ -214,7 +214,7 @@ describe("Test EditProfileForm Component", () => {
       useAuth.mockImplementation(() => ({"userType": userType, "manuallySetUserType": manuallySetUserType}));
 
       server.use(
-        rest.patch(`http://${window.location.hostname}:3000/api/v1/users`, (req, res, ctx) => {
+        rest.patch(`http://${window.location.hostname}/api/v1/users`, (req, res, ctx) => {
           return res(
             ctx.status(422),
             ctx.json({ errors: {

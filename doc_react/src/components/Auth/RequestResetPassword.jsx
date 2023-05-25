@@ -27,7 +27,7 @@ const RequestResetPasswordForm = () => {
         };
 
         var resp;
-        apiRequest(`http://${window.location.hostname}:3000/api/v1/users/password`, requestOptions)
+        apiRequest(`http://${window.location.hostname}/api/v1/users/password`, requestOptions)
           .then(
             (response) => {
                 resp = response;

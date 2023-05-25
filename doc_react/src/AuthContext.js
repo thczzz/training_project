@@ -113,7 +113,7 @@ export const AuthContextProvider = ({ children }) => {
 
        let success = false;
        var resp;
-       await apiRequest(`http://${window.location.hostname}:3000/api/v1/oauth/token`, requestOptions)
+       await apiRequest(`http://${window.location.hostname}/api/v1/oauth/token`, requestOptions)
         .then(
           (response) => {
               resp = response;

@@ -37,7 +37,7 @@ const LoginForm = () => {
         };
 
         var resp;
-        apiRequest(`http://${window.location.hostname}:3000/api/v1/oauth/token`, requestOptions)
+        apiRequest(`http://${window.location.hostname}/api/v1/oauth/token`, requestOptions)
           .then(
             (response) => {
                 resp = response;

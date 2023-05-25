@@ -81,7 +81,7 @@ describe("Test ResetPasswordForm Component", () => {
         from parent div on input fields change", async () => {
           
       server.use(
-        rest.patch(`http://${window.location.hostname}:3000/api/v1/users/password`, (req, res, ctx) => {
+        rest.patch(`http://${window.location.hostname}/api/v1/users/password`, (req, res, ctx) => {
           return res(
             ctx.status(422),
             ctx.json({ errors: {
@@ -120,7 +120,7 @@ describe("Test ResetPasswordForm Component", () => {
       it should set and show Error Alert message", async () => {
         
       server.use(
-        rest.patch(`http://${window.location.hostname}:3000/api/v1/users/password`, (req, res, ctx) => {
+        rest.patch(`http://${window.location.hostname}/api/v1/users/password`, (req, res, ctx) => {
           return res(
             ctx.status(422),
             ctx.json({ errors: {
